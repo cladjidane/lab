@@ -1,0 +1,50 @@
+---
+import type { Project } from "../data/projects";
+
+interface Props {
+  project: Project;
+  class?: string;
+}
+
+const { project, class: className = "" } = Astro.props;
+
+const colorMap = {
+  cyan: { bg: "bg-brand-cyan", text: "text-brand-cyan", bgLight: "bg-brand-cyan/10" },
+  amber: { bg: "bg-brand-amber", text: "text-brand-amber", bgLight: "bg-brand-amber/10" },
+  coral: { bg: "bg-brand-coral", text: "text-brand-coral", bgLight: "bg-brand-coral/10" },
+};
+const colors = colorMap[project.tagColor];
+const isGif = project.thumbnail?.endsWith(".gif");
+---
+
+<a href={`/${project.slug}`} class:list={["group block bg-surface-container-lowest rounded-2xl p-6 hover:shadow-xl transition-all duration-300", className]}>
+  <div class="aspect-[4/3] bg-surface-container-low relative overflow-hidden rounded-xl mb-6">
+    {project.thumbnail ? (
+      <img
+        src={project.thumbnail}
+        alt={project.name}
+        class="w-full h-full object-cover"
+        loading="lazy"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
+      />
+      <div class="w-full h-full items-center justify-center absolute inset-0 hidden">
+        <span class="font-headline text-6xl font-black text-on-surface/5 group-hover:text-on-surface/8 transition-colors">{project.name.slice(0, 2).toUpperCase()}</span>
+      </div>
+    ) : (
+      <div class="w-full h-full flex items-center justify-center">
+        <span class="font-headline text-6xl font-black text-on-surface/5 group-hover:text-on-surface/8 transition-colors">{project.name.slice(0, 2).toUpperCase()}</span>
+      </div>
+    )}
+    <div class="absolute top-5 left-5">
+      <span class:list={["text-white font-headline text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-sm", colors.bg]}>
+        {project.tags[0]}
+      </span>
+    </div>
+  </div>
+  <h3 class="font-headline font-bold text-2xl mb-2 group-hover:text-primary transition-colors">{project.name}</h3>
+  <p class="text-on-surface-variant font-light leading-relaxed text-base mb-4">{project.descriptionFr}</p>
+  <span class:list={["inline-flex items-center gap-2 font-headline font-bold text-sm uppercase tracking-wider transition-colors", colors.text]}>
+    Decouvrir
+    <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform">arrow_forward</span>
+  </span>
+</a>

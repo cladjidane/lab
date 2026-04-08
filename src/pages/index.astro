@@ -1,0 +1,123 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.astro";
+import Hero from "../components/Hero.astro";
+import ProjectCardTier1 from "../components/ProjectCardTier1.astro";
+import ProjectCardTier2 from "../components/ProjectCardTier2.astro";
+import Footer from "../components/Footer.astro";
+import { projects, productionCases } from "../data/projects";
+
+const tier1 = projects.filter((p) => p.tier === 1);
+const tier2 = projects.filter((p) => p.tier === 2);
+---
+
+<Layout>
+  <Nav />
+  <Hero />
+
+  <main class="max-w-7xl mx-auto px-8 py-20 space-y-32">
+    <!-- Tier 1 -->
+    <section>
+      <div class="flex items-center gap-4 mb-12">
+        <div class="flex gap-1">
+          <div class="w-2 h-2 rounded-full bg-brand-cyan"></div>
+          <div class="w-2 h-2 rounded-full bg-brand-coral"></div>
+          <div class="w-2 h-2 rounded-full bg-brand-amber"></div>
+        </div>
+        <h2 class="font-headline font-bold text-4xl tracking-tight uppercase">Les trucs dont je suis fier</h2>
+        <div class="h-[1px] flex-grow bg-outline-variant/20"></div>
+      </div>
+
+      <!-- Top 2 large cards -->
+      <div class="asymmetric-grid">
+        {tier1.slice(0, 2).map((project, i) => (
+          <ProjectCardTier1 project={project} class={i === 1 ? "md:mt-16" : ""} />
+        ))}
+      </div>
+
+      <!-- Remaining tier 1 cards in grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
+        {tier1.slice(2).map((project) => (
+          <ProjectCardTier1 project={project} />
+        ))}
+      </div>
+    </section>
+
+    <!-- Tier 2 -->
+    <section class="bg-surface-container-low -mx-8 px-8 py-24 rounded-3xl">
+      <div class="flex items-center gap-4 mb-16">
+        <div class="flex gap-1">
+          <div class="w-2 h-2 rounded-full bg-brand-cyan"></div>
+        </div>
+        <h2 class="font-headline font-bold text-4xl tracking-tight uppercase">Et aussi...</h2>
+        <div class="h-[1px] flex-grow bg-outline-variant/30"></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {tier2.map((project) => (
+          <ProjectCardTier2 project={project} />
+        ))}
+      </div>
+    </section>
+
+    <!-- En production -->
+    <section>
+      <div class="flex items-center gap-4 mb-16">
+        <div class="flex gap-1">
+          <div class="w-2 h-2 rounded-full bg-on-surface-variant/40"></div>
+        </div>
+        <h2 class="font-headline font-bold text-4xl tracking-tight uppercase">Et en vrai</h2>
+        <div class="h-[1px] flex-grow bg-outline-variant/20"></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {productionCases.map((c) => (
+          <div class="relative pl-6">
+            <div class="absolute left-0 top-0 bottom-0 w-[2px] bg-outline-variant/20"></div>
+            <h3 class="font-headline font-bold text-lg tracking-tight mb-3">{c.title}</h3>
+            <p class="font-body text-on-surface-variant font-light leading-relaxed text-[15px] mb-4">
+              {c.description}
+            </p>
+            <p class="font-headline text-sm font-medium text-primary mb-4">
+              {c.result}
+            </p>
+            <div class="flex flex-wrap gap-1.5">
+              {c.techStack.map((tech) => (
+                <span class="bg-surface-container-high px-2 py-0.5 rounded text-[11px] font-headline font-medium tracking-wider text-on-surface-variant/70">
+                  {tech}
+                </span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- About brief -->
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-20 py-12">
+      <div>
+        <h3 class="font-headline font-bold text-5xl tracking-tighter mb-8 leading-none">L'approche</h3>
+        <p class="font-body text-xl text-on-surface-variant leading-relaxed mb-8">
+          25 ans de code. L'IA comme levier, pas comme gadget. Je construis des outils qui marchent, pas des demos qui impressionnent.
+        </p>
+        <div class="flex gap-4 flex-wrap">
+          <span class="bg-brand-cyan/10 px-4 py-2 rounded text-xs font-headline font-bold uppercase tracking-wider text-primary">TypeScript</span>
+          <span class="bg-brand-amber/10 px-4 py-2 rounded text-xs font-headline font-bold uppercase tracking-wider text-primary">Python</span>
+          <span class="bg-brand-coral/10 px-4 py-2 rounded text-xs font-headline font-bold uppercase tracking-wider text-primary">MapLibre</span>
+          <span class="bg-brand-cyan/10 px-4 py-2 rounded text-xs font-headline font-bold uppercase tracking-wider text-primary">Claude / GPT</span>
+        </div>
+      </div>
+      <div class="bg-surface-container-highest p-12 rounded-2xl relative overflow-hidden group">
+        <div class="font-headline text-9xl font-black absolute -right-4 -bottom-4 opacity-5 pointer-events-none group-hover:opacity-10 transition-opacity">25+</div>
+        <div class="relative z-10">
+          <h4 class="font-headline font-bold text-2xl mb-6 text-primary">Ce lab</h4>
+          <p class="text-lg text-on-surface-variant font-light leading-relaxed">
+            Ces projets ne sont pas des produits. Ce sont des explorations. Certains deviendront quelque chose, d'autres resteront des prototypes. C'est le point.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>

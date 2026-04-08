@@ -1,0 +1,30 @@
+---
+import type { Project } from "../data/projects";
+
+interface Props {
+  project: Project;
+  icon: string;
+}
+
+const { project, icon } = Astro.props;
+
+const colorMap = {
+  cyan: { text: "text-brand-cyan", bgLight: "bg-brand-cyan/10" },
+  amber: { text: "text-brand-amber", bgLight: "bg-brand-amber/10" },
+  coral: { text: "text-brand-coral", bgLight: "bg-brand-coral/10" },
+};
+const colors = colorMap[project.tagColor];
+---
+
+<a href={`/${project.slug}`} class="group block cursor-pointer card-glow rounded-xl overflow-hidden">
+  <div class="aspect-video md:aspect-square bg-surface-container-low p-10 rounded-xl flex flex-col justify-between hover:bg-surface-container transition-all">
+    <span class:list={["material-symbols-outlined text-5xl", colors.text]}>{icon}</span>
+    <div>
+      <span class:list={["font-headline text-[9px] font-bold px-2 py-0.5 rounded uppercase tracking-wider mb-2 inline-block", colors.bgLight, colors.text]}>
+        {project.tags[0]}
+      </span>
+      <h3 class="font-headline font-bold text-2xl mb-1">{project.name}</h3>
+      <p class="text-sm text-on-surface-variant font-light">{project.description}</p>
+    </div>
+  </div>
+</a>

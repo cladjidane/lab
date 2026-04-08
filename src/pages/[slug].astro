@@ -1,0 +1,251 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import { projects } from "../data/projects";
+import type { Project, ProjectMedia } from "../data/projects";
+
+export function getStaticPaths() {
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+
+const colorMap = {
+  cyan: { bg: "bg-brand-cyan", text: "text-brand-cyan", bgLight: "bg-brand-cyan/10", border: "border-brand-cyan/20" },
+  amber: { bg: "bg-brand-amber", text: "text-brand-amber", bgLight: "bg-brand-amber/10", border: "border-brand-amber/20" },
+  coral: { bg: "bg-brand-coral", text: "text-brand-coral", bgLight: "bg-brand-coral/10", border: "border-brand-coral/20" },
+};
+const colors = colorMap[project.tagColor];
+
+const idx = projects.findIndex((p) => p.slug === project.slug);
+const prev = idx > 0 ? projects[idx - 1] : null;
+const next = idx < projects.length - 1 ? projects[idx + 1] : null;
+
+const hasMedia = project.media && project.media.length > 0;
+const hasVideo = !hasMedia;
+---
+
+<Layout title={`${project.name} — Lab Fabien Canu`} description={project.descriptionFr}>
+  <Nav />
+
+  <article class="pt-32 pb-20 max-w-5xl mx-auto px-8">
+    <!-- Back link -->
+    <a href="/" class="inline-flex items-center gap-2 text-on-surface-variant/60 hover:text-primary font-body text-sm transition-colors mb-12 group">
+      <span class="material-symbols-outlined text-base group-hover:-translate-x-1 transition-transform">arrow_back</span>
+      Retour au lab
+    </a>
+
+    <!-- Header -->
+    <header class="mb-16">
+      <div class="flex flex-wrap gap-2 mb-6">
+        {project.tags.map((tag) => (
+          <span class:list={["font-headline text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider", colors.bgLight, colors.text]}>
+            {tag}
+          </span>
+        ))}
+      </div>
+      <h1 class="font-headline font-bold text-5xl md:text-7xl tracking-tighter mb-6">{project.name}</h1>
+      <p class="font-body text-xl md:text-2xl text-on-surface-variant font-light leading-relaxed max-w-3xl">
+        {project.descriptionFr}
+      </p>
+    </header>
+
+    <!-- Media showcase -->
+    <section class="mb-20">
+      {hasMedia ? (
+        <div class:list={[project.media!.length > 1 ? "space-y-6" : ""]}>
+          {project.media!.map((m) => (
+            <>
+              {/* --- GIF : auto-play loop, rounded, no controls --- */}
+              {m.type === "gif" && (
+                <figure class="rounded-2xl overflow-hidden bg-surface-container-high">
+                  <img src={m.src} alt={m.caption || project.name} class="w-full block" loading="lazy"
+                    onerror="this.parentElement.innerHTML='<div class=\'aspect-video flex items-center justify-center\'><p class=\'font-headline text-sm uppercase tracking-widest text-on-surface-variant/40\'>Media a venir</p></div>'" />
+                  {m.caption && (
+                    <figcaption class="px-6 py-3 text-sm font-body text-on-surface-variant/60">{m.caption}</figcaption>
+                  )}
+                </figure>
+              )}
+
+              {/* --- VIDEO : auto-play muted loop --- */}
+              {m.type === "video" && (
+                <figure class="rounded-2xl overflow-hidden bg-surface-container-high">
+                  <video class="w-full block" autoplay muted loop playsinline>
+                    <source src={m.src} type="video/mp4" />
+                  </video>
+                  {m.caption && (
+                    <figcaption class="px-6 py-3 text-sm font-body text-on-surface-variant/60">{m.caption}</figcaption>
+                  )}
+                </figure>
+              )}
+
+              {/* --- SPLIT : side-by-side with center divider --- */}
+              {m.type === "split" && (
+                <figure class="rounded-2xl overflow-hidden bg-on-surface">
+                  <div class="relative">
+                    <img src={m.src} alt={m.caption || project.name} class="w-full block" loading="lazy"
+                      onerror="this.parentElement.parentElement.innerHTML='<div class=\'aspect-video flex items-center justify-center bg-surface-container-high\'><p class=\'font-headline text-sm uppercase tracking-widest text-on-surface-variant/40\'>Media a venir</p></div>'" />
+                    <div class="absolute inset-y-0 left-1/2 w-px bg-white/30"></div>
+                    <div class="absolute top-4 left-4 bg-black/50 text-white text-[11px] font-headline font-bold uppercase tracking-wider px-3 py-1 rounded">Moderne</div>
+                    <div class="absolute top-4 right-4 bg-black/50 text-white text-[11px] font-headline font-bold uppercase tracking-wider px-3 py-1 rounded">XIXe</div>
+                  </div>
+                  {m.caption && (
+                    <figcaption class="px-6 py-3 text-sm font-body text-white/60">{m.caption}</figcaption>
+                  )}
+                </figure>
+              )}
+
+              {/* --- MOCKUP : phone frame around the image --- */}
+              {m.type === "mockup" && (
+                <figure class="py-8">
+                  <div class="mx-auto max-w-sm">
+                    <div class="bg-on-surface rounded-[3rem] p-3 shadow-2xl">
+                      <div class="bg-black rounded-[2.5rem] overflow-hidden relative">
+                        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-7 bg-on-surface rounded-b-2xl z-10"></div>
+                        <img src={m.src} alt={m.caption || project.name} class="w-full block" loading="lazy"
+                          onerror="this.parentElement.innerHTML='<div class=\'aspect-[9/19.5] flex items-center justify-center bg-surface-container-high\'><p class=\'font-headline text-xs uppercase tracking-widest text-on-surface-variant/40\'>Media a venir</p></div>'" />
+                      </div>
+                    </div>
+                  </div>
+                  {m.caption && (
+                    <figcaption class="text-center mt-4 text-sm font-body text-on-surface-variant/60">{m.caption}</figcaption>
+                  )}
+                </figure>
+              )}
+
+              {/* --- DIAGRAM : full-width, lighter background, subtle border --- */}
+              {m.type === "diagram" && (
+                <figure class="rounded-2xl overflow-hidden bg-surface-container-low border border-outline-variant/10">
+                  <div class="p-4">
+                    <img src={m.src} alt={m.caption || project.name} class="w-full block rounded-xl" loading="lazy"
+                      onerror="this.parentElement.parentElement.innerHTML='<div class=\'aspect-video flex items-center justify-center\'><p class=\'font-headline text-sm uppercase tracking-widest text-on-surface-variant/40\'>Media a venir</p></div>'" />
+                  </div>
+                  {m.caption && (
+                    <figcaption class="px-6 pb-4 text-sm font-body text-on-surface-variant/60">{m.caption}</figcaption>
+                  )}
+                </figure>
+              )}
+
+              {/* --- SCREENSHOT : standard, clean --- */}
+              {m.type === "screenshot" && (
+                <figure class="rounded-2xl overflow-hidden bg-surface-container-high shadow-lg">
+                  <img src={m.src} alt={m.caption || project.name} class="w-full block" loading="lazy"
+                    onerror="this.parentElement.innerHTML='<div class=\'aspect-video flex items-center justify-center\'><p class=\'font-headline text-sm uppercase tracking-widest text-on-surface-variant/40\'>Media a venir</p></div>'" />
+                  {m.caption && (
+                    <figcaption class="px-6 py-3 text-sm font-body text-on-surface-variant/60">{m.caption}</figcaption>
+                  )}
+                </figure>
+              )}
+            </>
+          ))}
+        </div>
+      ) : (
+        <div class="rounded-2xl overflow-hidden bg-surface-container-high aspect-video flex items-center justify-center relative group" id="video-container">
+          <video
+            class="w-full h-full object-cover hidden"
+            controls
+            preload="metadata"
+            poster={`/videos/${project.slug}-poster.jpg`}
+            id="demo-video"
+          >
+            <source src={`/videos/${project.slug}.mp4`} type="video/mp4" />
+          </video>
+          <div class="text-center" id="video-placeholder">
+            <span class:list={["material-symbols-outlined text-7xl mb-4 block", colors.text]}>play_circle</span>
+            <p class="font-headline text-sm uppercase tracking-widest text-on-surface-variant/40">Video a venir</p>
+          </div>
+        </div>
+      )}
+
+      {project.tryUrl && (
+        <div class="mt-6 flex justify-center">
+          <a href={project.tryUrl} target="_blank" rel="noopener" class:list={["inline-flex items-center gap-2 px-8 py-3 rounded font-headline font-bold text-sm uppercase tracking-wider text-on-primary transition-opacity hover:opacity-90", colors.bg]}>
+            {project.tryLabel || "Essayer en live"}
+            <span class="material-symbols-outlined text-base">north_east</span>
+          </a>
+        </div>
+      )}
+    </section>
+
+    {hasVideo && (
+      <script>
+        const video = document.getElementById('demo-video') as HTMLVideoElement;
+        const placeholder = document.getElementById('video-placeholder');
+        if (video && placeholder) {
+          video.addEventListener('loadedmetadata', () => {
+            video.classList.remove('hidden');
+            placeholder.classList.add('hidden');
+          });
+        }
+      </script>
+    )}
+
+    <!-- About + Tech -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-16 mb-20">
+      <div class="md:col-span-2">
+        <h2 class="font-headline font-bold text-2xl tracking-tight uppercase mb-6 flex items-center gap-3">
+          <div class:list={["w-2 h-2 rounded-full", colors.bg]}></div>
+          De quoi il s'agit
+        </h2>
+        <p class="font-body text-lg text-on-surface-variant leading-relaxed">
+          {project.about}
+        </p>
+      </div>
+
+      <div>
+        <h2 class="font-headline font-bold text-2xl tracking-tight uppercase mb-6 flex items-center gap-3">
+          <div class="w-2 h-2 rounded-full bg-on-surface-variant/30"></div>
+          Stack
+        </h2>
+        <div class="flex flex-wrap gap-2">
+          {project.techStack.map((tech) => (
+            <span class="bg-surface-container-high px-3 py-1.5 rounded text-xs font-headline font-medium tracking-wider text-on-surface-variant">
+              {tech}
+            </span>
+          ))}
+        </div>
+
+        <div class="mt-10 flex flex-col gap-3">
+          {project.tryUrl && (
+            <a href={project.tryUrl} class:list={["inline-flex items-center justify-center gap-2 px-6 py-3 rounded font-headline font-bold text-sm uppercase tracking-wider text-on-primary transition-opacity hover:opacity-90", colors.bg]}>
+              {project.tryLabel || "Essayer"}
+              <span class="material-symbols-outlined text-base">north_east</span>
+            </a>
+          )}
+          {project.githubUrl && (
+            <a href={project.githubUrl} target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded font-headline font-bold text-sm uppercase tracking-wider bg-surface-container-highest text-on-surface-variant hover:text-on-surface transition-colors">
+              Code source
+              <span class="material-symbols-outlined text-base">north_east</span>
+            </a>
+          )}
+        </div>
+      </div>
+    </div>
+
+    <!-- Prev/Next navigation -->
+    <nav class="border-t border-outline-variant/10 pt-12 grid grid-cols-2 gap-8">
+      {prev ? (
+        <a href={`/${prev.slug}`} class="group">
+          <span class="font-body text-xs uppercase tracking-widest text-on-surface-variant/40 mb-2 block">Precedent</span>
+          <span class="font-headline font-bold text-xl group-hover:text-primary transition-colors">{prev.name}</span>
+        </a>
+      ) : <div />}
+      {next ? (
+        <a href={`/${next.slug}`} class="text-right group">
+          <span class="font-body text-xs uppercase tracking-widest text-on-surface-variant/40 mb-2 block">Suivant</span>
+          <span class="font-headline font-bold text-xl group-hover:text-primary transition-colors">{next.name}</span>
+        </a>
+      ) : <div />}
+    </nav>
+  </article>
+
+  <Footer />
+</Layout>

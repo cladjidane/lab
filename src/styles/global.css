@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+@theme {
+  /* Surface palette */
+  --color-surface: #fbf9f5;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f5f3ef;
+  --color-surface-container: #f0eeea;
+  --color-surface-container-high: #eae8e4;
+  --color-surface-container-highest: #e4e2de;
+
+  /* Text */
+  --color-on-surface: #1b1c1a;
+  --color-on-surface-variant: #3e484f;
+  --color-outline: #6e7880;
+  --color-outline-variant: #bdc8d0;
+
+  /* Primary */
+  --color-primary: #006386;
+  --color-primary-container: #007da8;
+  --color-on-primary: #ffffff;
+
+  /* Brand accents */
+  --color-brand-cyan: #00d4ff;
+  --color-brand-coral: #ff7e67;
+  --color-brand-amber: #fbbc00;
+
+  /* Fonts */
+  --font-headline: "Space Grotesk", ui-monospace, monospace;
+  --font-body: "Manrope", system-ui, sans-serif;
+}
+
+/* Glass nav */
+.glass-nav {
+  background: rgba(251, 249, 245, 0.8);
+  backdrop-filter: blur(20px);
+}
+
+/* Gradient text for "Vite." */
+.gradient-text {
+  background: linear-gradient(90deg, #00d4ff, #ff7e67, #fbbc00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Card glow on hover */
+.card-glow:hover {
+  box-shadow: 0 0 30px rgba(0, 212, 255, 0.15);
+}
+
+/* Asymmetric grid */
+.asymmetric-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 2.75rem;
+}
+@media (max-width: 768px) {
+  .asymmetric-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,37 @@
+---
+import type { Project } from "../data/projects";
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+
+const colorMap = {
+  cyan: "text-brand-cyan",
+  amber: "text-brand-amber",
+  coral: "text-brand-coral",
+};
+const textColor = colorMap[project.tagColor];
+---
+
+<a href={`/${project.slug}`} class="block bg-surface-container-lowest rounded-lg shadow-sm border border-outline-variant/10 hover:shadow-xl hover:scale-[1.02] transition-all group overflow-hidden">
+  {project.thumbnail && (
+    <div class="aspect-[16/9] bg-surface-container-low relative overflow-hidden">
+      <img
+        src={project.thumbnail}
+        alt={project.name}
+        class="w-full h-full object-cover"
+        loading="lazy"
+        onerror="this.parentElement.style.display='none'"
+      />
+    </div>
+  )}
+  <div class="p-8">
+    <span class:list={["font-headline text-[10px] tracking-[0.2em] uppercase mb-4 block font-bold", textColor]}>
+      {project.tags.join(" / ")}
+    </span>
+    <h4 class="font-headline font-bold text-xl mb-2 group-hover:text-primary transition-colors">{project.name}</h4>
+    <p class="text-sm text-on-surface-variant leading-relaxed">{project.descriptionFr}</p>
+  </div>
+</a>
