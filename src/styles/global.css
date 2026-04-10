@@ -49,7 +49,7 @@
   box-shadow: 0 0 30px rgba(0, 212, 255, 0.15);
 }
 
-/* Asymmetric grid */
+/* Asymmetric grid (legacy) */
 .asymmetric-grid {
   display: grid;
   grid-template-columns: 1fr 1.2fr;
@@ -58,5 +58,265 @@
 @media (max-width: 768px) {
   .asymmetric-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* =================== BENTO GRID =================== */
+
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  gap: 6px;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.bento-tile {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 400ms cubic-bezier(0.2, 0.8, 0.2, 1),
+              box-shadow 400ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.bento-tile:hover {
+  transform: scale(1.02);
+  z-index: 10;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+}
+
+/* Bento accent backgrounds */
+.bento-bg-cyan { background-color: #e8fafe; }
+.bento-bg-coral { background-color: #fff0ed; }
+.bento-bg-amber { background-color: #fff8e1; }
+.bento-bg-neutral { background-color: #f5f5f5; }
+
+/* =================== MODAL =================== */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(27, 28, 26, 0.6);
+  backdrop-filter: blur(20px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 300ms ease;
+}
+
+.modal-backdrop.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 1rem;
+  max-width: 1400px;
+  width: 94vw;
+  height: 85vh;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 0;
+  transform: translateY(20px) scale(0.97);
+  transition: transform 300ms cubic-bezier(0.2, 0.8, 0.2, 1),
+              grid-template-columns 400ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.modal-backdrop.active .modal-content {
+  transform: translateY(0) scale(1);
+}
+
+/* Expanded state: drawer hidden, media full */
+.modal-content.expanded {
+  grid-template-columns: 1fr 0px;
+}
+
+/* Info layout: editorial, single column, narrow for reading */
+.modal-content.info-layout {
+  grid-template-columns: 1fr;
+  max-width: 760px;
+  width: 92vw;
+  height: auto;
+  max-height: 88vh;
+}
+
+.modal-content.info-layout .modal-media {
+  min-height: 220px;
+  max-height: 260px;
+  padding: 2.5rem 2rem 1.5rem;
+  border-radius: 1rem 1rem 0 0;
+  background: var(--color-surface-container-low);
+  cursor: default;
+  flex-shrink: 0;
+}
+
+.modal-content.info-layout .modal-info {
+  padding: 2.5rem 3rem 3rem;
+  justify-content: flex-start;
+  opacity: 1;
+  overflow-y: auto;
+}
+
+.modal-content.info-layout .modal-info .info-body {
+  max-width: 560px;
+}
+
+.modal-content.info-layout .modal-drawer-toggle {
+  display: none;
+}
+
+.modal-media {
+  background: var(--color-surface-container);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem 0 0 1rem;
+  height: 100%;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-radius 400ms ease;
+}
+
+.modal-content.expanded .modal-media {
+  border-radius: 1rem;
+  padding: 1rem;
+}
+
+.modal-media .video-wrapper {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.modal-media img,
+.modal-media video {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto !important;
+  height: auto;
+  border-radius: 0.5rem;
+  object-fit: contain;
+}
+
+.modal-info {
+  padding: 2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: opacity 300ms ease, padding 300ms ease;
+}
+
+.modal-content.expanded .modal-info {
+  opacity: 0;
+  padding: 0;
+  pointer-events: none;
+}
+
+/* Top-right controls row */
+.modal-controls {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  z-index: 10;
+}
+
+.modal-controls button {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: var(--color-surface-container-high);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-on-surface);
+  transition: background 200ms;
+}
+
+.modal-controls button:hover {
+  background: var(--color-surface-container-highest);
+}
+
+/* Drawer toggle icon rotates when expanded */
+.modal-drawer-toggle .material-symbols-outlined {
+  transition: transform 300ms ease;
+}
+
+.modal-content.expanded .modal-drawer-toggle .material-symbols-outlined {
+  transform: rotate(180deg);
+}
+
+/* Caption bar at bottom of media — also toggles drawer */
+.modal-caption-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: var(--color-surface-container-high);
+  cursor: pointer;
+  transition: background 200ms;
+  width: fit-content;
+  align-self: center;
+}
+
+.modal-caption-bar:hover {
+  background: var(--color-surface-container-highest);
+}
+
+.modal-caption-bar span.caption-text {
+  font-family: Manrope, sans-serif;
+  font-size: 12px;
+  color: var(--color-on-surface-variant);
+}
+
+.modal-caption-bar .material-symbols-outlined {
+  font-size: 16px;
+  color: var(--color-outline);
+  transition: transform 300ms ease;
+}
+
+.modal-content.expanded .modal-caption-bar .material-symbols-outlined {
+  transform: rotate(180deg);
+}
+
+
+/* Mobile bento: scroll vertical */
+@media (max-width: 768px) {
+  .bento-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+    height: auto;
+    min-height: 100vh;
+    overflow-y: auto;
+    gap: 4px;
+    padding: 4px;
+  }
+  .modal-content {
+    grid-template-columns: 1fr;
+    width: 95vw;
+  }
+  .modal-media {
+    border-radius: 1rem 1rem 0 0;
+    min-height: 200px;
   }
 }

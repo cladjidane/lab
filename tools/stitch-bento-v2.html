@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;700&amp;family=Manrope:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed-dim": "#b8cace",
+                    "secondary-container": "#39494d",
+                    "tertiary": "#d1c4c1",
+                    "on-primary-container": "#848481",
+                    "inverse-on-surface": "#30312e",
+                    "on-background": "#e4e2df",
+                    "on-primary": "#30312e",
+                    "surface-dim": "#131412",
+                    "surface-container-lowest": "#0d0e0d",
+                    "surface-container-low": "#1b1c1a",
+                    "surface-container": "#1f201e",
+                    "surface-variant": "#343533",
+                    "surface-bright": "#393937",
+                    "outline-variant": "#454743",
+                    "on-tertiary-fixed-variant": "#4e4543",
+                    "on-primary-fixed": "#1b1c1a",
+                    "on-secondary": "#233336",
+                    "on-secondary-fixed-variant": "#39494d",
+                    "on-secondary-container": "#a7b8bc",
+                    "secondary": "#b8cace",
+                    "on-tertiary-fixed": "#211a18",
+                    "tertiary-fixed-dim": "#d1c4c1",
+                    "surface-tint": "#c7c6c3",
+                    "inverse-primary": "#5e5e5c",
+                    "inverse-surface": "#e4e2df",
+                    "surface-container-highest": "#343533",
+                    "surface-container-high": "#292a28",
+                    "secondary-fixed": "#d4e6ea",
+                    "tertiary-container": "#211a19",
+                    "tertiary-fixed": "#eedfdc",
+                    "on-tertiary": "#372f2d",
+                    "on-error": "#690005",
+                    "primary-container": "#1b1c1a",
+                    "on-surface-variant": "#c6c7c1",
+                    "primary-fixed": "#e4e2df",
+                    "outline": "#8f918c",
+                    "on-error-container": "#ffdad6",
+                    "primary": "#c7c6c3",
+                    "on-secondary-fixed": "#0e1e21",
+                    "background": "#131412",
+                    "on-primary-fixed-variant": "#464744",
+                    "error-container": "#93000a",
+                    "primary-fixed-dim": "#c7c6c3",
+                    "on-surface": "#e4e2df",
+                    "error": "#ffb4ab",
+                    "on-tertiary-container": "#8d817f",
+                    "surface": "#131412"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Space Grotesk"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            overflow: hidden;
+            background-color: #0d0e0d;
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            grid-template-rows: repeat(5, 1fr);
+            gap: 6px;
+            width: 100vw;
+            height: 100vh;
+            padding: 0;
+            margin: 0;
+        }
+        .bento-tile {
+            position: relative;
+            overflow: hidden;
+            transition: transform 500 cubic-bezier(0.2, 0.8, 0.2, 1);
+            background-size: cover;
+            background-position: center;
+        }
+        .bento-tile:hover {
+            transform: scale(1.02);
+            z-index: 10;
+            box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.6);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="font-body">
+<main class="bento-grid">
+
+<!-- R1 C1: FC Branding -->
+<div class="bento-tile bg-surface-container-low flex flex-col items-center justify-center p-6" style="grid-column:1; grid-row:1;">
+<h1 class="font-headline text-5xl font-bold text-primary tracking-tighter">FC</h1>
+<span class="font-label text-sm uppercase tracking-widest text-on-surface-variant">Lab</span>
+</div>
+
+<!-- R1-2 C2-3: PAI (Hero 2x2) -->
+<div class="bento-tile bg-[#e8fafe] flex flex-col justify-end p-8 group" style="grid-column:2/4; grid-row:1/3;">
+<div class="absolute inset-0 opacity-20 pointer-events-none" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA7qd1RsZQGCGMP1sdUzj8anJN3ub7duFk25ACTCMjlYlnbt3fwBVy0Z5pe_OxPbIhNmyLNj11dxhiU4ty1jgyaEKaAfOt8Yfi6Gmyp0XaZDkmCn3FqUhdFMHL-vD0NwsEcRz6A5l9tkkfrPYgFaAkn2942upQbRU_cDHDDWxrNVdqRJY6K93DwltwqFrgNK8XyeDiNwczPUsMAhtlMjpSUuNKklSFgvaSvWjbbJGLFuI-Uy-tuyuwyjTNDhe9djpwnmu3fmGQPAaf0')"></div>
+<div class="relative z-10">
+<span class="font-label text-[10px] uppercase tracking-[0.3em] text-[#39494d]">Personal AI Infrastructure</span>
+<h2 class="font-headline text-6xl font-bold text-[#1b1c1a] leading-[0.85] mt-2">PAI</h2>
+<span class="font-label text-xs text-[#39494d] mt-1 block">L'IA qui se souvient</span>
+</div>
+</div>
+
+<!-- R1-2 C4-6: JAJA (Hero 3x2 — centre) -->
+<div class="bento-tile bg-[#fff0ed] flex flex-col justify-end p-10 relative" style="grid-column:4/7; grid-row:1/3;">
+<div class="absolute top-8 right-8 h-24 w-48 flex items-end gap-[3px] opacity-60">
+<div class="w-1.5 h-10 bg-[#ff7e67] rounded-full"></div>
+<div class="w-1.5 h-16 bg-[#ff7e67] rounded-full"></div>
+<div class="w-1.5 h-8 bg-[#ff7e67] rounded-full"></div>
+<div class="w-1.5 h-20 bg-[#ff7e67] rounded-full"></div>
+<div class="w-1.5 h-6 bg-[#ff7e67] rounded-full"></div>
+<div class="w-1.5 h-14 bg-[#ff7e67] rounded-full"></div>
+<div class="w-1.5 h-10 bg-[#ff7e67] rounded-full"></div>
+<div class="w-1.5 h-24 bg-[#ff7e67] rounded-full"></div>
+<div class="w-1.5 h-12 bg-[#ff7e67] rounded-full"></div>
+<div class="w-1.5 h-18 bg-[#ff7e67] rounded-full"></div>
+<div class="w-1.5 h-7 bg-[#ff7e67] rounded-full"></div>
+<div class="w-1.5 h-16 bg-[#ff7e67] rounded-full"></div>
+</div>
+<span class="font-label text-[10px] uppercase tracking-[0.3em] text-[#4e4543]">Assistant vocal IA &middot; Agent dispatch</span>
+<h2 class="font-headline text-8xl font-bold text-[#1b1c1a] leading-[0.8] mt-2">Jaja</h2>
+<span class="font-label text-sm text-[#4e4543] mt-2 block">L'assistant qui agit, pas qui cause</span>
+</div>
+
+<!-- R1 C7: Karousel -->
+<div class="bento-tile bg-surface-container-high flex flex-col justify-end p-5" style="grid-column:7; grid-row:1;">
+<h3 class="font-headline text-lg font-bold text-on-surface">Karousel</h3>
+<span class="font-label text-[10px] text-on-surface-variant uppercase tracking-wider">Carousels LinkedIn</span>
+</div>
+
+<!-- R1 C8: GIF Generator -->
+<div class="bento-tile bg-surface-container-highest flex flex-col justify-end p-5" style="grid-column:8; grid-row:1;">
+<h3 class="font-headline text-lg font-bold text-primary">GIF Gen</h3>
+<span class="font-label text-[10px] text-on-surface-variant uppercase tracking-wider">Sans serveur</span>
+</div>
+
+<!-- R2 C1: Skeletonify -->
+<div class="bento-tile bg-surface-container-low flex flex-col justify-end p-5" style="grid-column:1; grid-row:2;">
+<h3 class="font-headline text-lg font-bold text-on-surface">Skeletonify</h3>
+<span class="font-label text-[10px] text-on-surface-variant uppercase tracking-wider">Anonymisation IA</span>
+</div>
+
+<!-- R2 C7-8: Map Creator (Wide 2x1) -->
+<div class="bento-tile bg-[#f5f5f5] flex items-center px-8" style="grid-column:7/9; grid-row:2;">
+<div>
+<span class="font-label text-[10px] uppercase tracking-[0.2em] text-[#454743]">Cartographie XIXe</span>
+<h2 class="font-headline text-3xl font-bold text-[#1b1c1a]">Map Creator</h2>
+<span class="font-label text-xs text-[#454743] mt-1 block">Memes donnees, autre regard</span>
+</div>
+</div>
+
+<!-- R3 C1-2: GITTTTE (Wide 2x1) -->
+<div class="bento-tile bg-[#fff8e1] flex items-center justify-between px-8" style="grid-column:1/3; grid-row:3;">
+<div>
+<span class="font-label text-[10px] uppercase tracking-[0.3em] text-[#4e4543]">Data x Territoire</span>
+<h2 class="font-headline text-5xl font-bold text-[#1b1c1a] leading-[0.85]">GITTTTE</h2>
+<span class="font-label text-xs text-[#4e4543] mt-1 block">Croiser pour decider</span>
+</div>
+<span class="material-symbols-outlined text-3xl text-[#4e4543] opacity-40">monitoring</span>
+</div>
+
+<!-- R3 C3-4: Epicycle Draw (Wide 2x1) -->
+<div class="bento-tile bg-white flex flex-col justify-center px-8" style="grid-column:3/5; grid-row:3;">
+<span class="font-label text-[10px] uppercase tracking-[0.2em] text-[#8f918c]">Series de Fourier</span>
+<h2 class="font-headline text-4xl font-bold text-[#1b1c1a]">Epicycle Draw</h2>
+<span class="font-label text-xs text-[#8f918c] mt-1">Le complexe rendu simple</span>
+</div>
+
+<!-- R3 C5: Traffic Viewer -->
+<div class="bento-tile bg-surface-container flex flex-col justify-end p-5" style="grid-column:5; grid-row:3;">
+<h3 class="font-headline text-lg font-bold text-on-surface">Traffic</h3>
+<span class="font-label text-[10px] text-on-surface-variant uppercase tracking-wider">Viewer API</span>
+</div>
+
+<!-- R3 C6-7: Dictaphone (Wide 2x1) -->
+<div class="bento-tile bg-white flex items-center px-8 gap-6" style="grid-column:6/8; grid-row:3;">
+<span class="material-symbols-outlined text-5xl text-[#1b1c1a]">mic</span>
+<div>
+<h2 class="font-headline text-3xl font-bold text-[#1b1c1a]">Dictaphone</h2>
+<span class="font-label text-xs text-[#8f918c] mt-1 block">Savoir informel, 100% local</span>
+</div>
+</div>
+
+<!-- R3 C8: K-Doc -->
+<div class="bento-tile bg-secondary-container flex flex-col justify-end p-5" style="grid-column:8; grid-row:3;">
+<h3 class="font-headline text-lg font-bold text-secondary">K-Doc</h3>
+<span class="font-label text-[10px] text-on-secondary-container uppercase tracking-wider">Notes Markdown</span>
+</div>
+
+<!-- R4-5 C1-2: JeoFun (Hero 2x2) -->
+<div class="bento-tile flex flex-col justify-end p-10 relative overflow-hidden group" style="grid-column:1/3; grid-row:4/6;">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBakuUa2ZsnXintN4yubhjO_BGmcVumIdpDOB3LxbwERXnZouyWHtHdH4Sp7kgCa5TklaETmfmhMQBZIh88mlClVclpGYe0pA5TPa1qr48aislw33EcTUI8EqIvBTJCNcH0JRSsuEus6Vc1W6LEcr12WNQPWOgPuBEans00nITM7axGoAzRVuZM1k8EC9_mu5_u81jxj-VFbMgv1xnEWK7ZbBgort7xeDfpGdm0pCa2S1CQb6fx2Cm4fwS2rEm_qWnMrtHG4HXhV2wt')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+<div class="relative z-10">
+<span class="font-label text-[10px] uppercase tracking-[0.3em] text-secondary">Mobile + Terrain + IA</span>
+<h2 class="font-headline text-7xl font-bold text-white leading-[0.8] mt-2">JeoFun</h2>
+<span class="font-label text-xs text-secondary mt-2 block">14 mois de terrain + IA</span>
+</div>
+</div>
+
+<!-- R4 C3-4: Code Spotlight (Wide 2x1) -->
+<div class="bento-tile bg-surface-variant flex flex-col justify-center px-8" style="grid-column:3/5; grid-row:4;">
+<h2 class="font-headline text-3xl font-bold text-on-surface">Code Spotlight</h2>
+<span class="font-label text-[10px] text-on-surface-variant uppercase tracking-wider mt-1">Presenter du code</span>
+</div>
+
+<!-- R4 C5: Prya -->
+<div class="bento-tile bg-tertiary-container flex flex-col justify-end p-5" style="grid-column:5; grid-row:4;">
+<h3 class="font-headline text-lg font-bold text-tertiary">Prya</h3>
+<span class="font-label text-[10px] text-on-tertiary-container uppercase tracking-wider">Gestion projet</span>
+</div>
+
+<!-- R4 C6: Vokable -->
+<div class="bento-tile bg-surface-container-lowest flex flex-col justify-end p-5" style="grid-column:6; grid-row:4;">
+<h3 class="font-headline text-lg font-bold text-on-surface-variant">Vokable</h3>
+<span class="font-label text-[10px] text-outline uppercase tracking-wider">Voix vers texte</span>
+</div>
+
+<!-- R4 C7-8: Signature -->
+<div class="bento-tile bg-surface-container flex items-center justify-center" style="grid-column:7/9; grid-row:4;">
+<span class="font-label text-[11px] uppercase tracking-[0.4em] text-on-surface-variant">25 ans de code &middot; l'IA comme levier</span>
+</div>
+
+<!-- R5 C3: accent -->
+<div class="bento-tile bg-surface-container-low" style="grid-column:3; grid-row:5;"></div>
+
+<!-- R5 C4: accent cyan -->
+<div class="bento-tile bg-[#e8fafe]/20" style="grid-column:4; grid-row:5;"></div>
+
+<!-- R5 C5: accent amber -->
+<div class="bento-tile bg-[#fff8e1]/20" style="grid-column:5; grid-row:5;"></div>
+
+<!-- R5 C6: accent coral -->
+<div class="bento-tile bg-[#fff0ed]/20" style="grid-column:6; grid-row:5;"></div>
+
+<!-- R5 C7-8: Contact -->
+<div class="bento-tile bg-surface-container-high flex items-center justify-center gap-3" style="grid-column:7/9; grid-row:5;">
+<span class="material-symbols-outlined text-2xl text-on-surface-variant">mail</span>
+<span class="font-headline text-lg font-bold text-on-surface">Contact</span>
+</div>
+
+</main>
+</body></html>

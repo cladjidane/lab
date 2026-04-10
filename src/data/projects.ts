@@ -74,10 +74,9 @@ export const projects: Project[] = [
     techStack: ["TypeScript", "Semantic Search", "MCP", "SQLite", "Embedding"],
     tagColor: "coral",
     tier: 1,
-    thumbnail: "/images/pai-thumb.webp",
+    thumbnail: "/images/pai-graph.gif",
     media: [
-      { type: "diagram", src: "/images/pai-graph.webp", caption: "490 sessions, 15 projets, un reseau de connaissances qui se construit tout seul" },
-      { type: "screenshot", src: "/images/pai-search.webp", caption: "Recherche multi-angles : le meme sujet vu sous 4 angles differents" },
+      { type: "gif", src: "/images/pai-graph.gif", caption: "490 sessions, 15 projets, un reseau de connaissances qui se construit tout seul" },
     ],
   },
   {
@@ -162,9 +161,9 @@ export const projects: Project[] = [
     tier: 1,
     tryUrl: "https://epicycle.laboweb.pw",
     tryLabel: "Essayer",
-    thumbnail: "/images/epicycle-draw-thumb.gif",
+    thumbnail: "/images/epicycle-draw-hero.gif",
     media: [
-      { type: "gif", src: "/images/epicycle-draw-hero.gif", caption: "Les cercles reconstruisent le dessin trait par trait" },
+      { type: "video", src: "/videos/epicycle-draw.mp4", caption: "Les cercles reconstruisent le dessin trait par trait" },
     ],
   },
   {
@@ -204,20 +203,9 @@ export const projects: Project[] = [
     tier: 2,
     tryUrl: "https://carousel.laboweb.pw",
     tryLabel: "Essayer",
-    thumbnail: "/images/karousel-thumb.webp",
-  },
-  {
-    slug: "hubtools",
-    name: "HubTools",
-    descriptionFr:
-      "Regrouper des petits outils du quotidien au meme endroit. Conversion, anonymisation, recherche. Rapide, local.",
-    about:
-      "Plutot que d'installer 4 apps ou d'uploader sur des services tiers, j'ai regroupe les outils que j'utilise tout le temps. Conversion video-GIF, anonymisation de screenshots, recherche de competences. Tout tourne en local, auth par magic link, donnees ephemeres.",
-    tags: ["Tools", "Creative"],
-    techStack: ["Next.js 16", "ffmpeg.wasm", "Tesseract.js", "SQLite"],
-    tagColor: "cyan",
-    tier: 2,
-    thumbnail: "/images/hubtools-thumb.webp",
+    media: [
+      { type: "video", src: "/videos/karousel.mp4", caption: "Generation d'un carousel LinkedIn en temps reel" },
+    ],
   },
   {
     slug: "gif-generator",
@@ -243,7 +231,9 @@ export const projects: Project[] = [
     techStack: ["Node.js", "Gemini API", "Tesseract.js", "Sharp"],
     tagColor: "cyan",
     tier: 2,
-    thumbnail: "/images/skeletonify-thumb.webp",
+    media: [
+      { type: "video", src: "/videos/skeletonify.mp4", caption: "4 agents IA qui anonymisent une capture en temps reel" },
+    ],
   },
   {
     slug: "kdoc",
@@ -269,7 +259,9 @@ export const projects: Project[] = [
     techStack: ["mitmproxy", "React", "WebSocket", "Python"],
     tagColor: "cyan",
     tier: 2,
-    thumbnail: "/images/claude-traffic-viewer-thumb.webp",
+    media: [
+      { type: "video", src: "/videos/claude-traffic-viewer.mp4", caption: "Le dashboard en temps reel : chaque requete API interceptee et analysee" },
+    ],
   },
   {
     slug: "prya",
@@ -283,19 +275,6 @@ export const projects: Project[] = [
     tagColor: "amber",
     tier: 2,
     thumbnail: "/images/prya-thumb.webp",
-  },
-  {
-    slug: "prya-native",
-    name: "Prya Native",
-    descriptionFr:
-      "Construire un assistant IA qui fait des choses, pas juste qui parle. Conversation + actions + skills custom.",
-    about:
-      "Un chatbot qui repond, c'est facile. Un assistant qui execute des actions structurees, enchaine des skills, et se branche sur tes outils, c'est autre chose. Multi-provider (Claude, Mistral, Ollama), serveur MCP integre, 14 skills avec chaining.",
-    tags: ["AI", "Infrastructure"],
-    techStack: ["Next.js", "Anthropic SDK", "Mistral", "MCP", "Ollama"],
-    tagColor: "coral",
-    tier: 2,
-    thumbnail: "/images/prya-native-thumb.webp",
   },
   {
     slug: "vokable",
@@ -322,31 +301,5 @@ export const projects: Project[] = [
     tagColor: "amber",
     tier: 2,
     thumbnail: "/images/code-spotlight-thumb.webp",
-  },
-  {
-    slug: "context-collective",
-    name: "Context Collective",
-    descriptionFr:
-      "Rassembler des gens qui construisent avec l'IA, pas qui en parlent. Communaute, evenements, blog.",
-    about:
-      "Il y a beaucoup de bruit autour de l'IA et peu d'endroits ou les gens qui construisent vraiment echangent. Context Collective, c'est ca : une communaute, des evenements, un blog. Le sujet, c'est l'IA contextuelle, celle qui s'integre dans un metier, pas celle qui genere des images de chats.",
-    tags: ["Community", "AI"],
-    techStack: ["Next.js", "MDX", "Events"],
-    tagColor: "coral",
-    tier: 2,
-    thumbnail: "/images/context-collective-thumb.webp",
-  },
-  {
-    slug: "cityquest",
-    name: "CityQuest",
-    descriptionFr:
-      "Gamifier l'exploration d'un lieu. Quiz declenches par la position, parcours a debloquer, progression.",
-    about:
-      "Tu marches dans une ville, ton telephone te pose une question sur ce que tu vois. Tu debloques des parcours, des mini-jeux, tu progresses. Le meme principe marche pour le tourisme, la formation terrain, l'evenementiel. Prototype mobile React Native.",
-    tags: ["Games", "Mobile"],
-    techStack: ["React Native", "Expo", "Geolocation API"],
-    tagColor: "coral",
-    tier: 2,
-    thumbnail: "/images/cityquest-thumb.webp",
   },
 ];

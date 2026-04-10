@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #fbf9f5; overflow: hidden; }
+  canvas { display: block; }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+<canvas id="c"></canvas>
+
+<script>
+// ============================================================
+// DATA
+// ============================================================
+const projects = [
+  { id: "pai", facts: 2329, sessions: 409, category: "infra" },
+  { id: "map-creator", facts: 1166, sessions: 112, category: "geo" },
+  { id: "personal", facts: 899, sessions: 270, category: "meta" },
+  { id: "koality-pm", facts: 732, sessions: 145, category: "tools" },
+  { id: "voice-notes", facts: 708, sessions: 103, category: "voice" },
+  { id: "client-alpha", facts: 627, sessions: 101, category: "client" },
+  { id: "client-bravo", facts: 595, sessions: 73, category: "client" },
+  { id: "client-charlie", facts: 538, sessions: 89, category: "client" },
+  { id: "client-delta", facts: 490, sessions: 49, category: "client" },
+  { id: "conferences", facts: 462, sessions: 57, category: "meta" },
+  { id: "client-echo", facts: 413, sessions: 44, category: "client" },
+  { id: "jeofun", facts: 435, sessions: 65, category: "geo" },
+  { id: "gittte", facts: 260, sessions: 27, category: "geo" },
+  { id: "client-foxtrot", facts: 254, sessions: 28, category: "client" },
+  { id: "prya", facts: 240, sessions: 50, category: "tools" },
+  { id: "dictaphone", facts: 229, sessions: 20, category: "voice" },
+  { id: "client-golf", facts: 181, sessions: 16, category: "client" },
+  { id: "fabou", facts: 163, sessions: 14, category: "meta" },
+  { id: "uptake", facts: 152, sessions: 11, category: "meta" },
+  { id: "investissement", facts: 113, sessions: 21, category: "geo" },
+  { id: "claude-analysis", facts: 97, sessions: 9, category: "infra" },
+  { id: "geofen", facts: 94, sessions: 19, category: "geo" },
+  { id: "cours-isen", facts: 94, sessions: 13, category: "meta" },
+  { id: "game", facts: 91, sessions: 8, category: "geo" },
+  { id: "traffic-viewer", facts: 90, sessions: 14, category: "infra" },
+  { id: "deepread", facts: 82, sessions: 4, category: "tools" },
+  { id: "abers", facts: 72, sessions: 5, category: "geo" },
+  { id: "cartofab", facts: 55, sessions: 11, category: "geo" },
+  { id: "client-hotel", facts: 98, sessions: 12, category: "client" },
+  { id: "client-india", facts: 53, sessions: 9, category: "client" },
+  { id: "battle-ia", facts: 26, sessions: 3, category: "meta" },
+  { id: "epicycle", facts: 25, sessions: 4, category: "tools" },
+];
+
+const links = [
+  { source: "pai", target: "personal", weight: 22 },
+  { source: "client-alpha", target: "personal", weight: 17 },
+  { source: "conferences", target: "pai", weight: 12 },
+  { source: "map-creator", target: "pai", weight: 12 },
+  { source: "personal", target: "client-bravo", weight: 12 },
+  { source: "conferences", target: "personal", weight: 11 },
+  { source: "client-alpha", target: "client-echo", weight: 9 },
+  { source: "client-alpha", target: "pai", weight: 9 },
+  { source: "koality-pm", target: "pai", weight: 9 },
+  { source: "pai", target: "client-bravo", weight: 9 },
+  { source: "personal", target: "prya", weight: 9 },
+  { source: "client-echo", target: "personal", weight: 6 },
+  { source: "cartofab", target: "map-creator", weight: 6 },
+  { source: "map-creator", target: "personal", weight: 6 },
+  { source: "client-alpha", target: "client-charlie", weight: 5 },
+  { source: "client-echo", target: "client-bravo", weight: 5 },
+  { source: "traffic-viewer", target: "pai", weight: 5 },
+  { source: "conferences", target: "client-bravo", weight: 5 },
+  { source: "geofen", target: "personal", weight: 5 },
+  { source: "investissement", target: "personal", weight: 5 },
+  { source: "koality-pm", target: "map-creator", weight: 5 },
+  { source: "client-india", target: "pai", weight: 5 },
+  { source: "map-creator", target: "client-bravo", weight: 5 },
+  { source: "koality-pm", target: "client-delta", weight: 4 },
+  { source: "koality-pm", target: "client-bravo", weight: 4 },
+  { source: "map-creator", target: "prya", weight: 4 },
+  { source: "map-creator", target: "client-delta", weight: 4 },
+  { source: "pai", target: "client-delta", weight: 4 },
+  { source: "client-delta", target: "client-bravo", weight: 4 },
+  { source: "cartofab", target: "pai", weight: 4 },
+  { source: "jeofun", target: "map-creator", weight: 4 },
+  { source: "jeofun", target: "pai", weight: 4 },
+  { source: "jeofun", target: "prya", weight: 4 },
+  { source: "dictaphone", target: "personal", weight: 3 },
+  { source: "gittte", target: "map-creator", weight: 3 },
+  { source: "jeofun", target: "koality-pm", weight: 3 },
+  { source: "jeofun", target: "personal", weight: 3 },
+  { source: "jeofun", target: "client-delta", weight: 3 },
+  { source: "jeofun", target: "client-bravo", weight: 3 },
+  { source: "client-golf", target: "personal", weight: 3 },
+  { source: "client-echo", target: "map-creator", weight: 3 },
+  { source: "client-echo", target: "pai", weight: 3 },
+  { source: "client-echo", target: "client-delta", weight: 3 },
+  { source: "koality-pm", target: "personal", weight: 3 },
+  { source: "koality-pm", target: "prya", weight: 3 },
+];
+
+const categoryLabels = {
+  infra: "Infra IA", geo: "Geographique", client: "Client",
+  tools: "Outils", voice: "Voix / Audio", meta: "Meta",
+};
+
+const palette = {
+  infra: "#0ea5e9", geo: "#f59e0b", client: "#f87171",
+  tools: "#34d399", voice: "#a78bfa", meta: "#94a3b8",
+};
+
+function hexRgb(hex) {
+  const v = parseInt(hex.slice(1), 16);
+  return { r: (v >> 16) & 255, g: (v >> 8) & 255, b: v & 255 };
+}
+
+// ============================================================
+// CANVAS
+// ============================================================
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+let W, H;
+const dpr = window.devicePixelRatio || 1;
+
+function resize() {
+  W = window.innerWidth;
+  H = window.innerHeight;
+  canvas.width = W * dpr;
+  canvas.height = H * dpr;
+  canvas.style.width = W + 'px';
+  canvas.style.height = H + 'px';
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+resize();
+window.addEventListener('resize', resize);
+
+// ============================================================
+// NODES
+// ============================================================
+const maxFacts = Math.max(...projects.map(p => p.facts));
+
+const nodes = projects.map(p => {
+  const angle = Math.random() * Math.PI * 2;
+  const dist = 80 + Math.random() * 180;
+  const radius = 8 + Math.sqrt(p.facts / maxFacts) * 52;
+  return {
+    ...p, x: W / 2 + Math.cos(angle) * dist,
+    y: H / 2 + Math.sin(angle) * dist,
+    vx: 0, vy: 0, radius,
+    hex: palette[p.category],
+    rgb: hexRgb(palette[p.category]),
+  };
+});
+
+const nodeMap = {};
+nodes.forEach(n => nodeMap[n.id] = n);
+
+const edges = links.map(l => ({
+  source: nodeMap[l.source], target: nodeMap[l.target], weight: l.weight,
+})).filter(e => e.source && e.target);
+
+// ============================================================
+// FLOW PARTICLES
+// ============================================================
+const flowParticles = [];
+
+function spawnFlowParticles(node) {
+  flowParticles.length = 0;
+  edges.filter(e => e.source === node || e.target === node).forEach(e => {
+    const count = Math.ceil(e.weight / 3);
+    for (let i = 0; i < count; i++) {
+      flowParticles.push({
+        edge: e, t: Math.random(),
+        speed: 0.003 + Math.random() * 0.004,
+        direction: e.source === node ? 1 : -1,
+        size: 2 + Math.random() * 2,
+        rgb: node.rgb,
+      });
+    }
+  });
+}
+
+function updateFlowParticles() {
+  flowParticles.forEach(p => {
+    p.t += p.speed * p.direction;
+    if (p.t > 1) p.t -= 1;
+    if (p.t < 0) p.t += 1;
+  });
+}
+
+function drawFlowParticles() {
+  flowParticles.forEach(p => {
+    const { source, target } = p.edge;
+    const x = source.x + (target.x - source.x) * p.t;
+    const y = source.y + (target.y - source.y) * p.t;
+    const { r, g, b } = p.rgb;
+    ctx.beginPath();
+    ctx.arc(x, y, p.size, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(${r},${g},${b},0.7)`;
+    ctx.fill();
+  });
+}
+
+// ============================================================
+// DOT GRID
+// ============================================================
+function drawGrid() {
+  const spacing = 28;
+  ctx.fillStyle = '#e8e6e2';
+  for (let x = spacing; x < W; x += spacing) {
+    for (let y = spacing; y < H; y += spacing) {
+      ctx.beginPath();
+      ctx.arc(x, y, 0.6, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+}
+
+// ============================================================
+// PHYSICS
+// ============================================================
+let simSteps = 0;
+let settled = false;
+const MAX_SIM_STEPS = 300;
+
+function simulate() {
+  const cx = W / 2, cy = H / 2;
+  nodes.forEach(n => { n.vx += (cx - n.x) * 0.0008; n.vy += (cy - n.y) * 0.0008; });
+  for (let i = 0; i < nodes.length; i++) {
+    for (let j = i + 1; j < nodes.length; j++) {
+      const a = nodes[i], b = nodes[j];
+      let dx = b.x - a.x, dy = b.y - a.y;
+      let dist = Math.sqrt(dx * dx + dy * dy) || 1;
+      const minDist = a.radius + b.radius + 32;
+      const force = -1200 / (dist * dist);
+      const fx = dx / dist * force, fy = dy / dist * force;
+      a.vx -= fx; a.vy -= fy; b.vx += fx; b.vy += fy;
+      if (dist < minDist) {
+        const push = (minDist - dist) * 0.4;
+        a.x -= dx / dist * push; a.y -= dy / dist * push;
+        b.x += dx / dist * push; b.y += dy / dist * push;
+      }
+    }
+  }
+  edges.forEach(e => {
+    const dx = e.target.x - e.source.x, dy = e.target.y - e.source.y;
+    const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+    const ideal = 100 + (e.source.radius + e.target.radius);
+    const force = (dist - ideal) * 0.002 * Math.sqrt(e.weight);
+    e.source.vx += dx / dist * force; e.source.vy += dy / dist * force;
+    e.target.vx -= dx / dist * force; e.target.vy -= dy / dist * force;
+  });
+  const d = Math.max(0.25, 0.85 - simSteps * 0.002);
+  nodes.forEach(n => {
+    n.vx *= d; n.vy *= d; n.x += n.vx; n.y += n.vy;
+    n.x = Math.max(n.radius + 40, Math.min(W - n.radius - 40, n.x));
+    n.y = Math.max(n.radius + 40, Math.min(H - n.radius - 60, n.y));
+  });
+  const totalV = nodes.reduce((s, n) => s + Math.abs(n.vx) + Math.abs(n.vy), 0);
+  if (totalV < 0.5) settled = true;
+}
+
+// ============================================================
+// STATE
+// ============================================================
+let hovered = null;
+let selected = null;
+let searchHits = {};
+let searchActive = false;
+let frame = 0;
+let needsRedraw = true;
+
+// ============================================================
+// MOUSE (canvas-level, no document listeners)
+// ============================================================
+canvas.addEventListener('mousemove', e => {
+  const mx = e.clientX, my = e.clientY;
+  hovered = null;
+  for (const n of nodes) {
+    const dx = mx - n.x, dy = my - n.y;
+    if (dx * dx + dy * dy < (n.radius + 8) * (n.radius + 8)) { hovered = n; break; }
+  }
+  canvas.style.cursor = hovered ? 'pointer' : 'default';
+  needsRedraw = true;
+});
+
+canvas.addEventListener('click', e => {
+  const mx = e.clientX, my = e.clientY;
+  let clicked = null;
+  for (const n of nodes) {
+    const dx = mx - n.x, dy = my - n.y;
+    if (dx * dx + dy * dy < (n.radius + 8) * (n.radius + 8)) { clicked = n; break; }
+  }
+  if (clicked) {
+    selected = clicked;
+    spawnFlowParticles(clicked);
+    needsRedraw = true;
+    // Notify parent
+    window.parent.postMessage({ type: 'selectNode', id: clicked.id }, '*');
+  } else if (selected) {
+    selected = null;
+    flowParticles.length = 0;
+    needsRedraw = true;
+  }
+});
+
+// ============================================================
+// MESSAGES FROM PARENT (search)
+// ============================================================
+window.addEventListener('message', e => {
+  if (e.data?.type === 'search') {
+    searchHits = e.data.hits;
+    searchActive = Object.keys(searchHits).length > 0;
+    selected = null;
+    flowParticles.length = 0;
+    needsRedraw = true;
+  } else if (e.data?.type === 'clearSearch') {
+    searchHits = {};
+    searchActive = false;
+    needsRedraw = true;
+  }
+});
+
+// ============================================================
+// RENDER
+// ============================================================
+function draw() {
+  frame++;
+  if (!settled) { simulate(); simSteps++; if (simSteps >= MAX_SIM_STEPS) settled = true; }
+  if (selected) updateFlowParticles();
+
+  const focus = searchActive ? null : (selected || hovered);
+
+  ctx.fillStyle = '#fbf9f5';
+  ctx.fillRect(0, 0, W, H);
+  drawGrid();
+
+  // Links
+  edges.forEach(e => {
+    const isActive = focus && (e.source === focus || e.target === focus);
+    const { r, g, b } = e.source.rgb;
+    if (focus && !isActive) {
+      ctx.beginPath(); ctx.moveTo(e.source.x, e.source.y); ctx.lineTo(e.target.x, e.target.y);
+      ctx.strokeStyle = 'rgba(200,198,194,0.06)'; ctx.lineWidth = 0.5; ctx.stroke();
+    } else {
+      const alpha = isActive ? 0.35 : 0.06 + (e.weight / 22) * 0.08;
+      const width = isActive ? 1.5 + e.weight * 0.1 : 0.5 + e.weight * 0.08;
+      ctx.beginPath(); ctx.moveTo(e.source.x, e.source.y); ctx.lineTo(e.target.x, e.target.y);
+      ctx.strokeStyle = isActive ? `rgba(${focus.rgb.r},${focus.rgb.g},${focus.rgb.b},${alpha})` : `rgba(${r},${g},${b},${alpha})`;
+      ctx.lineWidth = width; ctx.stroke();
+    }
+  });
+
+  if (selected) drawFlowParticles();
+
+  // Nodes
+  nodes.forEach(n => {
+    const { r, g, b } = n.rgb;
+    const isFocused = n === focus;
+    const isConnected = focus && edges.some(e => (e.source === focus && e.target === n) || (e.target === focus && e.source === n));
+    const isSearchHit = searchActive && searchHits[n.id];
+    const dimmed = searchActive ? !isSearchHit : (focus && !isFocused && !isConnected);
+    const hitScale = isSearchHit ? Math.min(1.4, 1 + (searchHits[n.id] / 20) * 0.4) : 1;
+    const baseAlpha = dimmed ? 0.08 : (isFocused || isSearchHit ? 1 : 0.7);
+    const drawRadius = n.radius * hitScale;
+
+    if (!dimmed) {
+      ctx.beginPath(); ctx.arc(n.x + 1, n.y + 2, drawRadius + 2, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${r},${g},${b},${isFocused || isSearchHit ? 0.12 : 0.06})`; ctx.fill();
+    }
+
+    ctx.beginPath(); ctx.arc(n.x, n.y, drawRadius, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(${r},${g},${b},${baseAlpha})`; ctx.fill();
+
+    if (!dimmed) {
+      ctx.strokeStyle = `rgba(${r},${g},${b},${isFocused || isSearchHit ? 0.9 : 0.2})`;
+      ctx.lineWidth = isFocused || isSearchHit ? 2.5 : 1; ctx.stroke();
+    }
+
+    if (isSearchHit) {
+      const badgeText = '' + searchHits[n.id];
+      ctx.font = "600 10px 'Space Grotesk', sans-serif";
+      const tw = ctx.measureText(badgeText).width;
+      const bx = n.x + drawRadius * 0.6, by = n.y - drawRadius * 0.6;
+      const bw = Math.max(tw + 8, 20);
+      ctx.beginPath(); ctx.roundRect(bx - bw/2, by - 9, bw, 18, 9);
+      ctx.fillStyle = n.hex; ctx.fill();
+      ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(badgeText, bx, by);
+    }
+
+    if (n === selected) {
+      const pulse = 0.5 + Math.sin(frame * 0.05) * 0.3;
+      ctx.beginPath(); ctx.arc(n.x, n.y, n.radius + 6, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(${r},${g},${b},${pulse * 0.3})`; ctx.lineWidth = 2; ctx.stroke();
+    }
+
+    const showLabel = n.facts > 80 || isFocused || isConnected || isSearchHit;
+    if (showLabel && !dimmed) {
+      const label = formatLabel(n.id);
+      const fontSize = n.radius > 18 ? 11 : 9;
+      ctx.font = `500 ${fontSize}px 'Space Grotesk', sans-serif`;
+      ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+      const labelY = n.y + drawRadius + 5;
+      ctx.fillStyle = (isFocused || isSearchHit) ? '#1b1c1a' : `rgba(27,28,26,${n.facts > 200 ? 0.65 : 0.35})`;
+      ctx.fillText(label, n.x, labelY);
+      if (isFocused || n.facts > 400) {
+        ctx.font = `400 ${fontSize - 1}px 'Manrope', sans-serif`;
+        ctx.fillStyle = 'rgba(27,28,26,0.25)';
+        ctx.fillText('' + n.facts, n.x, labelY + fontSize + 2);
+      }
+    }
+  });
+
+  if (!settled || selected) {
+    needsRedraw = true;
+  }
+
+  if (needsRedraw) {
+    needsRedraw = false;
+    requestAnimationFrame(draw);
+  }
+}
+
+function formatLabel(id) {
+  const names = {
+    'pai': 'PAI', 'gittte': 'GITTTTE', 'koality-pm': 'Koality PM',
+    'map-creator': 'Map Creator', 'voice-notes': 'Voice Notes',
+    'traffic-viewer': 'Traffic Viewer', 'claude-analysis': 'Claude Analysis',
+    'cours-isen': 'Cours ISEN', 'battle-ia': 'Battle IA', 'jeofun': 'JeoFun',
+    'client-alpha': 'Client Alpha', 'client-bravo': 'Client Bravo',
+    'client-charlie': 'Client Charlie', 'client-delta': 'Client Delta',
+    'client-echo': 'Client Echo', 'client-foxtrot': 'Client Foxtrot',
+    'client-golf': 'Client Golf', 'client-hotel': 'Client Hotel',
+    'client-india': 'Client India',
+  };
+  return names[id] || id.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+}
+
+draw();
+</script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head><title>Test Canvas + Input</title></head>
+<body style="background:#fbf9f5; font-family:sans-serif;">
+  <div style="position:fixed; top:20px; left:50%; transform:translateX(-50%); z-index:100; pointer-events:auto;">
+    <input id="test" type="text" placeholder="Tape pendant que le canvas tourne..."
+      style="padding:10px; font-size:16px; width:400px; border:1px solid #ccc; border-radius:8px;">
+  </div>
+  <canvas id="c" style="position:fixed; top:0; left:0; z-index:1; pointer-events:none;"></canvas>
+  <script>
+    const canvas = document.getElementById('c');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth * 2;
+    canvas.height = window.innerHeight * 2;
+    canvas.style.width = window.innerWidth + 'px';
+    canvas.style.height = window.innerHeight + 'px';
+    ctx.setTransform(2, 0, 0, 2, 0, 0);
+
+    let frame = 0;
+    function draw() {
+      frame++;
+      ctx.fillStyle = '#fbf9f5';
+      ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+
+      // Draw moving circle
+      ctx.beginPath();
+      ctx.arc(
+        window.innerWidth/2 + Math.sin(frame * 0.02) * 200,
+        window.innerHeight/2 + Math.cos(frame * 0.02) * 200,
+        40, 0, Math.PI * 2
+      );
+      ctx.fillStyle = '#0ea5e9';
+      ctx.fill();
+
+      requestAnimationFrame(draw);
+    }
+    draw();
+  </script>
+</body>
+</html>

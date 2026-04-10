@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>PAI — Knowledge Graph</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #fbf9f5; font-family: 'Space Grotesk', -apple-system, sans-serif; overflow: hidden; }
+
+  #search-box {
+    position: fixed; top: 20px;
+    left: 50%; transform: translateX(-50%);
+    z-index: 100;
+    display: flex; align-items: center;
+    background: #fff; border: 1px solid #e4e2de;
+    border-radius: 10px; padding: 0 16px;
+    width: 380px; height: 44px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  }
+  #search-box:focus-within { border-color: #0ea5e9; box-shadow: 0 2px 20px rgba(14,165,233,0.1); }
+  #search-input {
+    border: none; outline: none; background: none;
+    font-family: 'Space Grotesk'; font-size: 14px;
+    color: #1b1c1a; width: 100%;
+  }
+  #search-input::placeholder { color: #c8c6c2; }
+  #search-results-count { font-size: 11px; color: #a8a6a1; white-space: nowrap; font-family: 'Manrope'; margin-left: 8px; }
+  #search-clear { background: none; border: none; cursor: pointer; color: #c8c6c2; font-size: 16px; padding: 4px; display: none; }
+  #search-clear:hover { color: #1b1c1a; }
+
+  #graph-frame {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    border: none; z-index: 1;
+  }
+
+  #stats {
+    position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
+    color: #a8a6a1; font-size: 11px; letter-spacing: 1.5px;
+    font-family: 'Space Grotesk', monospace; text-transform: uppercase; z-index: 5;
+  }
+  #stats span { color: #1b1c1a; font-weight: 600; }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div id="search-box">
+  <input id="search-input" type="text" placeholder="Poser une question a la memoire..." spellcheck="false" autocomplete="off" autofocus>
+  <span id="search-results-count"></span>
+  <button id="search-clear">&times;</button>
+</div>
+
+<iframe id="graph-frame" src="pai-graph-canvas.html"></iframe>
+
+<div id="stats">
+  <span>12 655</span> faits &middot; <span>2 281</span> sessions &middot; <span>53</span> projets
+</div>
+
+<script>
+const searchInput = document.getElementById('search-input');
+const searchCount = document.getElementById('search-results-count');
+const searchClear = document.getElementById('search-clear');
+const graphFrame = document.getElementById('graph-frame');
+let searchTimeout = null;
+
+const projectAliases = {
+  'app-oignon': 'client-alpha', 'ssp': 'client-bravo', 'origo': 'client-charlie',
+  'site-koality': 'client-delta', 'biobreizh-webapp': 'client-echo', 'biobreizh': 'client-echo',
+  'maintenance-ssp': 'client-foxtrot', 'maintenance': 'client-foxtrot',
+  'clickanddive': 'client-golf', 'site-plouzane': 'client-hotel',
+  'les-ptits-doudous': 'client-india', 'jeofun-app': 'jeofun',
+  '.pai': 'pai', 'claude-traffic-viewer': 'traffic-viewer',
+  'fabou-website': 'fabou', 'epicycle-draw-fournier': 'epicycle',
+  'investissement-2': 'investissement', 'biobreizh-r': 'client-echo',
+  'api-biobreizh': 'client-echo', 'all-projects-analysis': null,
+};
+
+function mapProjectId(dbId) {
+  if (projectAliases.hasOwnProperty(dbId)) return projectAliases[dbId];
+  return dbId;
+}
+
+async function doSearch(query) {
+  if (query.length < 2) { clearSearch(); return; }
+  try {
+    const res = await fetch('http://localhost:18765/search?q=' + encodeURIComponent(query));
+    const data = await res.json();
+    const hits = {};
+    let totalHits = 0;
+    data.forEach(row => {
+      const gid = mapProjectId(row.project);
+      if (gid) { hits[gid] = (hits[gid] || 0) + row.hits; totalHits += row.hits; }
+    });
+    const count = Object.keys(hits).length;
+    searchCount.textContent = count > 0 ? totalHits + ' faits, ' + count + ' projets' : 'aucun resultat';
+    searchClear.style.display = 'block';
+    // Send to iframe
+    graphFrame.contentWindow.postMessage({ type: 'search', hits: hits }, '*');
+  } catch (e) {
+    searchCount.textContent = 'serveur off';
+  }
+}
+
+function clearSearch(resetInput) {
+  searchCount.textContent = '';
+  searchClear.style.display = 'none';
+  if (resetInput) searchInput.value = '';
+  graphFrame.contentWindow.postMessage({ type: 'clearSearch' }, '*');
+}
+
+searchInput.addEventListener('input', () => {
+  clearTimeout(searchTimeout);
+  const q = searchInput.value.trim();
+  if (q.length < 2) { clearSearch(false); return; }
+  searchTimeout = setTimeout(() => doSearch(q), 250);
+});
+searchClear.addEventListener('click', () => clearSearch(true));
+searchInput.addEventListener('keydown', e => { if (e.key === 'Escape') { clearSearch(true); searchInput.blur(); } });
+
+// Listen for panel events from iframe
+window.addEventListener('message', e => {
+  if (e.data?.type === 'selectNode') {
+    // Could show panel here in the future
+  }
+});
+</script>
+</body>
+</html>

@@ -1,123 +1,618 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Nav from "../components/Nav.astro";
-import Hero from "../components/Hero.astro";
-import ProjectCardTier1 from "../components/ProjectCardTier1.astro";
-import ProjectCardTier2 from "../components/ProjectCardTier2.astro";
-import Footer from "../components/Footer.astro";
-import { projects, productionCases } from "../data/projects";
+import { projects } from "../data/projects";
 
-const tier1 = projects.filter((p) => p.tier === 1);
-const tier2 = projects.filter((p) => p.tier === 2);
+// Bento layout config: slug -> grid position + size + style
+const bentoLayout: Record<string, { col: string; row: string; size: "hero" | "wide" | "small"; bgClass?: string }> = {
+  // Row 1-2
+  pai:              { col: "2 / 4",  row: "1 / 3", size: "hero",  bgClass: "bento-bg-cyan" },
+  jaja:             { col: "4 / 7",  row: "1 / 3", size: "hero",  bgClass: "bento-bg-coral" },
+  // Row 2
+  // Row 3
+  gitttte:          { col: "1 / 3",  row: "3 / 4", size: "wide",  bgClass: "bento-bg-amber" },
+  "epicycle-draw":  { col: "3 / 5",  row: "3 / 4", size: "wide",  bgClass: "bg-white" },
+  dictaphone:       { col: "6 / 8",  row: "3 / 4", size: "wide",  bgClass: "bg-white" },
+  // Row 4-5
+  jeofun:           { col: "1 / 3",  row: "4 / 6", size: "hero" },
+  "code-spotlight": { col: "3 / 5",  row: "4 / 4", size: "wide",  bgClass: "bg-surface-container-high" },
+  "map-creator":    { col: "7 / 9",  row: "2 / 3", size: "wide",  bgClass: "bento-bg-neutral" },
+};
+
+// Small tiles with explicit positions
+const smallTiles: { slug: string; col: string; row: string; bgClass?: string }[] = [
+  { slug: "_fc",           col: "1",     row: "1",   bgClass: "bg-surface-container" },
+  { slug: "karousel",      col: "7",     row: "1",   bgClass: "bg-surface-container-high" },
+  { slug: "gif-generator", col: "8",     row: "1",   bgClass: "bg-surface-container-highest" },
+  { slug: "skeletonify",   col: "1",     row: "2",   bgClass: "bg-surface-container" },
+  { slug: "claude-traffic-viewer", col: "5", row: "3", bgClass: "bg-surface-container" },
+  { slug: "kdoc",          col: "8",     row: "2",   bgClass: "bg-surface-container-low" },
+  { slug: "prya",          col: "5",     row: "4",   bgClass: "bg-surface-container" },
+  { slug: "vokable",       col: "6",     row: "4",   bgClass: "bg-surface-container" },
+  { slug: "kdoc",          col: "8",     row: "3",   bgClass: "bg-surface-container-low" },
+];
+
+// Utility tiles
+const utilTiles = [
+  { type: "signature", col: "7 / 9", row: "4", bgClass: "bg-surface-container" },
+  { type: "accent",    col: "3",     row: "5", bgClass: "bg-surface-container" },
+  { type: "accent",    col: "4",     row: "5", bgClass: "bento-bg-cyan opacity-20" },
+  { type: "accent",    col: "5",     row: "5", bgClass: "bento-bg-amber opacity-20" },
+  { type: "accent",    col: "6",     row: "5", bgClass: "bento-bg-coral opacity-20" },
+  { type: "contact",   col: "7 / 9", row: "5", bgClass: "bg-surface-container-high" },
+];
+
+// Code Spotlight fix: row should span 1
+// Actually let me fix the layout to be correct
+const codeSpotlight = projects.find(p => p.slug === "code-spotlight");
+
+function getProject(slug: string) {
+  return projects.find(p => p.slug === slug);
+}
+
+// Waveform bars for Jaja
+const waveBars = [10, 16, 8, 20, 6, 14, 10, 24, 12, 18, 7, 16];
 ---
 
-<Layout>
-  <Nav />
-  <Hero />
+<Layout title="FC Lab — Portfolio">
+  <main class="bento-grid bg-surface">
 
-  <main class="max-w-7xl mx-auto px-8 py-20 space-y-32">
-    <!-- Tier 1 -->
-    <section>
-      <div class="flex items-center gap-4 mb-12">
-        <div class="flex gap-1">
-          <div class="w-2 h-2 rounded-full bg-brand-cyan"></div>
-          <div class="w-2 h-2 rounded-full bg-brand-coral"></div>
-          <div class="w-2 h-2 rounded-full bg-brand-amber"></div>
+    <!-- FC Branding -->
+    <div class="bento-tile bg-on-surface flex flex-col items-center justify-center text-center"
+         style="grid-column: 1; grid-row: 1;"
+         data-info="about">
+      <span class="font-headline text-5xl font-bold text-white tracking-tighter leading-none">FC</span>
+      <span class="font-headline text-[10px] uppercase tracking-[0.3em] text-white/60 mt-2">Lab · 2026</span>
+    </div>
+
+    <!-- PAI (Hero 2x2) -->
+    {(() => {
+      const p = getProject("pai")!;
+      return (
+        <div class="bento-tile bento-bg-cyan flex flex-col justify-end p-8"
+             style="grid-column: 2 / 4; grid-row: 1 / 3;"
+             data-slug={p.slug}>
+          <span class="font-headline text-[10px] uppercase tracking-[0.3em] text-on-surface-variant">Personal AI Infrastructure</span>
+          <h2 class="font-headline text-6xl font-bold text-on-surface leading-[0.85] mt-2">{p.name}</h2>
+          <span class="font-body text-xs text-on-surface-variant mt-1">{p.descriptionFr.split(".")[0]}</span>
         </div>
-        <h2 class="font-headline font-bold text-4xl tracking-tight uppercase">Les trucs dont je suis fier</h2>
-        <div class="h-[1px] flex-grow bg-outline-variant/20"></div>
-      </div>
+      );
+    })()}
 
-      <!-- Top 2 large cards -->
-      <div class="asymmetric-grid">
-        {tier1.slice(0, 2).map((project, i) => (
-          <ProjectCardTier1 project={project} class={i === 1 ? "md:mt-16" : ""} />
-        ))}
-      </div>
-
-      <!-- Remaining tier 1 cards in grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
-        {tier1.slice(2).map((project) => (
-          <ProjectCardTier1 project={project} />
-        ))}
-      </div>
-    </section>
-
-    <!-- Tier 2 -->
-    <section class="bg-surface-container-low -mx-8 px-8 py-24 rounded-3xl">
-      <div class="flex items-center gap-4 mb-16">
-        <div class="flex gap-1">
-          <div class="w-2 h-2 rounded-full bg-brand-cyan"></div>
-        </div>
-        <h2 class="font-headline font-bold text-4xl tracking-tight uppercase">Et aussi...</h2>
-        <div class="h-[1px] flex-grow bg-outline-variant/30"></div>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {tier2.map((project) => (
-          <ProjectCardTier2 project={project} />
-        ))}
-      </div>
-    </section>
-
-    <!-- En production -->
-    <section>
-      <div class="flex items-center gap-4 mb-16">
-        <div class="flex gap-1">
-          <div class="w-2 h-2 rounded-full bg-on-surface-variant/40"></div>
-        </div>
-        <h2 class="font-headline font-bold text-4xl tracking-tight uppercase">Et en vrai</h2>
-        <div class="h-[1px] flex-grow bg-outline-variant/20"></div>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {productionCases.map((c) => (
-          <div class="relative pl-6">
-            <div class="absolute left-0 top-0 bottom-0 w-[2px] bg-outline-variant/20"></div>
-            <h3 class="font-headline font-bold text-lg tracking-tight mb-3">{c.title}</h3>
-            <p class="font-body text-on-surface-variant font-light leading-relaxed text-[15px] mb-4">
-              {c.description}
-            </p>
-            <p class="font-headline text-sm font-medium text-primary mb-4">
-              {c.result}
-            </p>
-            <div class="flex flex-wrap gap-1.5">
-              {c.techStack.map((tech) => (
-                <span class="bg-surface-container-high px-2 py-0.5 rounded text-[11px] font-headline font-medium tracking-wider text-on-surface-variant/70">
-                  {tech}
-                </span>
-              ))}
-            </div>
+    <!-- JAJA (Hero 3x2 — centre) -->
+    {(() => {
+      const p = getProject("jaja")!;
+      return (
+        <div class="bento-tile bento-bg-coral flex flex-col justify-end p-10 relative"
+             style="grid-column: 4 / 7; grid-row: 1 / 3;"
+             data-slug={p.slug}>
+          <div class="absolute top-8 right-8 h-24 w-48 flex items-end gap-[3px] opacity-50">
+            {waveBars.map(h => (
+              <div class="w-1.5 rounded-full bg-brand-coral" style={`height: ${h * 4}px`}></div>
+            ))}
           </div>
-        ))}
-      </div>
-    </section>
+          <span class="font-headline text-[10px] uppercase tracking-[0.3em] text-on-surface-variant">Assistant vocal IA · Agent dispatch</span>
+          <h2 class="font-headline text-8xl font-bold text-on-surface leading-[0.8] mt-2">{p.name}</h2>
+          <span class="font-body text-sm text-on-surface-variant mt-2">L'assistant qui agit, pas qui cause</span>
+        </div>
+      );
+    })()}
 
-    <!-- About brief -->
-    <section class="grid grid-cols-1 md:grid-cols-2 gap-20 py-12">
-      <div>
-        <h3 class="font-headline font-bold text-5xl tracking-tighter mb-8 leading-none">L'approche</h3>
-        <p class="font-body text-xl text-on-surface-variant leading-relaxed mb-8">
-          25 ans de code. L'IA comme levier, pas comme gadget. Je construis des outils qui marchent, pas des demos qui impressionnent.
-        </p>
-        <div class="flex gap-4 flex-wrap">
-          <span class="bg-brand-cyan/10 px-4 py-2 rounded text-xs font-headline font-bold uppercase tracking-wider text-primary">TypeScript</span>
-          <span class="bg-brand-amber/10 px-4 py-2 rounded text-xs font-headline font-bold uppercase tracking-wider text-primary">Python</span>
-          <span class="bg-brand-coral/10 px-4 py-2 rounded text-xs font-headline font-bold uppercase tracking-wider text-primary">MapLibre</span>
-          <span class="bg-brand-cyan/10 px-4 py-2 rounded text-xs font-headline font-bold uppercase tracking-wider text-primary">Claude / GPT</span>
+    <!-- Karousel -->
+    {(() => {
+      const p = getProject("karousel")!;
+      return (
+        <div class="bento-tile bg-surface-container-high flex flex-col justify-end p-5"
+             style="grid-column: 7; grid-row: 1;"
+             data-slug={p.slug}>
+          <h3 class="font-headline text-lg font-bold text-on-surface">{p.name}</h3>
+          <span class="font-headline text-[10px] text-on-surface-variant uppercase tracking-wider">Carousels LinkedIn</span>
         </div>
-      </div>
-      <div class="bg-surface-container-highest p-12 rounded-2xl relative overflow-hidden group">
-        <div class="font-headline text-9xl font-black absolute -right-4 -bottom-4 opacity-5 pointer-events-none group-hover:opacity-10 transition-opacity">25+</div>
-        <div class="relative z-10">
-          <h4 class="font-headline font-bold text-2xl mb-6 text-primary">Ce lab</h4>
-          <p class="text-lg text-on-surface-variant font-light leading-relaxed">
-            Ces projets ne sont pas des produits. Ce sont des explorations. Certains deviendront quelque chose, d'autres resteront des prototypes. C'est le point.
-          </p>
+      );
+    })()}
+
+    <!-- GIF Generator -->
+    {(() => {
+      const p = getProject("gif-generator")!;
+      return (
+        <div class="bento-tile bg-surface-container-highest flex flex-col justify-end p-5"
+             style="grid-column: 8; grid-row: 1;"
+             data-slug={p.slug}>
+          <h3 class="font-headline text-lg font-bold text-brand-cyan">{p.name}</h3>
+          <span class="font-headline text-[10px] text-on-surface-variant uppercase tracking-wider">Sans serveur</span>
         </div>
+      );
+    })()}
+
+    <!-- Skeletonify -->
+    {(() => {
+      const p = getProject("skeletonify")!;
+      return (
+        <div class="bento-tile bg-surface-container flex flex-col justify-end p-5"
+             style="grid-column: 1; grid-row: 2;"
+             data-slug={p.slug}>
+          <h3 class="font-headline text-lg font-bold text-on-surface">{p.name}</h3>
+          <span class="font-headline text-[10px] text-on-surface-variant uppercase tracking-wider">Anonymisation IA</span>
+        </div>
+      );
+    })()}
+
+    <!-- Map Creator (Wide 2x1) -->
+    {(() => {
+      const p = getProject("map-creator")!;
+      return (
+        <div class="bento-tile bento-bg-neutral flex items-center px-8"
+             style="grid-column: 7 / 9; grid-row: 2;"
+             data-slug={p.slug}>
+          <div>
+            <span class="font-headline text-[10px] uppercase tracking-[0.2em] text-on-surface-variant">Cartographie XIXe</span>
+            <h2 class="font-headline text-3xl font-bold text-on-surface">{p.name}</h2>
+            <span class="font-body text-xs text-on-surface-variant mt-1 block">Memes donnees, autre regard</span>
+          </div>
+        </div>
+      );
+    })()}
+
+    <!-- GITTTTE (Wide 2x1) -->
+    {(() => {
+      const p = getProject("gitttte")!;
+      return (
+        <div class="bento-tile bento-bg-amber flex items-center justify-between px-8"
+             style="grid-column: 1 / 3; grid-row: 3;"
+             data-slug={p.slug}>
+          <div>
+            <span class="font-headline text-[10px] uppercase tracking-[0.3em] text-on-surface-variant">Data x Territoire</span>
+            <h2 class="font-headline text-5xl font-bold text-on-surface leading-[0.85]">{p.name}</h2>
+            <span class="font-body text-xs text-on-surface-variant mt-1 block">Croiser pour decider</span>
+          </div>
+          <span class="material-symbols-outlined text-3xl text-on-surface-variant opacity-40">monitoring</span>
+        </div>
+      );
+    })()}
+
+    <!-- Epicycle Draw (Wide 2x1) -->
+    {(() => {
+      const p = getProject("epicycle-draw")!;
+      return (
+        <div class="bento-tile bg-white flex flex-col justify-center px-8"
+             style="grid-column: 3 / 5; grid-row: 3;"
+             data-slug={p.slug}>
+          <span class="font-headline text-[10px] uppercase tracking-[0.2em] text-outline">Series de Fourier</span>
+          <h2 class="font-headline text-4xl font-bold text-on-surface">{p.name}</h2>
+          <span class="font-body text-xs text-outline mt-1">Le complexe rendu simple</span>
+        </div>
+      );
+    })()}
+
+    <!-- Traffic Viewer -->
+    {(() => {
+      const p = getProject("claude-traffic-viewer")!;
+      return (
+        <div class="bento-tile bg-surface-container flex flex-col justify-end p-5"
+             style="grid-column: 5; grid-row: 3;"
+             data-slug={p.slug}>
+          <h3 class="font-headline text-lg font-bold text-on-surface">Traffic</h3>
+          <span class="font-headline text-[10px] text-on-surface-variant uppercase tracking-wider">Viewer API</span>
+        </div>
+      );
+    })()}
+
+    <!-- Dictaphone (Wide 2x1) -->
+    {(() => {
+      const p = getProject("dictaphone")!;
+      return (
+        <div class="bento-tile bg-white flex items-center px-8 gap-6"
+             style="grid-column: 6 / 8; grid-row: 3;"
+             data-slug={p.slug}>
+          <span class="material-symbols-outlined text-5xl text-on-surface">mic</span>
+          <div>
+            <h2 class="font-headline text-3xl font-bold text-on-surface">{p.name}</h2>
+            <span class="font-body text-xs text-outline mt-1 block">Savoir informel, 100% local</span>
+          </div>
+        </div>
+      );
+    })()}
+
+    <!-- K-Doc -->
+    {(() => {
+      const p = getProject("kdoc")!;
+      return (
+        <div class="bento-tile bg-surface-container-low flex flex-col justify-end p-5"
+             style="grid-column: 8; grid-row: 3;"
+             data-slug={p.slug}>
+          <h3 class="font-headline text-lg font-bold text-on-surface">{p.name}</h3>
+          <span class="font-headline text-[10px] text-on-surface-variant uppercase tracking-wider">Notes Markdown</span>
+        </div>
+      );
+    })()}
+
+    <!-- JeoFun (Hero 2x2) -->
+    {(() => {
+      const p = getProject("jeofun")!;
+      return (
+        <div class="bento-tile flex flex-col justify-end p-10 relative overflow-hidden group bg-surface-container-highest"
+             style="grid-column: 1 / 3; grid-row: 4 / 6;"
+             data-slug={p.slug}>
+          <div class="absolute inset-0 bg-gradient-to-t from-on-surface/80 to-on-surface/20"></div>
+          <div class="relative z-10">
+            <span class="font-headline text-[10px] uppercase tracking-[0.3em] text-brand-cyan">Mobile + Terrain + IA</span>
+            <h2 class="font-headline text-7xl font-bold text-white leading-[0.8] mt-2">{p.name}</h2>
+            <span class="font-body text-xs text-brand-cyan mt-2 block">14 mois de terrain + IA</span>
+          </div>
+        </div>
+      );
+    })()}
+
+    <!-- Code Spotlight (Wide 2x1) -->
+    {(() => {
+      const p = getProject("code-spotlight")!;
+      return (
+        <div class="bento-tile bg-surface-container-high flex flex-col justify-center px-8"
+             style="grid-column: 3 / 5; grid-row: 4;"
+             data-slug={p.slug}>
+          <h2 class="font-headline text-3xl font-bold text-on-surface">{p.name}</h2>
+          <span class="font-headline text-[10px] text-on-surface-variant uppercase tracking-wider mt-1">Presenter du code</span>
+        </div>
+      );
+    })()}
+
+    <!-- Prya -->
+    {(() => {
+      const p = getProject("prya")!;
+      return (
+        <div class="bento-tile bg-surface-container flex flex-col justify-end p-5"
+             style="grid-column: 5; grid-row: 4;"
+             data-slug={p.slug}>
+          <h3 class="font-headline text-lg font-bold text-on-surface">{p.name.split(" ")[0]}</h3>
+          <span class="font-headline text-[10px] text-on-surface-variant uppercase tracking-wider">Gestion projet</span>
+        </div>
+      );
+    })()}
+
+    <!-- Vokable -->
+    {(() => {
+      const p = getProject("vokable")!;
+      return (
+        <div class="bento-tile bg-surface-container-low flex flex-col justify-end p-5"
+             style="grid-column: 6; grid-row: 4;"
+             data-slug={p.slug}>
+          <h3 class="font-headline text-lg font-bold text-on-surface-variant">{p.name}</h3>
+          <span class="font-headline text-[10px] text-outline uppercase tracking-wider">Voix vers texte</span>
+        </div>
+      );
+    })()}
+
+    <!-- Signature / Approche -->
+    <div class="bento-tile bg-surface-container flex flex-col items-center justify-center p-6 text-center"
+         style="grid-column: 7 / 9; grid-row: 4;"
+         data-info="approche">
+      <span class="font-headline text-[9px] uppercase tracking-[0.3em] text-outline mb-2">L'approche</span>
+      <p class="font-headline text-base font-medium text-on-surface leading-snug">Je construis des outils<br/>qui marchent. Pas des demos<br/>qui impressionnent.</p>
+    </div>
+
+    <!-- R5 C3: Experience stat -->
+    <div class="bento-tile bg-surface-container flex flex-col items-center justify-center"
+         style="grid-column: 3; grid-row: 5;"
+         data-info="experience">
+      <span class="font-headline text-4xl font-bold text-on-surface leading-none">25+</span>
+      <span class="font-headline text-[9px] uppercase tracking-[0.25em] text-outline mt-1">ans de code</span>
+    </div>
+
+    <!-- R5 C4: Location -->
+    <div class="bento-tile bento-bg-cyan flex flex-col items-center justify-center"
+         style="grid-column: 4; grid-row: 5;"
+         data-info="location">
+      <span class="material-symbols-outlined text-xl text-on-surface mb-1">location_on</span>
+      <span class="font-headline text-sm font-bold text-on-surface">Brest</span>
+      <span class="font-headline text-[9px] uppercase tracking-[0.2em] text-on-surface-variant">Bretagne</span>
+    </div>
+
+    <!-- R5 C5: Availability -->
+    <div class="bento-tile bento-bg-amber flex flex-col items-center justify-center"
+         style="grid-column: 5; grid-row: 5;"
+         data-info="dispo">
+      <div class="flex items-center gap-1.5 mb-1">
+        <span class="w-2 h-2 rounded-full bg-brand-amber animate-pulse"></span>
+        <span class="font-headline text-sm font-bold text-on-surface">Dispo</span>
       </div>
-    </section>
+      <span class="font-headline text-[9px] uppercase tracking-[0.2em] text-on-surface-variant">Q2 2026</span>
+    </div>
+
+    <!-- R5 C6: Koality -->
+    <div class="bento-tile bento-bg-coral flex flex-col items-center justify-center"
+         style="grid-column: 6; grid-row: 5;"
+         data-info="koality">
+      <span class="font-headline text-sm font-bold text-on-surface">Koality</span>
+      <span class="font-headline text-[9px] uppercase tracking-[0.2em] text-on-surface-variant">Co-fondateur</span>
+    </div>
+
+    <!-- Contact CTA -->
+    <div class="bento-tile bg-on-surface flex items-center justify-center gap-3 group cursor-pointer"
+         style="grid-column: 7 / 9; grid-row: 5;"
+         data-info="contact">
+      <span class="material-symbols-outlined text-2xl text-white/80 group-hover:text-white transition-colors">mail</span>
+      <div class="flex flex-col items-start">
+        <span class="font-headline text-base font-bold text-white leading-tight">Ecrire</span>
+        <span class="font-headline text-[9px] uppercase tracking-[0.25em] text-white/60">fabien@koality.fr</span>
+      </div>
+    </div>
+
   </main>
 
-  <Footer />
+  <!-- Modal -->
+  <div id="modal" class="modal-backdrop" role="dialog" aria-modal="true">
+    <div class="modal-content relative" id="modal-inner">
+      <div class="modal-controls">
+        <button class="modal-drawer-toggle" id="modal-drawer-toggle" aria-label="Afficher/masquer les infos">
+          <span class="material-symbols-outlined" style="font-size:20px;">side_navigation</span>
+        </button>
+        <button id="modal-close" aria-label="Fermer">
+          <span class="material-symbols-outlined" style="font-size:20px;">close</span>
+        </button>
+      </div>
+      <div class="modal-media" id="modal-media"></div>
+      <div class="modal-info" id="modal-info"></div>
+    </div>
+  </div>
+
+  <script define:vars={{ projects }}>
+    const projectMap = {};
+    projects.forEach(p => { projectMap[p.slug] = p; });
+
+    const modal = document.getElementById("modal");
+    const modalInner = document.getElementById("modal-inner");
+    const modalMedia = document.getElementById("modal-media");
+    const modalInfo = document.getElementById("modal-info");
+    const modalClose = document.getElementById("modal-close");
+    const modalDrawerToggle = document.getElementById("modal-drawer-toggle");
+
+    // Color map
+    const colorMap = {
+      cyan:  { accent: "#00d4ff", bg: "#e8fafe" },
+      coral: { accent: "#ff7e67", bg: "#fff0ed" },
+      amber: { accent: "#fbbc00", bg: "#fff8e1" },
+    };
+
+    // Info blocks (non-project tiles) — editorial layout
+    const infoBlocks = {
+      about: {
+        visual: `<div style="font-family:'Space Grotesk'; font-size:120px; font-weight:700; color:#1b1c1a; line-height:0.8;">FC</div><div style="font-family:'Space Grotesk'; font-size:10px; text-transform:uppercase; letter-spacing:0.3em; color:#6e7880; margin-top:12px;">Lab · 2026</div>`,
+        eyebrow: "A propos",
+        title: "Fabien Canu",
+        body: "25 ans que j'ecris du code, seul ou en equipe, sur des projets qui vont de l'outil interne bricole au produit qui tourne en production depuis des annees. Ce lab que tu parcours, ce sont mes explorations personnelles. Des choses que j'ai eu envie de construire parce qu'elles m'interessaient, pas parce qu'un client me les a demandees.\n\nCertaines sont devenues des briques utiles pour mes missions, d'autres resteront des prototypes. C'est le point : ici je teste, je me trompe, j'apprends. C'est aussi la raison pour laquelle tu vois autant de projets lies a l'IA : c'est la techno qui change le plus vite en ce moment, et c'est dans le faire qu'on comprend ce qu'elle change vraiment.",
+        tags: ["25 ans", "Solo + Equipe", "Lab personnel"],
+      },
+      approche: {
+        visual: `<div style="font-family:'Space Grotesk'; font-size:44px; font-weight:700; color:#1b1c1a; line-height:0.95; text-align:center;">Pas des demos.<br/><span style="color:#ff7e67;">Des outils.</span></div>`,
+        eyebrow: "L'approche",
+        title: "Ce qui guide le choix",
+        body: "Une demo marche une fois, devant un public prepare. Un outil marche tous les jours, meme quand personne ne regarde. La difference est enorme : une demo peut masquer ses angles morts, un outil les revele au premier usage reel. Je choisis donc toujours le deuxieme.\n\nConcretement ca veut dire : moins de fioritures, plus de tests en conditions reelles. Moins de 'wow', plus de 'ca m'a fait gagner 20 minutes par jour'. Et surtout, ca veut dire assumer que l'IA est un levier, pas un sujet. Elle sert a faire passer un outil de bien a excellent, elle ne remplace pas le travail de conception.",
+        tags: ["Outil > demo", "Simple > clever", "Usage > pitch"],
+      },
+      experience: {
+        visual: `<div style="font-family:'Space Grotesk'; font-size:140px; font-weight:700; color:#1b1c1a; line-height:0.8;">25<span style="font-size:70px; color:#00d4ff; vertical-align:super;">+</span></div><div style="font-family:'Space Grotesk'; font-size:10px; text-transform:uppercase; letter-spacing:0.3em; color:#6e7880; margin-top:8px;">annees de code</div>`,
+        eyebrow: "Experience",
+        title: "Depuis 2001",
+        body: "J'ai commence a coder avant d'etre majeur, et j'ai traverse a peu pres toutes les epoques techniques qui ont marque le web. Du PHP sur mutualise au serverless, de jQuery aux frameworks reactifs, des monolithes aux architectures distribuees, du CSS floats au grid moderne.\n\nChaque vague m'a appris quelque chose, et surtout elle m'a appris que les vagues passent et que les fondamentaux restent : comprendre un probleme avant d'ecrire une ligne, choisir ses abstractions avec soin, livrer regulierement, tester ce qui compte. L'experience n'est pas un badge, c'est un filtre : elle permet de distinguer ce qui est nouveau et utile de ce qui est nouveau et a la mode.",
+        tags: ["2001 - aujourd'hui", "Full stack", "Architecture"],
+      },
+      location: {
+        visual: `<div style="display:flex; flex-direction:column; align-items:center;"><span class="material-symbols-outlined" style="font-size:72px; color:#00d4ff;">location_on</span><div style="font-family:'Space Grotesk'; font-size:36px; font-weight:700; color:#1b1c1a; margin-top:8px;">Brest</div><div style="font-family:'Space Grotesk'; font-size:10px; text-transform:uppercase; letter-spacing:0.3em; color:#6e7880; margin-top:4px;">Bretagne · France</div></div>`,
+        eyebrow: "Localisation",
+        title: "Base a Brest",
+        body: "Je travaille depuis Brest, bout du monde cote ouest. Les missions se font a distance 95% du temps, ce qui a le merite de focaliser les reunions sur ce qui est necessaire plutot que sur ce qui arrange les agendas. Je me deplace pour les kickoffs, les moments de tension, et pour travailler en presentiel avec une equipe quand ca a vraiment du sens.\n\nBrest a un ecosysteme tech plus serieux qu'on ne le pense, une densite de recherche publique (Ifremer, IMT Atlantique, Telecom Bretagne) et une qualite de vie qui fait qu'on accepte rarement de partir. Pour le reste, un train direct Paris existe et je ne l'ai jamais trouve plus long que ce que promet Oui.sncf.",
+        tags: ["Brest", "Remote first", "Deplacements ponctuels"],
+      },
+      dispo: {
+        visual: `<div style="display:flex; flex-direction:column; align-items:center;"><div style="width:80px; height:80px; border-radius:50%; background:#fff8e1; display:flex; align-items:center; justify-content:center;"><div style="width:14px; height:14px; border-radius:50%; background:#fbbc00;"></div></div><div style="font-family:'Space Grotesk'; font-size:36px; font-weight:700; color:#1b1c1a; margin-top:12px;">Disponible</div><div style="font-family:'Space Grotesk'; font-size:10px; text-transform:uppercase; letter-spacing:0.3em; color:#6e7880; margin-top:4px;">a partir de Q2 2026</div></div>`,
+        eyebrow: "Disponibilite",
+        title: "Ouvert aux missions",
+        body: "Je suis disponible pour de nouvelles missions a partir du deuxieme trimestre 2026. Les formats qui marchent le mieux avec moi : conception d'outils IA sur-mesure, audit technique approfondi, accompagnement d'equipe sur l'integration d'IA dans un produit existant, ou role de lead technique temporaire.\n\nJe ne prends pas de prestation au forfait ferme : j'ai besoin de comprendre le probleme avant de m'engager, et cette comprehension evolue souvent pendant le projet. On travaille en confiance et en transparence, ou pas du tout. Missions courtes (quelques jours) ou longues (plusieurs mois), peu importe tant que le sujet est interessant et l'interlocuteur aligne.",
+        tags: ["Q2 2026", "Audit", "Build", "Lead temp"],
+      },
+      koality: {
+        visual: `<div style="display:flex; flex-direction:column; align-items:center;"><div style="width:88px; height:88px; border-radius:12px; background:#fff0ed; display:flex; align-items:center; justify-content:center;"><span style="font-family:'Space Grotesk'; font-size:44px; font-weight:700; color:#ff7e67;">K</span></div><div style="font-family:'Space Grotesk'; font-size:36px; font-weight:700; color:#1b1c1a; margin-top:12px;">Koality</div><div style="font-family:'Space Grotesk'; font-size:10px; text-transform:uppercase; letter-spacing:0.3em; color:#6e7880; margin-top:4px;">Ingenierie logicielle</div></div>`,
+        eyebrow: "Structure",
+        title: "Koality, co-fondateur",
+        body: "Koality est la societe d'ingenierie logicielle que je co-anime. On y developpe des outils metier pour des clients en production depuis plusieurs annees, sur des sujets aussi varies que la gestion agricole, la prospection commerciale automatisee ou la migration de systemes herites. Les trois cas 'en vrai' que tu vois dans mon approche viennent de la : ce sont des projets Koality, anonymises par respect pour les clients.\n\nLe lab que tu parcours ici est au contraire un travail personnel, que je mene en dehors des missions Koality. La frontiere est claire et volontaire : d'un cote des projets clients avec leurs contraintes, de l'autre un terrain de jeu ou je peux tester des idees qui ne rentreraient jamais dans un devis.",
+        tags: ["Co-fondateur", "Ingenierie logicielle", "Production"],
+      },
+      contact: {
+        visual: `<div style="display:flex; flex-direction:column; align-items:center;"><span class="material-symbols-outlined" style="font-size:72px; color:#1b1c1a;">mail</span><div style="font-family:'Space Grotesk'; font-size:24px; font-weight:700; color:#1b1c1a; margin-top:12px;">fabien@koality.fr</div></div>`,
+        eyebrow: "Contact",
+        title: "Parlons",
+        body: "Le mieux pour me joindre, c'est l'email. J'y reponds en general sous 48h, plus vite si le sujet est clair. Decris en deux paragraphes ce qui t'amene : le contexte, ce que tu as deja essaye, ce que tu cherches. C'est toujours plus efficace qu'un rendez-vous a froid.\n\nSi on doit se parler, je prefere un premier echange ecrit avant de caler un creneau : ca me permet d'arriver prepare et de te faire gagner du temps. Les sollicitations de demarchage commercial, merci de passer votre chemin, je ne reponds pas.",
+        tags: ["Email", "Reponse sous 48h", "Pas de prospection"],
+        links: [
+          { label: "Ecrire un email", href: "mailto:fabien@koality.fr", primary: true, icon: "mail" },
+          { label: "LinkedIn", href: "https://www.linkedin.com/in/fabiencanu/", primary: false, icon: "link" },
+          { label: "GitHub", href: "https://github.com/fabiencanu", primary: false, icon: "code" },
+        ],
+      },
+    };
+
+    function openModal(slug) {
+      const p = projectMap[slug];
+      if (!p) return;
+
+      const colors = colorMap[p.tagColor] || colorMap.cyan;
+
+      // Media
+      let mediaHtml = "";
+      if (p.media && p.media.length > 0) {
+        const m = p.media[0];
+        if (m.type === "gif" || m.type === "screenshot" || m.type === "diagram" || m.type === "split" || m.type === "mockup") {
+          mediaHtml = `<img src="${m.src}" alt="${p.name}" loading="lazy" />`;
+        } else if (m.type === "video") {
+          mediaHtml = `<div class="video-wrapper" style="position:relative;">
+            <video src="${m.src}" muted loop playsinline preload="metadata" style="border-radius:0.5rem;"></video>
+            <button class="play-btn" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:64px; height:64px; border-radius:50%; background:rgba(27,28,26,0.7); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; transition: opacity 200ms;">
+              <span class="material-symbols-outlined" style="font-size:32px; color:#fff; margin-left:3px;">play_arrow</span>
+            </button>
+          </div>`;
+        }
+        if (m.caption) {
+          mediaHtml += `<div class="modal-caption-bar" data-toggle-drawer>
+            <span class="caption-text">${m.caption}</span>
+            <span class="material-symbols-outlined">chevron_right</span>
+          </div>`;
+        }
+      } else if (p.thumbnail) {
+        mediaHtml = `<img src="${p.thumbnail}" alt="${p.name}" loading="lazy" />`;
+      } else {
+        mediaHtml = `<div style="display:flex; align-items:center; justify-content:center; width:100%; height:200px; font-family:'Space Grotesk'; font-size:48px; font-weight:700; color:#e4e2de;">${p.name.substring(0,2)}</div>`;
+      }
+      modalMedia.innerHTML = mediaHtml;
+
+      // Info
+      const tags = p.tags.map(t =>
+        `<span style="background:${colors.bg}; color:${colors.accent}; padding:4px 10px; border-radius:4px; font-family:'Space Grotesk'; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">${t}</span>`
+      ).join("");
+
+      const techStack = p.techStack.map(t =>
+        `<span style="background:#f0eeea; padding:3px 8px; border-radius:4px; font-family:'Space Grotesk'; font-size:10px; font-weight:500; color:#6e7880; letter-spacing:0.04em;">${t}</span>`
+      ).join("");
+
+      let links = "";
+      if (p.tryUrl) {
+        links += `<a href="${p.tryUrl}" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:6px; background:${colors.accent}; color:#fff; padding:10px 20px; border-radius:6px; font-family:'Space Grotesk'; font-size:13px; font-weight:600; text-decoration:none; letter-spacing:0.03em;">${p.tryLabel || "Essayer"} <span style="font-size:16px;">→</span></a>`;
+      }
+
+      modalInfo.innerHTML = `
+        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:16px;">${tags}</div>
+        <h2 style="font-family:'Space Grotesk'; font-size:36px; font-weight:700; color:#1b1c1a; line-height:1; margin-bottom:12px;">${p.name}</h2>
+        <p style="font-family:Manrope; font-size:15px; color:#3e484f; line-height:1.6; margin-bottom:20px;">${p.about}</p>
+        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:24px;">${techStack}</div>
+        <div style="display:flex; gap:16px; align-items:center;">${links}</div>
+      `;
+
+      modalInner.classList.remove("info-layout");
+      modal.classList.add("active");
+      modalInner.classList.remove("expanded");
+      document.body.style.overflow = "hidden";
+
+      // Wire up play button and expand behavior
+      requestAnimationFrame(() => {
+        const video = modalMedia.querySelector("video");
+        const playBtn = modalMedia.querySelector(".play-btn");
+        if (video && playBtn) {
+          playBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            video.play();
+            playBtn.style.opacity = "0";
+            playBtn.style.pointerEvents = "none";
+            modalInner.classList.add("expanded");
+          });
+          video.addEventListener("click", (e) => {
+            e.stopPropagation();
+            if (video.paused) {
+              video.play();
+              playBtn.style.opacity = "0";
+              playBtn.style.pointerEvents = "none";
+              modalInner.classList.add("expanded");
+            } else {
+              video.pause();
+              playBtn.style.opacity = "1";
+              playBtn.style.pointerEvents = "auto";
+              modalInner.classList.remove("expanded");
+            }
+          });
+        }
+        // Click on image/gif to expand
+        const img = modalMedia.querySelector("img");
+        if (img) {
+          img.addEventListener("click", (e) => {
+            e.stopPropagation();
+            modalInner.classList.toggle("expanded");
+          });
+        }
+      });
+    }
+
+    function openInfoModal(id) {
+      const info = infoBlocks[id];
+      if (!info) return;
+
+      // Visual band (header)
+      modalMedia.innerHTML = `<div style="display:flex; flex-direction:column; align-items:center; justify-content:center; width:100%; height:100%; text-align:center;">${info.visual}</div>`;
+
+      // Tags
+      const tags = (info.tags || []).map(t =>
+        `<span style="background:#f5f3ef; color:#3e484f; padding:5px 11px; border-radius:4px; font-family:'Space Grotesk'; font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.08em;">${t}</span>`
+      ).join("");
+
+      // Links (contact)
+      let linksHtml = "";
+      if (info.links && info.links.length) {
+        linksHtml = '<div style="display:flex; flex-direction:column; gap:8px; margin-top:24px;">' + info.links.map(l => {
+          const bg = l.primary ? "#1b1c1a" : "transparent";
+          const color = l.primary ? "#fff" : "#1b1c1a";
+          const border = l.primary ? "1px solid #1b1c1a" : "1px solid #e4e2de";
+          return `<a href="${l.href}" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:10px; background:${bg}; color:${color}; border:${border}; padding:12px 18px; border-radius:6px; font-family:'Space Grotesk'; font-size:13px; font-weight:600; text-decoration:none; letter-spacing:0.02em;"><span class="material-symbols-outlined" style="font-size:18px;">${l.icon}</span>${l.label}</a>`;
+        }).join("") + "</div>";
+      }
+
+      // Body with paragraph splitting
+      const bodyHtml = info.body.split("\n\n").map(p =>
+        `<p style="font-family:Manrope; font-size:15px; color:#3e484f; line-height:1.7; margin-bottom:16px;">${p}</p>`
+      ).join("");
+
+      modalInfo.innerHTML = `
+        <div class="info-body" style="margin:0 auto;">
+          <span style="font-family:'Space Grotesk'; font-size:10px; text-transform:uppercase; letter-spacing:0.3em; color:#6e7880; display:block; margin-bottom:10px;">${info.eyebrow}</span>
+          <h2 style="font-family:'Space Grotesk'; font-size:36px; font-weight:700; color:#1b1c1a; line-height:1.05; margin-bottom:24px; letter-spacing:-0.01em;">${info.title}</h2>
+          ${bodyHtml}
+          <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:20px;">${tags}</div>
+          ${linksHtml}
+        </div>
+      `;
+
+      modalInner.classList.add("info-layout");
+      modalInner.classList.remove("expanded");
+      modal.classList.add("active");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeModal() {
+      modal.classList.remove("active");
+      modalInner.classList.remove("expanded");
+      modalInner.classList.remove("info-layout");
+      document.body.style.overflow = "";
+      // Stop any playing video
+      const video = modalMedia.querySelector("video");
+      if (video) { video.pause(); video.currentTime = 0; }
+    }
+
+    // Toggle drawer via button
+    modalDrawerToggle.addEventListener("click", () => {
+      modalInner.classList.toggle("expanded");
+    });
+
+    // Toggle drawer via caption bar (delegated)
+    modalMedia.addEventListener("click", (e) => {
+      const captionBar = e.target.closest("[data-toggle-drawer]");
+      if (captionBar) {
+        e.stopPropagation();
+        modalInner.classList.toggle("expanded");
+      }
+    });
+
+    // Click handlers
+    document.querySelectorAll("[data-slug]").forEach(tile => {
+      tile.addEventListener("click", () => openModal(tile.dataset.slug));
+    });
+    document.querySelectorAll("[data-info]").forEach(tile => {
+      tile.addEventListener("click", (e) => {
+        e.stopPropagation();
+        openInfoModal(tile.dataset.info);
+      });
+    });
+
+    modalClose.addEventListener("click", closeModal);
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) closeModal();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeModal();
+    });
+  </script>
 </Layout>
