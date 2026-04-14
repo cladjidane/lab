@@ -73,7 +73,7 @@ export const projects: Project[] = [
     tier: 1,
     thumbnail: "/images/jaja-thumb.webp",
     media: [
-      { type: "video", src: "/videos/jaja.mp4", caption: "Jaja en action : dialogue vocal, dispatch d'agents, mission control" },
+      { type: "video", src: "/videos/jaja.mp4", poster: "/images/jaja-poster.webp", caption: "Jaja en action : dialogue vocal, dispatch d'agents, mission control" },
     ],
   },
   {
@@ -92,6 +92,7 @@ export const projects: Project[] = [
       {
         type: "video",
         src: "/videos/oignons.mp4",
+        poster: "/images/oignons-poster.webp",
         caption: "IA dans une app métier : exemple de l'AOP Oignon de Roscoff",
       },
     ],
@@ -112,7 +113,7 @@ export const projects: Project[] = [
     tryLabel: "Voir la plateforme",
     thumbnail: "/images/oligae-thumb.webp",
     media: [
-      { type: "video", src: "/videos/oligae.mp4", caption: "Vidéo de présentation du SaaS Oligae" },
+      { type: "video", src: "/videos/oligae.mp4", poster: "/images/oligae-poster.webp", caption: "Vidéo de présentation du SaaS Oligae" },
     ],
   },
   {
@@ -127,7 +128,7 @@ export const projects: Project[] = [
     tagColor: "cyan",
     tier: 1,
     media: [
-      { type: "video", src: "/videos/uptake.mp4", caption: "Uptake en action : un article devient une session d'apprentissage structurée" },
+      { type: "video", src: "/videos/uptake.mp4", poster: "/images/uptake-poster.webp", caption: "Uptake en action : un article devient une session d'apprentissage structurée" },
     ],
   },
   {
@@ -144,7 +145,7 @@ export const projects: Project[] = [
     tryUrl: "https://carousel.laboweb.pw",
     tryLabel: "Essayer",
     media: [
-      { type: "video", src: "/videos/karousel.mp4", caption: "Génération d'un carousel LinkedIn en temps réel" },
+      { type: "video", src: "/videos/karousel.mp4", poster: "/images/karousel-poster.webp", caption: "Génération d'un carousel LinkedIn en temps réel" },
     ],
   },
   {
@@ -186,7 +187,7 @@ export const projects: Project[] = [
     tagColor: "cyan",
     tier: 2,
     media: [
-      { type: "video", src: "/videos/skeletonify.mp4", caption: "Quatre agents IA qui anonymisent une capture en temps réel" },
+      { type: "video", src: "/videos/skeletonify.mp4", poster: "/images/skeletonify-poster.webp", caption: "Quatre agents IA qui anonymisent une capture en temps réel" },
     ],
   },
   {
@@ -217,7 +218,7 @@ export const projects: Project[] = [
     tagColor: "cyan",
     tier: 2,
     media: [
-      { type: "video", src: "/videos/epicycle-draw.mp4", caption: "Epicycle Draw : une image devient un tracé d'épicycles de Fourier" },
+      { type: "video", src: "/videos/epicycle-draw.mp4", poster: "/images/epicycle-draw-poster.webp", caption: "Epicycle Draw : une image devient un tracé d'épicycles de Fourier" },
     ],
   },
   {
@@ -232,7 +233,7 @@ export const projects: Project[] = [
     tagColor: "amber",
     tier: 2,
     media: [
-      { type: "video", src: "/videos/claude-analysis.mp4", caption: "Claude Analysis : disséquer le trafic d'une session Claude Code" },
+      { type: "video", src: "/videos/claude-analysis.mp4", poster: "/images/claude-analysis-poster.webp", caption: "Claude Analysis : disséquer le trafic d'une session Claude Code" },
     ],
   },
 ];

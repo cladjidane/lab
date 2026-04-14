@@ -359,14 +359,15 @@ const dictWave = [4, 8, 5, 11, 3, 7, 9, 5];
       <span class="font-headline text-[8px] uppercase tracking-[0.15em] text-on-surface-variant mt-0.5">Communauté IA</span>
     </div>
 
-    <!-- Approche (c5 r5) -->
+    <!-- Fabien Canu bio (c5 r5) -->
     <div
-      class="bento-tile bento-bg-cyan grain-paper flex flex-col items-center justify-center text-center p-3 overflow-hidden"
+      class="bento-tile bg-surface-container grain-paper flex flex-col items-center justify-center text-center p-3 overflow-hidden"
       style="grid-column: 5; grid-row: 5;"
-      data-info="approche"
+      data-info="fabien"
     >
-      <span class="font-headline text-[7px] uppercase tracking-[0.25em] text-primary mb-1">L'approche</span>
-      <p class="font-headline text-[10px] font-semibold text-on-surface leading-tight">Des outils.<br />Pas des demos.</p>
+      <span class="material-symbols-outlined text-xl text-on-surface mb-0.5">person</span>
+      <span class="font-headline text-[11px] font-bold text-on-surface leading-tight">Fabien<br />Canu</span>
+      <span class="font-headline text-[8px] uppercase tracking-[0.2em] text-on-surface-variant mt-0.5">À propos</span>
     </div>
 
     <!-- Koality (c6 r5) -->
@@ -454,12 +455,17 @@ const dictWave = [4, 8, 5, 11, 3, 7, 9, 5];
         body: "**Un terrain d'essai pour l'IA appliquée.** 11 projets, un objectif : mesurer ce que la technologie change vraiment dans un contexte métier.\n\n## Le fil\n\nVoix, transcription, agents, RAG, multi-LLM, orchestration. Des prototypes aux SaaS en production, chaque projet teste un usage concret.\n\n## Et ensuite\n\nCe qui passe l'épreuve du terrain nourrit les offres Koality côté clients PME : **Expertise Avant-Projet**, formation.",
         tags: ["Terrain d'essai", "IA appliquée", "PME"],
       },
-      approche: {
-        visual: `<div style="font-family:'Space Grotesk'; font-size:44px; font-weight:700; color:#1b1c1a; line-height:0.95; text-align:center;">Pas des démos.<br/><span style="color:#ff7e67;">Des outils.</span></div>`,
-        eyebrow: "L'approche",
-        title: "Ce qui guide le choix",
-        body: "Une démo fonctionne une fois, devant un public préparé. **Un outil fonctionne tous les jours**, même quand personne ne regarde. La différence est immense : une démo peut masquer ses angles morts, un outil les révèle au premier usage réel.\n\n## Ce que cela implique\n\nMoins de fioritures, plus de tests en conditions réelles. Moins de *wow*, plus de *20 minutes gagnées par jour*. Les arbitrages se font toujours du côté de l'usage, jamais du côté du pitch.\n\n## Et l'IA dans tout ça\n\nL'IA est un levier, pas un sujet. Elle sert à faire passer un outil de *bien* à *excellent*, elle ne remplace pas le travail de conception. Le discernement sur **quoi construire** reste humain ; la vitesse d'exécution, elle, a changé d'échelle.",
-        tags: ["Outil > démo", "Simple > clever", "Usage > pitch"],
+      fabien: {
+        visual: `<div style="display:flex; flex-direction:column; align-items:center;"><div style="width:120px; height:120px; border-radius:20px; background:#1b1c1a; display:flex; align-items:center; justify-content:center; position:relative;"><span style="font-family:'Space Grotesk'; font-size:60px; font-weight:700; color:#fff; letter-spacing:-2px;">FC</span><div style="position:absolute; bottom:10px; right:10px; width:8px; height:8px; border-radius:50%; background:#00d4ff;"></div></div><div style="font-family:'Space Grotesk'; font-size:30px; font-weight:700; color:#1b1c1a; margin-top:14px;">Fabien Canu</div><div style="font-family:'Space Grotesk'; font-size:10px; text-transform:uppercase; letter-spacing:0.3em; color:#6e7880; margin-top:4px;">Concepteur IA · Brest</div></div>`,
+        eyebrow: "À propos",
+        title: "Fabien Canu",
+        body: "Concepteur et stratège produit. **25 ans de développement web**, dont les douze dernières à co-diriger Koality. Aujourd'hui, mon rôle consiste moins à écrire du code qu'à **décider quoi construire**, et à utiliser l'IA comme levier pour accélérer ce qu'il vaut la peine de tester.\n\n## Ce que l'IA a changé\n\nLa vraie valeur accumulée en 25 ans n'est pas la maîtrise technique pointue : c'est **la vision large qui évite de construire au mauvais endroit**. L'IA accélère l'exécution, elle ne décide pas ce qui mérite d'exister. Le discernement sur **quoi construire** reste profondément humain ; la vitesse, elle, a changé d'échelle.\n\n## Comment je travaille\n\nDes outils plutôt que des démos. Une démo fonctionne une fois, devant un public préparé ; **un outil fonctionne tous les jours**, même quand personne ne regarde. Les arbitrages se font du côté de l'usage réel, pas du pitch. Prototype rapide, retour terrain, décision.\n\n## Hors écran\n\nBasé à Brest, actif dans la communauté Context Collective. Conférencier bénévole sur l'IA appliquée et Claude Code, avec un angle pédagogique : **démystifier plutôt qu'impressionner**.",
+        tags: ["25 ans de code", "Concepteur & stratège", "Co-fondateur Koality", "Brest"],
+        links: [
+          { label: "LinkedIn", href: "https://www.linkedin.com/in/fabiencanu/", primary: true, icon: "link" },
+          { label: "koality.fr", href: "https://koality.fr", primary: false, icon: "language" },
+          { label: "GitHub", href: "https://github.com/cladjidane", primary: false, icon: "code" },
+        ],
       },
       "ai-stats": {
         visual: `<div style="font-family:'Space Grotesk'; font-size:140px; font-weight:700; color:#1b1c1a; line-height:0.8;"><span style="font-size:80px; color:#00d4ff; margin-right:8px;">~</span>20</div><div style="font-family:'Space Grotesk'; font-size:10px; text-transform:uppercase; letter-spacing:0.3em; color:#6e7880; margin-top:8px;">produits IA · 2025-2026</div>`,
