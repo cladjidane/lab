@@ -61,91 +61,86 @@ const hasVideo = !hasMedia;
     <!-- Media showcase -->
     <section class="mb-20">
       {hasMedia ? (
-        <div class:list={[project.media!.length > 1 ? "space-y-6" : ""]}>
-          {project.media!.map((m) => (
-            <>
-              {/* --- GIF : auto-play loop, rounded, no controls --- */}
+        <div class="media-carousel">
+          {project.media!.map((m, i) => (
+            <div class:list={["media-slide", i > 0 ? "hidden" : ""]} data-slide={i} data-caption={m.caption || ""}>
+              {/* --- GIF --- */}
               {m.type === "gif" && (
-                <figure class="rounded-2xl overflow-hidden bg-surface-container-high">
-                  <img src={m.src} alt={m.caption || project.name} class="w-full block" loading="lazy"
-                    onerror="this.parentElement.innerHTML='<div class=\'aspect-video flex items-center justify-center\'><p class=\'font-headline text-sm uppercase tracking-widest text-on-surface-variant/40\'>Media a venir</p></div>'" />
-                  {m.caption && (
-                    <figcaption class="px-6 py-3 text-sm font-body text-on-surface-variant/60">{m.caption}</figcaption>
-                  )}
+                <figure class="rounded-2xl overflow-hidden bg-surface-container-high cursor-zoom-in" data-lightbox={m.src} data-lightbox-type="image">
+                  <img src={m.src} alt={m.caption || project.name} class="w-full block" loading="lazy" />
                 </figure>
               )}
 
-              {/* --- VIDEO : auto-play muted loop --- */}
+              {/* --- VIDEO --- */}
               {m.type === "video" && (
-                <figure class="rounded-2xl overflow-hidden bg-surface-container-high">
-                  <video class="w-full block" autoplay muted loop playsinline>
+                <figure class="rounded-2xl overflow-hidden bg-surface-container-high cursor-zoom-in" data-lightbox={m.src} data-lightbox-type="video">
+                  <video class="w-full block" autoplay muted loop playsinline poster={m.poster}>
                     <source src={m.src} type="video/mp4" />
                   </video>
-                  {m.caption && (
-                    <figcaption class="px-6 py-3 text-sm font-body text-on-surface-variant/60">{m.caption}</figcaption>
-                  )}
                 </figure>
               )}
 
-              {/* --- SPLIT : side-by-side with center divider --- */}
+              {/* --- SPLIT --- */}
               {m.type === "split" && (
-                <figure class="rounded-2xl overflow-hidden bg-on-surface">
+                <figure class="rounded-2xl overflow-hidden bg-on-surface cursor-zoom-in" data-lightbox={m.src} data-lightbox-type="image">
                   <div class="relative">
-                    <img src={m.src} alt={m.caption || project.name} class="w-full block" loading="lazy"
-                      onerror="this.parentElement.parentElement.innerHTML='<div class=\'aspect-video flex items-center justify-center bg-surface-container-high\'><p class=\'font-headline text-sm uppercase tracking-widest text-on-surface-variant/40\'>Media a venir</p></div>'" />
+                    <img src={m.src} alt={m.caption || project.name} class="w-full block" loading="lazy" />
                     <div class="absolute inset-y-0 left-1/2 w-px bg-white/30"></div>
                     <div class="absolute top-4 left-4 bg-black/50 text-white text-[11px] font-headline font-bold uppercase tracking-wider px-3 py-1 rounded">Moderne</div>
                     <div class="absolute top-4 right-4 bg-black/50 text-white text-[11px] font-headline font-bold uppercase tracking-wider px-3 py-1 rounded">XIXe</div>
                   </div>
-                  {m.caption && (
-                    <figcaption class="px-6 py-3 text-sm font-body text-white/60">{m.caption}</figcaption>
-                  )}
                 </figure>
               )}
 
-              {/* --- MOCKUP : phone frame around the image --- */}
+              {/* --- MOCKUP --- */}
               {m.type === "mockup" && (
-                <figure class="py-8">
+                <figure class="py-8 cursor-zoom-in" data-lightbox={m.src} data-lightbox-type="image">
                   <div class="mx-auto max-w-sm">
                     <div class="bg-on-surface rounded-[3rem] p-3 shadow-2xl">
                       <div class="bg-black rounded-[2.5rem] overflow-hidden relative">
                         <div class="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-7 bg-on-surface rounded-b-2xl z-10"></div>
-                        <img src={m.src} alt={m.caption || project.name} class="w-full block" loading="lazy"
-                          onerror="this.parentElement.innerHTML='<div class=\'aspect-[9/19.5] flex items-center justify-center bg-surface-container-high\'><p class=\'font-headline text-xs uppercase tracking-widest text-on-surface-variant/40\'>Media a venir</p></div>'" />
+                        <img src={m.src} alt={m.caption || project.name} class="w-full block" loading="lazy" />
                       </div>
                     </div>
                   </div>
-                  {m.caption && (
-                    <figcaption class="text-center mt-4 text-sm font-body text-on-surface-variant/60">{m.caption}</figcaption>
-                  )}
                 </figure>
               )}
 
-              {/* --- DIAGRAM : full-width, lighter background, subtle border --- */}
+              {/* --- DIAGRAM --- */}
               {m.type === "diagram" && (
-                <figure class="rounded-2xl overflow-hidden bg-surface-container-low border border-outline-variant/10">
+                <figure class="rounded-2xl overflow-hidden bg-surface-container-low border border-outline-variant/10 cursor-zoom-in" data-lightbox={m.src} data-lightbox-type="image">
                   <div class="p-4">
-                    <img src={m.src} alt={m.caption || project.name} class="w-full block rounded-xl" loading="lazy"
-                      onerror="this.parentElement.parentElement.innerHTML='<div class=\'aspect-video flex items-center justify-center\'><p class=\'font-headline text-sm uppercase tracking-widest text-on-surface-variant/40\'>Media a venir</p></div>'" />
+                    <img src={m.src} alt={m.caption || project.name} class="w-full block rounded-xl" loading="lazy" />
                   </div>
-                  {m.caption && (
-                    <figcaption class="px-6 pb-4 text-sm font-body text-on-surface-variant/60">{m.caption}</figcaption>
-                  )}
                 </figure>
               )}
 
-              {/* --- SCREENSHOT : standard, clean --- */}
+              {/* --- SCREENSHOT --- */}
               {m.type === "screenshot" && (
-                <figure class="rounded-2xl overflow-hidden bg-surface-container-high shadow-lg">
-                  <img src={m.src} alt={m.caption || project.name} class="w-full block" loading="lazy"
-                    onerror="this.parentElement.innerHTML='<div class=\'aspect-video flex items-center justify-center\'><p class=\'font-headline text-sm uppercase tracking-widest text-on-surface-variant/40\'>Media a venir</p></div>'" />
-                  {m.caption && (
-                    <figcaption class="px-6 py-3 text-sm font-body text-on-surface-variant/60">{m.caption}</figcaption>
-                  )}
+                <figure class="rounded-2xl overflow-hidden bg-surface-container-high shadow-lg cursor-zoom-in" data-lightbox={m.src} data-lightbox-type="image">
+                  <img src={m.src} alt={m.caption || project.name} class="w-full block" loading="lazy" />
                 </figure>
               )}
-            </>
+            </div>
           ))}
+
+          {/* Controls bar: caption + counter + arrows */}
+          {project.media!.length > 1 && (
+            <div class="flex items-center justify-between mt-5 gap-4">
+              <p class="carousel-caption font-body text-sm text-on-surface-variant min-w-0 truncate">
+                {project.media![0].caption || ""}
+              </p>
+              <div class="flex items-center gap-2 shrink-0">
+                <span class="carousel-counter font-headline text-sm text-on-surface-variant tracking-wider tabular-nums px-2">1 / {project.media!.length}</span>
+                <button class="carousel-prev w-10 h-10 rounded-full bg-on-surface text-surface flex items-center justify-center hover:bg-on-surface/80 transition-colors" aria-label="Précédent">
+                  <span class="material-symbols-outlined text-xl">chevron_left</span>
+                </button>
+                <button class="carousel-next w-10 h-10 rounded-full bg-on-surface text-surface flex items-center justify-center hover:bg-on-surface/80 transition-colors" aria-label="Suivant">
+                  <span class="material-symbols-outlined text-xl">chevron_right</span>
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       ) : (
         <div class="rounded-2xl overflow-hidden bg-surface-container-high aspect-video flex items-center justify-center relative group" id="video-container">
@@ -187,6 +182,102 @@ const hasVideo = !hasMedia;
         }
       </script>
     )}
+
+    <script>
+      // Carousel
+      const carousel = document.querySelector('.media-carousel');
+      if (carousel) {
+        const slides = carousel.querySelectorAll<HTMLElement>('.media-slide');
+        const captionEl = carousel.querySelector<HTMLElement>('.carousel-caption');
+        const counterEl = carousel.querySelector<HTMLElement>('.carousel-counter');
+        const prevBtn = carousel.querySelector('.carousel-prev');
+        const nextBtn = carousel.querySelector('.carousel-next');
+        let current = 0;
+
+        function goTo(index: number) {
+          slides[current].classList.add('hidden');
+          current = (index + slides.length) % slides.length;
+          slides[current].classList.remove('hidden');
+          if (captionEl) captionEl.textContent = slides[current].dataset.caption || '';
+          if (counterEl) counterEl.textContent = `${current + 1} / ${slides.length}`;
+        }
+
+        prevBtn?.addEventListener('click', () => goTo(current - 1));
+        nextBtn?.addEventListener('click', () => goTo(current + 1));
+      }
+
+      // Lightbox
+      const lightbox = document.getElementById('media-lightbox') as HTMLElement;
+      const lbContent = document.getElementById('lightbox-content') as HTMLElement;
+      const lbCaption = document.getElementById('lightbox-caption') as HTMLElement;
+      const lbClose = document.getElementById('lightbox-close') as HTMLElement;
+      const lbPrev = document.getElementById('lightbox-prev') as HTMLElement;
+      const lbNext = document.getElementById('lightbox-next') as HTMLElement;
+      const lbCounter = document.getElementById('lightbox-counter') as HTMLElement;
+
+      if (lightbox) {
+        const figures = document.querySelectorAll<HTMLElement>('figure[data-lightbox]');
+        const items = Array.from(figures).map(f => ({
+          src: f.dataset.lightbox!,
+          type: f.dataset.lightboxType || 'image',
+          caption: f.closest('.media-slide')?.nextElementSibling?.textContent || '',
+        }));
+
+        let lbCurrent = 0;
+        const total = items.length;
+
+        function openLightbox(index: number) {
+          lbCurrent = index;
+          renderLightbox();
+          lightbox.classList.remove('hidden');
+          document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+          lightbox.classList.add('hidden');
+          document.body.style.overflow = '';
+          // Pause any playing video
+          const vid = lbContent.querySelector('video');
+          if (vid) vid.pause();
+        }
+
+        function renderLightbox() {
+          const item = items[lbCurrent];
+          if (item.type === 'video') {
+            lbContent.innerHTML = `<video class="max-w-full max-h-[85vh] rounded-xl" autoplay loop muted playsinline controls><source src="${item.src}" type="video/mp4" /></video>`;
+          } else {
+            lbContent.innerHTML = `<img src="${item.src}" alt="" class="max-w-full max-h-[85vh] rounded-xl object-contain" />`;
+          }
+          if (lbCounter) lbCounter.textContent = `${lbCurrent + 1} / ${total}`;
+          // Show/hide arrows
+          if (lbPrev) lbPrev.style.display = total > 1 ? '' : 'none';
+          if (lbNext) lbNext.style.display = total > 1 ? '' : 'none';
+          if (lbCounter) lbCounter.style.display = total > 1 ? '' : 'none';
+        }
+
+        // Click on figure to open
+        figures.forEach((fig, i) => {
+          fig.addEventListener('click', () => openLightbox(i));
+        });
+
+        lbClose?.addEventListener('click', closeLightbox);
+        lbPrev?.addEventListener('click', () => { lbCurrent = (lbCurrent - 1 + total) % total; renderLightbox(); });
+        lbNext?.addEventListener('click', () => { lbCurrent = (lbCurrent + 1) % total; renderLightbox(); });
+
+        // Close on backdrop click
+        lightbox.addEventListener('click', (e) => {
+          if (e.target === lightbox) closeLightbox();
+        });
+
+        // Keyboard
+        document.addEventListener('keydown', (e) => {
+          if (lightbox.classList.contains('hidden')) return;
+          if (e.key === 'Escape') closeLightbox();
+          if (e.key === 'ArrowLeft' && total > 1) { lbCurrent = (lbCurrent - 1 + total) % total; renderLightbox(); }
+          if (e.key === 'ArrowRight' && total > 1) { lbCurrent = (lbCurrent + 1) % total; renderLightbox(); }
+        });
+      }
+    </script>
 
     <!-- About + Tech -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-16 mb-20">
@@ -246,6 +337,21 @@ const hasVideo = !hasMedia;
       ) : <div />}
     </nav>
   </article>
+
+  <!-- Lightbox modal -->
+  <div id="media-lightbox" class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4 md:p-8">
+    <button id="lightbox-close" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors z-10" aria-label="Fermer">
+      <span class="material-symbols-outlined text-xl">close</span>
+    </button>
+    <button id="lightbox-prev" class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors z-10" aria-label="Précédent">
+      <span class="material-symbols-outlined text-xl">chevron_left</span>
+    </button>
+    <button id="lightbox-next" class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors z-10" aria-label="Suivant">
+      <span class="material-symbols-outlined text-xl">chevron_right</span>
+    </button>
+    <div id="lightbox-content" class="flex items-center justify-center"></div>
+    <span id="lightbox-counter" class="absolute bottom-4 left-1/2 -translate-x-1/2 font-headline text-xs text-white/50 tracking-wider tabular-nums"></span>
+  </div>
 
   <Footer />
 </Layout>

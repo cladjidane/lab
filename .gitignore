@@ -22,3 +22,8 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# raw media sources (pas commité : seuls les finaux en public/images et public/videos)
+public/gif/
+public/videos/*.mp3
+public/videos/*.mov
