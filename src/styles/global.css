@@ -865,19 +865,30 @@
     display: none;
   }
 
-  /* Backdrop : pousse le modal vers le bas pour degager le haut pour les contrôles */
+  /* Backdrop : pousse le modal vers le bas, padding safe-area pour iPhone */
   .modal-backdrop {
     align-items: flex-end;
-    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+    padding-top: calc(env(safe-area-inset-top) + 3.5rem);
+    padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+    padding-left: 0;
+    padding-right: 0;
   }
 
-  /* Modal : stack vertical, hauteur reduite, contrôles en haut */
+  /* Modal : hauteur dynamique qui exclut safe-areas + zone contrôles haut */
   .modal-content {
     grid-template-columns: 1fr !important;
     grid-template-rows: auto 1fr;
     width: 94vw;
-    height: 88vh;
-    max-height: 88vh;
+    height: auto;
+    max-height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 4.5rem);
+    flex: 1 1 auto;
+  }
+
+  /* info-layout : meme calc que les project modals */
+  .modal-content.info-layout {
+    width: 94vw !important;
+    height: auto !important;
+    max-height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 4.5rem) !important;
   }
 
   .modal-media {
@@ -910,13 +921,6 @@
 
   .modal-info-header h2 {
     font-size: 28px !important;
-  }
-
-  /* Info layout modal : même hauteur que les project modals */
-  .modal-content.info-layout {
-    width: 94vw;
-    height: 88vh;
-    max-height: 88vh;
   }
 
   .modal-content.info-layout .modal-info {
@@ -957,13 +961,13 @@
     display: none !important;
   }
 
-  /* Close button : au centre en HAUT, entre prev/next */
+  /* Close button : au centre en HAUT, entre prev/next, respecte safe-area notch */
   .modal-close-outside {
     display: flex;
     bottom: auto;
     right: auto;
     left: 50%;
-    top: max(1rem, env(safe-area-inset-top));
+    top: calc(env(safe-area-inset-top) + 0.75rem);
     transform: translateX(-50%);
     width: 2rem;
     height: 2rem;
@@ -976,7 +980,7 @@
   /* Nav buttons : ghost icons, même ligne que close en haut */
   .modal-nav-btn {
     bottom: auto !important;
-    top: max(1rem, env(safe-area-inset-top)) !important;
+    top: calc(env(safe-area-inset-top) + 0.75rem) !important;
     transform: none !important;
     width: 2rem;
     height: 2rem;
