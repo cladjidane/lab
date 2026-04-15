@@ -861,11 +861,16 @@
   }
 
   /* Font sizes réduits pour titres de hero */
-  .bento-tile[data-slug="pai"] h2 { font-size: 56px !important; }
-  .bento-tile[data-slug="jaja"] h2 { font-size: 80px !important; }
+  .bento-tile[data-slug="pai"] h2 { font-size: 42px !important; }
+  .bento-tile[data-slug="jaja"] h2 { font-size: 56px !important; }
   .bento-tile[data-slug="jaja"] .absolute { display: none !important; }
-  .bento-tile[data-slug="oignon-roscoff-aop"] h2 { font-size: 32px !important; }
-  .bento-tile[data-slug="uptake"] h2 { font-size: 44px !important; }
+  .bento-tile[data-slug="oignon-roscoff-aop"] h2 { font-size: 24px !important; }
+  .bento-tile[data-slug="uptake"] h2 { font-size: 34px !important; }
+
+  /* Titres moyens (Oligae, Karousel, Dictaphone) : un cran en dessous */
+  .bento-tile[data-slug="oligae"] h2 { font-size: 22px !important; }
+  .bento-tile[data-slug="karousel"] h2 { font-size: 20px !important; }
+  .bento-tile[data-slug="dictaphone"] h2 { font-size: 20px !important; }
 
   /* Bento pattern pseudo-element caché au mobile (pas de drawer) */
   .modal-content:not(.info-layout)::after {
