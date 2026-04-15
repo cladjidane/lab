@@ -881,21 +881,21 @@
     padding-right: 0;
   }
 
-  /* Modal : hauteur dynamique qui exclut safe-areas + zone contrôles haut */
+  /* Modal : hauteur fixe identique pour toutes les modales
+     (viewport dynamique moins safe-areas moins zone contrôles haut) */
   .modal-content {
     grid-template-columns: 1fr !important;
     grid-template-rows: auto 1fr;
     width: 94vw;
-    height: auto;
-    max-height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 4.5rem);
-    flex: 1 1 auto;
+    height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 4.5rem) !important;
+    max-height: none !important;
   }
 
-  /* info-layout : meme calc que les project modals */
+  /* info-layout : meme hauteur forcée que les project modals */
   .modal-content.info-layout {
     width: 94vw !important;
-    height: auto !important;
-    max-height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 4.5rem) !important;
+    height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 4.5rem) !important;
+    max-height: none !important;
   }
 
   .modal-media {
