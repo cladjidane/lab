@@ -9,8 +9,8 @@ interface Props {
 }
 
 const {
-  title = "Fabien Canu — FC Lab · Portfolio IA",
-  description = "Portfolio de Fabien Canu : 25 ans de code, 20 produits IA en 18 mois. PAI, Jaja, Uptake, Vokable et autres terrains d'essai pour l'IA appliquée.",
+  title = "Le lab de Fabien Canu",
+  description = "Le lab de Fabien Canu : 25 ans de code, une vingtaine de produits IA en 18 mois. PAI, Jaja, Uptake, Vokable et autres terrains d'essai pour l'IA appliquée.",
   image = "/images/og-image.png",
   type = "website",
 } = Astro.props;
@@ -39,21 +39,21 @@ const ogImageURL = new URL(image, Astro.site ?? "https://fabiencanu.fr").toStrin
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
     <meta property="og:type" content={type} />
-    <meta property="og:site_name" content="FC Lab · Fabien Canu" />
+    <meta property="og:site_name" content="Le lab de Fabien Canu" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL.toString()} />
     <meta property="og:image" content={ogImageURL} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="FC Lab — Portfolio IA de Fabien Canu" />
+    <meta property="og:image:alt" content="Le lab de Fabien Canu" />
     <meta property="og:locale" content="fr_FR" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageURL} />
-    <meta name="twitter:image:alt" content="FC Lab — Portfolio IA de Fabien Canu" />
+    <meta name="twitter:image:alt" content="Le lab de Fabien Canu" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
