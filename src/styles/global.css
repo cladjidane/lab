@@ -989,30 +989,8 @@
     transform: translateX(-50%) scale(1.1);
   }
 
-  /* Nav buttons : ghost icons, même ligne que close en haut */
+  /* Nav inter-projets masquée sur mobile : pas intuitif, jamais vu par les users */
   .modal-nav-btn {
-    bottom: auto !important;
-    top: calc(env(safe-area-inset-top) + 0.75rem) !important;
-    transform: none !important;
-    width: 2rem;
-    height: 2rem;
-    background: transparent !important;
-    color: rgba(255, 255, 255, 0.7) !important;
-    box-shadow: none !important;
-    transition: color 200ms, transform 200ms !important;
-  }
-  .modal-nav-btn:hover,
-  .modal-nav-btn:active {
-    background: transparent !important;
-    color: #fff !important;
-    transform: scale(1.1) !important;
-  }
-  .modal-nav-prev {
-    left: 25% !important;
-    right: auto !important;
-  }
-  .modal-nav-next {
-    right: 25% !important;
-    left: auto !important;
+    display: none !important;
   }
 }
