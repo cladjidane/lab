@@ -1,42 +1,88 @@
 ---
-import { PERSONA_PRESETS } from "../data/skills";
+import {
+  PERSONA_PRESETS,
+  SKILL_CATEGORIES,
+  SKILLS_BY_CATEGORY,
+  type SkillCategory,
+} from "../data/skills";
+
+const expandCategories: SkillCategory[] = ["techniques", "modeles", "stack"];
 ---
 
-<!-- Barre de presets flottante : 5 lentilles editoriales, single-select. -->
+<!-- Barre de filtres flottante : presets en base + panneau skills depliable. -->
 <nav id="skills-bar" class="skills-bar" aria-label="Filtrer le lab par domaine">
-  <span class="skills-bar-label">Le lab vu sous l'angle</span>
-  <div class="skills-bar-pills">
-    {PERSONA_PRESETS.map((preset) => (
-      <button
-        type="button"
-        class="skills-pill"
-        data-preset={preset.id}
-        data-preset-skills={preset.skills.join(" ")}
-        title={preset.tagline}
-        aria-pressed="false"
-      >
-        {preset.label}
+  <div class="skills-bar-row">
+    <span class="skills-bar-label">Le lab vu sous l'angle</span>
+    <div class="skills-bar-pills">
+      {PERSONA_PRESETS.map((preset) => (
+        <button
+          type="button"
+          class="skills-pill"
+          data-preset={preset.id}
+          data-preset-skills={preset.skills.join(" ")}
+          title={preset.tagline}
+          aria-pressed="false"
+        >
+          {preset.label}
+        </button>
+      ))}
+      <button type="button" class="skills-pill skills-pill-clear" id="skills-clear" aria-label="Effacer le filtre" hidden>
+        <span class="material-symbols-outlined" aria-hidden="true">close</span>
+        Tout voir
       </button>
-    ))}
-    <button type="button" class="skills-pill skills-pill-clear" id="skills-clear" aria-label="Effacer le filtre" hidden>
-      <span class="material-symbols-outlined" aria-hidden="true">close</span>
-      Tout voir
+    </div>
+    <button
+      type="button"
+      class="skills-bar-toggle"
+      id="skills-expand-toggle"
+      aria-expanded="false"
+      aria-controls="skills-bar-expand"
+      title="Affiner par compétence"
+    >
+      <span class="skills-bar-toggle-label">Affiner</span>
+      <span class="material-symbols-outlined skills-bar-toggle-icon" aria-hidden="true">expand_more</span>
     </button>
+  </div>
+
+  <div class="skills-bar-expand" id="skills-bar-expand" aria-hidden="true">
+    <div class="skills-bar-expand-inner">
+      {expandCategories.map((cat) => (
+        <div class="skills-bar-group">
+          <span class="skills-bar-group-label">{SKILL_CATEGORIES[cat]}</span>
+          <div class="skills-bar-group-pills">
+            {SKILLS_BY_CATEGORY[cat]?.map((skill) => (
+              <button
+                type="button"
+                class="skills-pill skills-pill-skill"
+                data-skill={skill.id}
+                aria-pressed="false"
+              >
+                {skill.label}
+              </button>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
   </div>
 </nav>
 
 <script>
-  import { PERSONA_PRESETS } from "../data/skills";
+  import { PERSONA_PRESETS, SKILLS } from "../data/skills";
   import { projects } from "../data/projects";
 
-  // Pool de projets caches par defaut : ne s'affichent que si un preset les revele.
+  // Pool de projets caches par defaut : ne s'affichent que si un filtre les revele.
   const POOL_PROJECTS = projects.filter((p) => p.hidden);
+  const validSkillIds = new Set(SKILLS.map((s) => s.id));
 
-  let activePreset: string | null = null;
+  // Source de verite unique : un Set de skills actives.
+  // Un preset est visuellement "actif" si l'ensemble selectionne == preset.skills exactement.
   let activeSkills = new Set<string>();
 
   const bar = document.getElementById("skills-bar");
   const clearBtn = document.getElementById("skills-clear") as HTMLButtonElement | null;
+  const expandToggle = document.getElementById("skills-expand-toggle") as HTMLButtonElement | null;
+  const expandPanel = document.getElementById("skills-bar-expand");
 
   if (!bar) {
     console.warn("[SkillsFilter] barre manquante");
@@ -65,6 +111,9 @@ import { PERSONA_PRESETS } from "../data/skills";
 
     const presetButtons = Array.from(
       document.querySelectorAll<HTMLButtonElement>(".skills-pill[data-preset]"),
+    );
+    const skillButtons = Array.from(
+      document.querySelectorAll<HTMLButtonElement>(".skills-pill[data-skill]"),
     );
 
     function computeMatches(source: Set<string>) {
@@ -297,26 +346,28 @@ import { PERSONA_PRESETS } from "../data/skills";
       const ranked = filtersActive ? rankMatches(activeSkills, scores) : [];
       updateFillers(ranked);
 
-      // Etat visuel des pills + bouton clear
+      // Preset actif = son ensemble de skills correspond exactement a la selection
       presetButtons.forEach((btn) => {
-        const isActive = btn.dataset.preset === activePreset;
+        const presetSkills = (btn.dataset.presetSkills || "").split(/\s+/).filter(Boolean);
+        const isActive =
+          presetSkills.length === activeSkills.size &&
+          presetSkills.every((s) => activeSkills.has(s));
         btn.classList.toggle("active", isActive);
         btn.setAttribute("aria-pressed", String(isActive));
       });
+
+      // Skills individuelles : etat visuel direct
+      skillButtons.forEach((btn) => {
+        const id = btn.dataset.skill || "";
+        const isActive = activeSkills.has(id);
+        btn.classList.toggle("active", isActive);
+        btn.setAttribute("aria-pressed", String(isActive));
+      });
+
       if (clearBtn) clearBtn.hidden = !filtersActive;
     }
 
-    function applyPreset(presetId: string | null) {
-      if (presetId === null) {
-        activePreset = null;
-        activeSkills = new Set();
-      } else {
-        const preset = PERSONA_PRESETS.find((p) => p.id === presetId);
-        if (!preset) return;
-        activePreset = presetId;
-        activeSkills = new Set(preset.skills);
-      }
-
+    function commitState() {
       if ((document as any).startViewTransition) {
         (document as any).startViewTransition(() => render());
       } else {
@@ -324,14 +375,45 @@ import { PERSONA_PRESETS } from "../data/skills";
       }
     }
 
+    function applyPreset(presetId: string) {
+      const preset = PERSONA_PRESETS.find((p) => p.id === presetId);
+      if (!preset) return;
+      // Si le preset est deja exactement la selection, on vide. Sinon on remplace.
+      const isExact =
+        preset.skills.length === activeSkills.size &&
+        preset.skills.every((s) => activeSkills.has(s));
+      activeSkills = isExact ? new Set() : new Set(preset.skills);
+      commitState();
+    }
+
+    function toggleSkill(id: string) {
+      if (!validSkillIds.has(id)) return;
+      if (activeSkills.has(id)) activeSkills.delete(id);
+      else activeSkills.add(id);
+      commitState();
+    }
+
+    function clearAll() {
+      activeSkills = new Set();
+      commitState();
+    }
+
     presetButtons.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const id = btn.dataset.preset || "";
-        applyPreset(activePreset === id ? null : id);
-      });
+      btn.addEventListener("click", () => applyPreset(btn.dataset.preset || ""));
     });
 
-    clearBtn?.addEventListener("click", () => applyPreset(null));
+    skillButtons.forEach((btn) => {
+      btn.addEventListener("click", () => toggleSkill(btn.dataset.skill || ""));
+    });
+
+    clearBtn?.addEventListener("click", clearAll);
+
+    // Toggle expand : panneau skills depliable, persistant tant que l'utilisateur veut
+    expandToggle?.addEventListener("click", () => {
+      const isExpanded = bar.classList.toggle("expanded");
+      expandToggle.setAttribute("aria-expanded", String(isExpanded));
+      if (expandPanel) expandPanel.setAttribute("aria-hidden", String(!isExpanded));
+    });
 
     render();
   }
@@ -344,17 +426,27 @@ import { PERSONA_PRESETS } from "../data/skills";
     left: 50%;
     transform: translateX(-50%);
     z-index: 50;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.5rem 0.625rem 0.5rem 1rem;
-    border-radius: 999px;
+    border-radius: 22px;
     border: 1px solid rgba(27, 28, 26, 0.08);
     background: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     box-shadow: 0 4px 16px rgba(27, 28, 26, 0.06);
     max-width: calc(100vw - 2rem);
+    overflow: hidden;
+    transition: border-radius 200ms ease, box-shadow 200ms ease;
+  }
+
+  .skills-bar.expanded {
+    border-radius: 18px;
+    box-shadow: 0 10px 32px rgba(27, 28, 26, 0.12);
+  }
+
+  .skills-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0.625rem 0.5rem 1rem;
   }
 
   .skills-bar-label {
@@ -379,6 +471,111 @@ import { PERSONA_PRESETS } from "../data/skills";
 
   .skills-bar-pills::-webkit-scrollbar {
     display: none;
+  }
+
+  .skills-bar-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 10px 6px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(27, 28, 26, 0.12);
+    background: transparent;
+    font-family: "Space Grotesk", ui-monospace, monospace;
+    font-size: 10.5px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-on-surface-variant);
+    cursor: pointer;
+    transition: background 150ms ease, border-color 150ms ease, color 150ms ease;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .skills-bar-toggle:hover {
+    background: rgba(27, 28, 26, 0.04);
+    border-color: rgba(27, 28, 26, 0.24);
+    color: var(--color-on-surface);
+  }
+
+  .skills-bar-toggle-icon {
+    font-size: 16px !important;
+    transition: transform 220ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .skills-bar.expanded .skills-bar-toggle-icon {
+    transform: rotate(180deg);
+  }
+
+  /* Panneau d'expansion : grid-template-rows trick pour animer height: auto */
+  .skills-bar-expand {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 280ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .skills-bar-expand-inner {
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .skills-bar.expanded .skills-bar-expand {
+    grid-template-rows: 1fr;
+  }
+
+  .skills-bar-expand-inner {
+    padding: 0 1rem 0.875rem;
+    border-top: 1px solid rgba(27, 28, 26, 0.06);
+    margin-top: 2px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    max-height: min(60vh, 480px);
+    overflow-y: auto;
+  }
+
+  .skills-bar.expanded .skills-bar-expand-inner {
+    padding-top: 0.75rem;
+  }
+
+  .skills-bar-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .skills-bar-group-label {
+    font-family: "Space Grotesk", ui-monospace, monospace;
+    font-size: 9.5px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--color-on-surface-variant);
+    line-height: 1;
+  }
+
+  .skills-bar-group-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .skills-pill-skill {
+    border: 1px solid rgba(27, 28, 26, 0.12);
+    font-size: 12px;
+    padding: 5px 11px;
+  }
+
+  .skills-pill-skill:hover {
+    border-color: rgba(27, 28, 26, 0.28);
+    background: rgba(27, 28, 26, 0.03);
+  }
+
+  .skills-pill-skill.active {
+    background: var(--color-on-surface);
+    color: #fff;
+    border-color: var(--color-on-surface);
   }
 
   .skills-pill {
@@ -453,10 +650,13 @@ import { PERSONA_PRESETS } from "../data/skills";
       right: 0.75rem;
       transform: none;
       max-width: none;
+      display: flex;
+      flex-direction: column-reverse; /* panneau au-dessus de la rangee de presets */
+    }
+
+    .skills-bar-row {
       padding: 0.5rem;
-      flex-direction: column;
-      gap: 0.375rem;
-      align-items: stretch;
+      gap: 0.5rem;
     }
 
     .skills-bar-label {
@@ -464,9 +664,29 @@ import { PERSONA_PRESETS } from "../data/skills";
     }
 
     .skills-bar-pills {
+      flex: 1;
       overflow-x: auto;
       justify-content: flex-start;
       -webkit-overflow-scrolling: touch;
+    }
+
+    .skills-bar-toggle-label {
+      display: none;
+    }
+
+    .skills-bar-toggle {
+      padding: 6px 8px;
+    }
+
+    .skills-bar-expand-inner {
+      max-height: 50vh;
+      padding: 0.75rem 0.875rem 0.5rem;
+      border-top: none;
+      border-bottom: 1px solid rgba(27, 28, 26, 0.06);
+    }
+
+    .skills-bar.expanded .skills-bar-expand-inner {
+      padding-top: 0.75rem;
     }
   }
 </style>
