@@ -425,6 +425,7 @@ const expandCategories: SkillCategory[] = ["techniques", "modeles", "stack"];
     left: 50%;
     transform: translateX(-50%);
     z-index: 50;
+    width: max-content;
     border-radius: 8px;
     background: var(--color-surface-container);
     box-shadow: 0 1px 0 rgba(27, 28, 26, 0.04), 0 3px 14px rgba(27, 28, 26, 0.06);
@@ -503,11 +504,15 @@ const expandCategories: SkillCategory[] = ["techniques", "modeles", "stack"];
     transform: rotate(180deg);
   }
 
-  /* Panneau d'expansion : grid-template-rows trick pour animer height: auto */
+  /* Panneau d'expansion : grid-template-rows trick pour animer height: auto.
+     contain: inline-size empêche le panneau (largeur intrinsèque énorme à
+     cause des 43 skills sans wrap) de pousser la largeur de la barre. */
   .skills-bar-expand {
     display: grid;
     grid-template-rows: 0fr;
     transition: grid-template-rows 280ms cubic-bezier(0.4, 0, 0.2, 1);
+    width: 100%;
+    contain: inline-size;
   }
 
   .skills-bar-expand-inner {
@@ -655,6 +660,7 @@ const expandCategories: SkillCategory[] = ["techniques", "modeles", "stack"];
       right: 0.75rem;
       transform: none;
       max-width: none;
+      width: auto;
       display: flex;
       flex-direction: column-reverse; /* panneau au-dessus de la rangee de presets */
     }
