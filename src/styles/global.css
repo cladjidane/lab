@@ -95,8 +95,33 @@
   letter-spacing: 0.005em;
 }
 
+.modal-details-bar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 1.25rem;
+  margin-bottom: 4px;
+  transition: margin-top 280ms ease;
+}
+
+.modal-info.details-open .modal-details-bar {
+  margin-top: 0.5rem;
+}
+
+.modal-details-line {
+  flex: 1;
+  height: 1px;
+  background: var(--color-outline-variant);
+  opacity: 0;
+  transition: opacity 280ms ease;
+}
+
+.modal-info.details-open .modal-details-line {
+  opacity: 1;
+}
+
 .modal-details-toggle {
-  align-self: flex-start;
+  flex-shrink: 0;
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -111,13 +136,7 @@
   text-transform: uppercase;
   letter-spacing: 0.14em;
   color: var(--color-on-surface);
-  margin-top: 1.25rem;
-  margin-bottom: 4px;
   transition: background 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease;
-}
-
-.modal-info.details-open .modal-details-toggle {
-  margin-top: 0.5rem;
 }
 
 .modal-details-toggle:hover {
@@ -145,13 +164,16 @@
   opacity: 0;
   transition: max-height 420ms cubic-bezier(0.4, 0, 0.2, 1),
               opacity 280ms ease,
+              margin-top 420ms cubic-bezier(0.4, 0, 0.2, 1),
               margin-bottom 420ms cubic-bezier(0.4, 0, 0.2, 1);
+  margin-top: 0;
   margin-bottom: 0;
 }
 
 .modal-details.open {
   max-height: 3000px;
   opacity: 1;
+  margin-top: 1.25rem;
   margin-bottom: 20px;
 }
 
@@ -410,11 +432,11 @@
   height: 85vh;
   overflow: hidden;
   display: grid;
-  grid-template-columns: 1fr 340px;
+  grid-template-columns: calc(100% - 340px) 340px;
   gap: 0;
   transform: translateY(20px) scale(0.97);
   transition: transform 300ms cubic-bezier(0.2, 0.8, 0.2, 1),
-              grid-template-columns 400ms cubic-bezier(0.2, 0.8, 0.2, 1);
+              grid-template-columns 280ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Subtle bento pattern bottom-right of info panel (non-info layout) */
@@ -445,7 +467,12 @@
 
 /* Expanded state: drawer hidden, media full */
 .modal-content.expanded {
-  grid-template-columns: 1fr 0px;
+  grid-template-columns: 100% 0px;
+}
+
+/* Details open: info panel takes half the modal */
+.modal-content:not(.info-layout):not(.expanded):has(.modal-info.details-open) {
+  grid-template-columns: 50% 50%;
 }
 
 /* Info layout: editorial, single column, narrow for reading */
@@ -581,9 +608,20 @@
 }
 
 .modal-info.details-open .modal-info-header {
-  padding-bottom: 1rem;
-  border-bottom-color: var(--color-outline-variant);
-  margin-bottom: 1rem;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+/* Dim text briefly during the width reflow to hide line rewrapping */
+.modal-info-header,
+.modal-info-body {
+  transition: opacity 140ms ease;
+}
+
+.modal-info.reflowing .modal-info-header,
+.modal-info.reflowing .modal-info-body {
+  opacity: 0.55;
+  transition: opacity 100ms ease;
 }
 
 .modal-info-body {

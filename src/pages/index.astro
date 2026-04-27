@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import SkillsFilter from "../components/SkillsFilter.astro";
 import { projects } from "../data/projects";
 
 function getProject(slug: string) {
@@ -209,19 +210,23 @@ const dictWave = [4, 8, 5, 11, 3, 7, 9, 5];
       );
     })()}
 
-    <!-- Creative open (c8 r3) -->
-    <div
-      class="bento-tile bg-white grain-paper creative-tile overflow-hidden"
-      style="grid-column: 8; grid-row: 3;"
-    >
-      <svg class="creative-shapes" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
-        <rect class="c-solid" x="20" y="26" width="22" height="22" rx="3"/>
-        <rect class="c-solid" x="48" y="30" width="16" height="16" rx="3"/>
-        <rect class="c-solid" x="24" y="54" width="14" height="14" rx="3"/>
-        <rect class="c-open" x="44" y="52" width="28" height="22" rx="3"/>
-      </svg>
-      <span class="creative-bubble font-headline"></span>
-    </div>
+    <!-- Privacy Filter (c8 r3) -->
+    {(() => {
+      const p = getProject("privacy-filter")!;
+      return (
+        <div
+          class="bento-tile bg-surface-container-low grain-paper flex flex-col justify-between p-4 overflow-hidden"
+          style="grid-column: 8; grid-row: 3;"
+          data-slug={p.slug}
+        >
+          <span class="material-symbols-outlined text-lg text-brand-coral">shield_lock</span>
+          <div>
+            <h3 class="font-headline text-sm font-bold text-on-surface leading-tight">{p.name}</h3>
+            <span class="font-headline text-[8px] text-outline uppercase tracking-wider">PII local devant LLM</span>
+          </div>
+        </div>
+      );
+    })()}
 
     <!-- Dictaphone (c4-5, r4) -->
     {(() => {
@@ -396,6 +401,9 @@ const dictWave = [4, 8, 5, 11, 3, 7, 9, 5];
       <span class="material-symbols-outlined text-sm text-brand-cyan ml-2 group-hover:translate-x-1 transition-transform">arrow_forward</span>
     </div>
   </main>
+
+  <!-- Filtres par compétences -->
+  <SkillsFilter />
 
   <!-- Modal -->
   <div id="modal" class="modal-backdrop" role="dialog" aria-modal="true">
@@ -622,10 +630,13 @@ const dictWave = [4, 8, 5, 11, 3, 7, 9, 5];
           <p class="modal-hook">${p.descriptionFr}</p>
         </div>
         <div class="modal-info-body">
-          <button type="button" class="modal-details-toggle" aria-expanded="false">
-            <span class="modal-details-label">Voir les détails</span>
-            <span class="material-symbols-outlined modal-details-arrow">expand_more</span>
-          </button>
+          <div class="modal-details-bar">
+            <button type="button" class="modal-details-toggle" aria-expanded="false">
+              <span class="modal-details-label">Voir les détails</span>
+              <span class="material-symbols-outlined modal-details-arrow">expand_more</span>
+            </button>
+            <div class="modal-details-line" aria-hidden="true"></div>
+          </div>
           <div class="modal-details">${renderBody(p.about)}</div>
           <div class="modal-techstack" style="display:flex; gap:6px; flex-wrap:wrap;">${techStack}</div>
         </div>
@@ -634,12 +645,16 @@ const dictWave = [4, 8, 5, 11, 3, 7, 9, 5];
       const detailsToggle = modalInfo.querySelector(".modal-details-toggle");
       const detailsBlock = modalInfo.querySelector(".modal-details");
       if (detailsToggle && detailsBlock) {
+        let reflowTimer = null;
         detailsToggle.addEventListener("click", () => {
           const isOpen = modalInfo.classList.toggle("details-open");
           detailsToggle.classList.toggle("open", isOpen);
           detailsBlock.classList.toggle("open", isOpen);
           detailsToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
           detailsToggle.querySelector(".modal-details-label").textContent = isOpen ? "Réduire" : "Voir les détails";
+          modalInfo.classList.add("reflowing");
+          if (reflowTimer) clearTimeout(reflowTimer);
+          reflowTimer = setTimeout(() => modalInfo.classList.remove("reflowing"), 280);
         });
       }
 
@@ -793,15 +808,29 @@ const dictWave = [4, 8, 5, 11, 3, 7, 9, 5];
       id: el.dataset.slug || el.dataset.info,
     }));
 
-    document.querySelectorAll("[data-slug]").forEach((tile) => {
-      tile.addEventListener("click", () => openModal(tile.dataset.slug));
-    });
-    document.querySelectorAll("[data-info]").forEach((tile) => {
-      tile.addEventListener("click", (e) => {
+    // Délégation : couvre aussi les tuiles injectées dynamiquement par SkillsFilter (pool).
+    document.addEventListener("click", (e) => {
+      const target = e.target;
+      if (!(target instanceof Element)) return;
+      const tile = target.closest(".bento-tile");
+      if (!tile) return;
+      const slug = tile.getAttribute("data-slug");
+      const info = tile.getAttribute("data-info");
+      if (slug) {
+        openModal(slug);
+      } else if (info) {
         e.stopPropagation();
-        openInfoModal(tile.dataset.info);
-      });
+        openInfoModal(info);
+      }
     });
+
+    // Exposé pour SkillsFilter afin de reconstruire navItems après injection pool.
+    window.__labRebuildNav = () => {
+      navItems = Array.from(document.querySelectorAll("[data-slug], [data-info]")).map((el) => ({
+        type: el.hasAttribute("data-slug") ? "project" : "info",
+        id: el.dataset.slug || el.dataset.info,
+      }));
+    };
 
     modalClose.addEventListener("click", closeModal);
     document.getElementById("modal-close-outside")?.addEventListener("click", closeModal);

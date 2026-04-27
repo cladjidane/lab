@@ -1,0 +1,472 @@
+---
+import { PERSONA_PRESETS } from "../data/skills";
+---
+
+<!-- Barre de presets flottante : 5 lentilles editoriales, single-select. -->
+<nav id="skills-bar" class="skills-bar" aria-label="Filtrer le lab par domaine">
+  <span class="skills-bar-label">Le lab vu sous l'angle</span>
+  <div class="skills-bar-pills">
+    {PERSONA_PRESETS.map((preset) => (
+      <button
+        type="button"
+        class="skills-pill"
+        data-preset={preset.id}
+        data-preset-skills={preset.skills.join(" ")}
+        title={preset.tagline}
+        aria-pressed="false"
+      >
+        {preset.label}
+      </button>
+    ))}
+    <button type="button" class="skills-pill skills-pill-clear" id="skills-clear" aria-label="Effacer le filtre" hidden>
+      <span class="material-symbols-outlined" aria-hidden="true">close</span>
+      Tout voir
+    </button>
+  </div>
+</nav>
+
+<script>
+  import { PERSONA_PRESETS } from "../data/skills";
+  import { projects } from "../data/projects";
+
+  // Pool de projets caches par defaut : ne s'affichent que si un preset les revele.
+  const POOL_PROJECTS = projects.filter((p) => p.hidden);
+
+  let activePreset: string | null = null;
+  let activeSkills = new Set<string>();
+
+  const bar = document.getElementById("skills-bar");
+  const clearBtn = document.getElementById("skills-clear") as HTMLButtonElement | null;
+
+  if (!bar) {
+    console.warn("[SkillsFilter] barre manquante");
+  } else {
+    const projectsBySlug = new Map(projects.map((p) => [p.slug, p]));
+    const tiles = Array.from(
+      document.querySelectorAll<HTMLElement>(".bento-tile[data-slug]"),
+    );
+
+    type ProjectEntry = { el: HTMLElement; slug: string; skills: Set<string>; tier: 1 | 2 };
+    const projectData: ProjectEntry[] = tiles
+      .map((el) => {
+        const slug = el.dataset.slug || "";
+        const p = projectsBySlug.get(slug);
+        if (!p) return null;
+        return { el, slug, skills: new Set(p.skills), tier: p.tier };
+      })
+      .filter((x): x is ProjectEntry => x !== null);
+
+    // Snapshot des styles d'origine pour pouvoir revenir a la taille native au reset.
+    projectData.forEach(({ el }) => {
+      if (!el.dataset.originalStyle) {
+        el.dataset.originalStyle = el.getAttribute("style") || "";
+      }
+    });
+
+    const presetButtons = Array.from(
+      document.querySelectorAll<HTMLButtonElement>(".skills-pill[data-preset]"),
+    );
+
+    function computeMatches(source: Set<string>) {
+      let maxScore = 0;
+      const scores = new Map<string, number>();
+      projectData.forEach(({ slug, skills }) => {
+        let score = 0;
+        source.forEach((s) => {
+          if (skills.has(s)) score++;
+        });
+        scores.set(slug, score);
+        if (score > maxScore) maxScore = score;
+      });
+      return { scores, maxScore };
+    }
+
+    type Size = { cols: number; rows: number };
+    function getGrowthPlan(matchCount: number): Size[] {
+      if (matchCount <= 0) return [];
+      if (matchCount === 1) return [{ cols: 2, rows: 2 }];
+      if (matchCount === 2) return [{ cols: 2, rows: 2 }, { cols: 2, rows: 1 }];
+      if (matchCount === 3)
+        return [{ cols: 2, rows: 2 }, { cols: 2, rows: 1 }, { cols: 2, rows: 1 }];
+      if (matchCount <= 6) return Array(matchCount).fill({ cols: 2, rows: 1 });
+      return [];
+    }
+
+    type Ranked =
+      | { kind: "real"; slug: string; score: number; tier: 1 | 2; el: HTMLElement }
+      | { kind: "pool"; slug: string; score: number; tier: 1 | 2; p: (typeof POOL_PROJECTS)[number] };
+
+    function rankMatches(source: Set<string>, scores: Map<string, number>): Ranked[] {
+      const ranked: Ranked[] = [];
+      projectData.forEach(({ el, slug, tier }) => {
+        const score = scores.get(slug) || 0;
+        if (score > 0) ranked.push({ kind: "real", slug, score, tier, el });
+      });
+      POOL_PROJECTS.forEach((p) => {
+        let score = 0;
+        source.forEach((s) => {
+          if (p.skills.includes(s)) score++;
+        });
+        if (score > 0) ranked.push({ kind: "pool", slug: p.slug, score, tier: p.tier, p });
+      });
+      return ranked.sort((a, b) => {
+        if (a.tier !== b.tier) return a.tier - b.tier;
+        if (a.score !== b.score) return b.score - a.score;
+        if (a.kind !== b.kind) return a.kind === "real" ? -1 : 1;
+        return 0;
+      });
+    }
+
+    function parseGridSpan(style: string, axis: "column" | "row"): number {
+      const regex = new RegExp(
+        `grid-${axis}:\\s*(?:(span)\\s+(\\d+)|(\\d+)\\s*\\/\\s*(\\d+)|(\\d+))`,
+      );
+      const m = style.match(regex);
+      if (!m) return 1;
+      if (m[1] === "span" && m[2]) return parseInt(m[2], 10);
+      if (m[3] && m[4]) return parseInt(m[4], 10) - parseInt(m[3], 10);
+      return 1;
+    }
+
+    function computeFillerCount(): number {
+      const TOTAL_CELLS = 8 * 5;
+      const allTiles = document.querySelectorAll<HTMLElement>(".bento-tile");
+      let occupied = 0;
+      allTiles.forEach((tile) => {
+        if (tile.classList.contains("match-miss")) return;
+        if (tile.classList.contains("skills-filler")) return;
+        if (tile.classList.contains("skills-pool-injected")) return;
+        if (
+          tile.classList.contains("creative-tile") &&
+          !tile.classList.contains("skills-filler")
+        )
+          return;
+        const style = tile.getAttribute("style") || "";
+        const cols = parseGridSpan(style, "column");
+        const rows = parseGridSpan(style, "row");
+        occupied += cols * rows;
+      });
+      return Math.max(0, TOTAL_CELLS - occupied);
+    }
+
+    function createPoolTileSized(p: (typeof POOL_PROJECTS)[number], size: Size): HTMLElement {
+      const colorAccent = {
+        cyan: "text-primary",
+        coral: "text-brand-coral",
+        amber: "text-brand-amber",
+      }[p.tagColor] || "text-primary";
+      const bgSoft = {
+        cyan: "bg-surface-container-low",
+        coral: "bg-surface-container",
+        amber: "bg-surface-container-high",
+      }[p.tagColor] || "bg-surface-container";
+      const bgStrong = {
+        cyan: "bento-bg-cyan",
+        coral: "bento-bg-coral",
+        amber: "bento-bg-amber",
+      }[p.tagColor] || "bg-surface-container";
+      const grain = p.tagColor === "amber" ? "grain-coarse" : "grain-paper";
+      const eyebrow = p.tags[0] || "Lab";
+      const subtitle = p.tags[1] || p.descriptionFr || "";
+
+      const tile = document.createElement("div");
+      const cells = size.cols * size.rows;
+      const useStrong = cells >= 2;
+      const bg = useStrong ? bgStrong : bgSoft;
+
+      tile.className = `bento-tile ${bg} ${grain} skills-pool-injected overflow-hidden`;
+      tile.setAttribute("data-slug", p.slug);
+      tile.setAttribute("data-skills", p.skills.join(" "));
+      tile.style.cssText = `grid-column: span ${size.cols}; grid-row: span ${size.rows}; view-transition-name: tile-${p.slug};`;
+
+      if (size.cols === 2 && size.rows === 2) {
+        tile.classList.add("flex", "flex-col", "justify-end", "p-7");
+        tile.innerHTML = `
+          <div class="absolute top-5 right-5" style="z-index:2;">
+            <span class="material-symbols-outlined text-2xl ${colorAccent}">auto_awesome</span>
+          </div>
+          <div>
+            <span class="font-headline text-[10px] uppercase tracking-[0.3em] ${colorAccent}">${eyebrow}</span>
+            <h2 class="font-headline text-5xl font-bold text-on-surface leading-[0.85] mt-2">${p.name}</h2>
+            <span class="font-body text-xs text-on-surface-variant mt-3 block max-w-[220px]">${subtitle}</span>
+          </div>
+        `;
+      } else if (size.cols === 2 && size.rows === 1) {
+        tile.classList.add("flex", "items-center", "gap-4", "px-5");
+        tile.innerHTML = `
+          <div class="flex items-center justify-center w-12 h-12 rounded-md bg-white/70 flex-shrink-0">
+            <span class="material-symbols-outlined text-2xl ${colorAccent}">auto_awesome</span>
+          </div>
+          <div class="flex-1 min-w-0">
+            <span class="font-headline text-[9px] uppercase tracking-[0.25em] text-on-surface-variant">${eyebrow}</span>
+            <h2 class="font-headline text-2xl font-bold text-on-surface leading-[0.95] mt-0.5 truncate">${p.name}</h2>
+            <span class="font-body text-[10px] text-outline mt-0.5 block truncate">${subtitle}</span>
+          </div>
+        `;
+      } else {
+        tile.classList.add("flex", "flex-col", "justify-between", "p-4");
+        tile.innerHTML = `
+          <span class="material-symbols-outlined text-lg ${colorAccent}">science</span>
+          <div>
+            <h3 class="font-headline text-sm font-bold text-on-surface leading-tight">${p.name}</h3>
+            <span class="font-headline text-[8px] text-outline uppercase tracking-wider">${eyebrow}</span>
+          </div>
+        `;
+      }
+      return tile;
+    }
+
+    function updateFillers(ranked: Ranked[]) {
+      const grid = document.querySelector<HTMLElement>(".bento-grid");
+      if (!grid) return;
+      const isDesktop = window.matchMedia("(min-width: 1100px)").matches;
+      const injected = Array.from(
+        grid.querySelectorAll<HTMLElement>(".skills-filler, .skills-pool-injected"),
+      );
+      injected.forEach((f) => f.remove());
+
+      if (!isDesktop || activeSkills.size === 0) {
+        (window as any).__labRebuildNav?.();
+        return;
+      }
+
+      const plan = getGrowthPlan(ranked.length);
+
+      ranked.forEach((r, i) => {
+        if (r.kind !== "real") return;
+        if (r.tier === 1) return;
+        const size = plan[i];
+        if (!size) return;
+        const cappedRows = Math.min(size.rows, 1);
+        r.el.setAttribute(
+          "style",
+          `grid-column: span ${size.cols}; grid-row: span ${cappedRows}; view-transition-name: tile-${r.slug};`,
+        );
+      });
+
+      ranked.forEach((r, i) => {
+        if (r.kind !== "pool") return;
+        const size = plan[i] || { cols: 1, rows: 1 };
+        const tile = createPoolTileSized(r.p, size);
+        if (r.score >= 2) tile.classList.add("match-champion");
+        else tile.classList.add("match-hit");
+        grid.appendChild(tile);
+      });
+
+      const remaining = computeFillerCount();
+      for (let i = 0; i < remaining; i++) {
+        const filler = document.createElement("div");
+        filler.className =
+          "bento-tile creative-tile skills-filler bg-white grain-paper overflow-hidden";
+        filler.style.cssText = `grid-column: span 1; grid-row: span 1; view-transition-name: filler-${i};`;
+        filler.innerHTML = `<svg class="creative-shapes" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+          <rect class="c-solid" x="22" y="26" width="22" height="22" rx="3"/>
+          <rect class="c-open" x="50" y="30" width="26" height="26" rx="3"/>
+        </svg>`;
+        grid.appendChild(filler);
+      }
+
+      (window as any).__labRebuildNav?.();
+    }
+
+    function render() {
+      const { scores, maxScore } = computeMatches(activeSkills);
+      const filtersActive = activeSkills.size > 0;
+
+      document.documentElement.classList.toggle("filters-active", filtersActive);
+
+      // Restaure le style d'origine puis applique le plan de croissance via updateFillers.
+      projectData.forEach(({ el }) => {
+        const orig = el.dataset.originalStyle || "";
+        el.setAttribute("style", orig);
+      });
+
+      projectData.forEach(({ el, slug }) => {
+        const score = scores.get(slug) || 0;
+        el.classList.remove("match-champion", "match-hit", "match-miss");
+        if (!filtersActive) return;
+        if (score === 0) {
+          el.classList.add("match-miss");
+        } else if (score === maxScore && maxScore >= 2) {
+          el.classList.add("match-champion");
+        } else {
+          el.classList.add("match-hit");
+        }
+      });
+
+      const ranked = filtersActive ? rankMatches(activeSkills, scores) : [];
+      updateFillers(ranked);
+
+      // Etat visuel des pills + bouton clear
+      presetButtons.forEach((btn) => {
+        const isActive = btn.dataset.preset === activePreset;
+        btn.classList.toggle("active", isActive);
+        btn.setAttribute("aria-pressed", String(isActive));
+      });
+      if (clearBtn) clearBtn.hidden = !filtersActive;
+    }
+
+    function applyPreset(presetId: string | null) {
+      if (presetId === null) {
+        activePreset = null;
+        activeSkills = new Set();
+      } else {
+        const preset = PERSONA_PRESETS.find((p) => p.id === presetId);
+        if (!preset) return;
+        activePreset = presetId;
+        activeSkills = new Set(preset.skills);
+      }
+
+      if ((document as any).startViewTransition) {
+        (document as any).startViewTransition(() => render());
+      } else {
+        render();
+      }
+    }
+
+    presetButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const id = btn.dataset.preset || "";
+        applyPreset(activePreset === id ? null : id);
+      });
+    });
+
+    clearBtn?.addEventListener("click", () => applyPreset(null));
+
+    render();
+  }
+</script>
+
+<style>
+  .skills-bar {
+    position: fixed;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 50;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0.625rem 0.5rem 1rem;
+    border-radius: 999px;
+    border: 1px solid rgba(27, 28, 26, 0.08);
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 4px 16px rgba(27, 28, 26, 0.06);
+    max-width: calc(100vw - 2rem);
+  }
+
+  .skills-bar-label {
+    font-family: "Space Grotesk", ui-monospace, monospace;
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--color-on-surface-variant);
+    white-space: nowrap;
+    line-height: 1;
+  }
+
+  .skills-bar-pills {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .skills-bar-pills::-webkit-scrollbar {
+    display: none;
+  }
+
+  .skills-pill {
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    background: transparent;
+    font-family: Manrope, system-ui, sans-serif;
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--color-on-surface);
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background 150ms ease, border-color 150ms ease, color 150ms ease;
+    line-height: 1;
+  }
+
+  .skills-pill:hover {
+    background: rgba(27, 28, 26, 0.05);
+  }
+
+  .skills-pill.active {
+    background: var(--color-on-surface);
+    color: #fff;
+  }
+
+  .skills-pill-clear {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--color-on-surface-variant);
+    border-color: rgba(27, 28, 26, 0.12);
+    font-size: 11.5px;
+  }
+
+  .skills-pill-clear[hidden] {
+    display: none;
+  }
+
+  .skills-pill-clear .material-symbols-outlined {
+    font-size: 14px;
+  }
+
+  .skills-pill-clear:hover {
+    color: var(--color-on-surface);
+    border-color: rgba(27, 28, 26, 0.3);
+  }
+
+  /* Le bento reflow automatiquement via View Transitions ; les non-match sortent du flow. */
+  :global(html.filters-active .bento-tile[data-slug].match-miss) {
+    display: none;
+  }
+
+  :global(html.filters-active .bento-tile[data-slug].match-hit),
+  :global(html.filters-active .bento-tile[data-slug].match-champion) {
+    opacity: 1;
+  }
+
+  :global(html.filters-active .bento-grid) {
+    grid-auto-flow: row dense;
+  }
+
+  :global(html.filters-active .bento-tile.creative-tile:not(.skills-filler)) {
+    display: none;
+  }
+
+  @media (max-width: 767px) {
+    .skills-bar {
+      top: auto;
+      bottom: 0.75rem;
+      left: 0.75rem;
+      right: 0.75rem;
+      transform: none;
+      max-width: none;
+      padding: 0.5rem;
+      flex-direction: column;
+      gap: 0.375rem;
+      align-items: stretch;
+    }
+
+    .skills-bar-label {
+      display: none;
+    }
+
+    .skills-bar-pills {
+      overflow-x: auto;
+      justify-content: flex-start;
+      -webkit-overflow-scrolling: touch;
+    }
+  }
+</style>
