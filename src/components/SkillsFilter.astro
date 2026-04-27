@@ -12,7 +12,6 @@ const expandCategories: SkillCategory[] = ["techniques", "modeles", "stack"];
 <!-- Barre de filtres flottante : presets en base + panneau skills depliable. -->
 <nav id="skills-bar" class="skills-bar" aria-label="Filtrer le lab par domaine">
   <div class="skills-bar-row">
-    <span class="skills-bar-label">Le lab vu sous l'angle</span>
     <div class="skills-bar-pills">
       {PERSONA_PRESETS.map((preset) => (
         <button
@@ -28,18 +27,18 @@ const expandCategories: SkillCategory[] = ["techniques", "modeles", "stack"];
       ))}
       <button type="button" class="skills-pill skills-pill-clear" id="skills-clear" aria-label="Effacer le filtre" hidden>
         <span class="material-symbols-outlined" aria-hidden="true">close</span>
-        Tout voir
       </button>
     </div>
+    <span class="skills-bar-divider" aria-hidden="true"></span>
     <button
       type="button"
       class="skills-bar-toggle"
       id="skills-expand-toggle"
       aria-expanded="false"
       aria-controls="skills-bar-expand"
+      aria-label="Affiner par compétence"
       title="Affiner par compétence"
     >
-      <span class="skills-bar-toggle-label">Affiner</span>
       <span class="material-symbols-outlined skills-bar-toggle-icon" aria-hidden="true">expand_more</span>
     </button>
   </div>
@@ -426,38 +425,39 @@ const expandCategories: SkillCategory[] = ["techniques", "modeles", "stack"];
     left: 50%;
     transform: translateX(-50%);
     z-index: 50;
-    border-radius: 22px;
-    border: 1px solid rgba(27, 28, 26, 0.08);
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    box-shadow: 0 4px 16px rgba(27, 28, 26, 0.06);
+    border-radius: 12px;
+    background: var(--color-surface-container);
+    box-shadow: 0 1px 0 rgba(27, 28, 26, 0.04), 0 4px 18px rgba(27, 28, 26, 0.07);
     max-width: calc(100vw - 2rem);
     overflow: hidden;
-    transition: border-radius 200ms ease, box-shadow 200ms ease;
+    transition: box-shadow 220ms ease;
+    /* Stabilise la barre pendant les View Transitions du bento */
+    view-transition-name: skills-bar;
   }
 
   .skills-bar.expanded {
-    border-radius: 18px;
-    box-shadow: 0 10px 32px rgba(27, 28, 26, 0.12);
+    box-shadow: 0 1px 0 rgba(27, 28, 26, 0.04), 0 12px 32px rgba(27, 28, 26, 0.12);
+  }
+
+  /* Pas d'animation sur la barre : elle reste fixe pendant le reflow du bento */
+  :global(::view-transition-group(skills-bar)),
+  :global(::view-transition-old(skills-bar)),
+  :global(::view-transition-new(skills-bar)) {
+    animation: none !important;
   }
 
   .skills-bar-row {
     display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.5rem 0.625rem 0.5rem 1rem;
+    align-items: stretch;
+    gap: 4px;
+    padding: 5px;
   }
 
-  .skills-bar-label {
-    font-family: "Space Grotesk", ui-monospace, monospace;
-    font-size: 10px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
-    color: var(--color-on-surface-variant);
-    white-space: nowrap;
-    line-height: 1;
+  .skills-bar-divider {
+    width: 1px;
+    background: rgba(27, 28, 26, 0.1);
+    align-self: stretch;
+    margin: 4px 2px;
   }
 
   .skills-bar-pills {
@@ -476,31 +476,26 @@ const expandCategories: SkillCategory[] = ["techniques", "modeles", "stack"];
   .skills-bar-toggle {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
-    padding: 6px 10px 6px 12px;
-    border-radius: 999px;
-    border: 1px solid rgba(27, 28, 26, 0.12);
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border-radius: 8px;
+    border: none;
     background: transparent;
-    font-family: "Space Grotesk", ui-monospace, monospace;
-    font-size: 10.5px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
     color: var(--color-on-surface-variant);
     cursor: pointer;
-    transition: background 150ms ease, border-color 150ms ease, color 150ms ease;
-    line-height: 1;
+    transition: background 150ms ease, color 150ms ease;
     flex-shrink: 0;
   }
 
   .skills-bar-toggle:hover {
-    background: rgba(27, 28, 26, 0.04);
-    border-color: rgba(27, 28, 26, 0.24);
+    background: rgba(27, 28, 26, 0.06);
     color: var(--color-on-surface);
   }
 
   .skills-bar-toggle-icon {
-    font-size: 16px !important;
+    font-size: 18px !important;
     transition: transform 220ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 
@@ -518,25 +513,22 @@ const expandCategories: SkillCategory[] = ["techniques", "modeles", "stack"];
   .skills-bar-expand-inner {
     min-height: 0;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    padding: 0 1rem;
+    border-top: 1px solid transparent;
+    transition: padding 280ms cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 280ms ease;
   }
 
   .skills-bar.expanded .skills-bar-expand {
     grid-template-rows: 1fr;
   }
 
-  .skills-bar-expand-inner {
-    padding: 0 1rem 0.875rem;
-    border-top: 1px solid rgba(27, 28, 26, 0.06);
-    margin-top: 2px;
-    display: flex;
-    flex-direction: column;
-    gap: 0.625rem;
-    max-height: min(60vh, 480px);
-    overflow-y: auto;
-  }
-
   .skills-bar.expanded .skills-bar-expand-inner {
-    padding-top: 0.75rem;
+    padding: 0.75rem 1rem 0.875rem;
+    border-top-color: rgba(27, 28, 26, 0.06);
   }
 
   .skills-bar-group {
@@ -562,53 +554,66 @@ const expandCategories: SkillCategory[] = ["techniques", "modeles", "stack"];
   }
 
   .skills-pill-skill {
-    border: 1px solid rgba(27, 28, 26, 0.12);
+    background: var(--color-surface-container-low);
     font-size: 12px;
-    padding: 5px 11px;
+    padding: 6px 11px;
+    color: var(--color-on-surface-variant);
   }
 
   .skills-pill-skill:hover {
-    border-color: rgba(27, 28, 26, 0.28);
-    background: rgba(27, 28, 26, 0.03);
+    background: var(--color-surface-container-high);
+    color: var(--color-on-surface);
   }
 
   .skills-pill-skill.active {
-    background: var(--color-on-surface);
-    color: #fff;
-    border-color: var(--color-on-surface);
+    background: var(--color-brand-cyan);
+    color: var(--color-on-surface);
+    font-weight: 600;
+  }
+
+  .skills-pill-skill.active:hover {
+    background: var(--color-brand-cyan);
   }
 
   .skills-pill {
-    padding: 6px 12px;
-    border-radius: 999px;
-    border: 1px solid transparent;
+    padding: 7px 14px;
+    border-radius: 8px;
+    border: none;
     background: transparent;
     font-family: Manrope, system-ui, sans-serif;
     font-size: 12.5px;
     font-weight: 500;
-    color: var(--color-on-surface);
+    color: var(--color-on-surface-variant);
     white-space: nowrap;
     cursor: pointer;
-    transition: background 150ms ease, border-color 150ms ease, color 150ms ease;
+    transition: background 150ms ease, color 150ms ease;
     line-height: 1;
   }
 
   .skills-pill:hover {
     background: rgba(27, 28, 26, 0.05);
+    color: var(--color-on-surface);
   }
 
   .skills-pill.active {
-    background: var(--color-on-surface);
-    color: #fff;
+    background: var(--color-brand-cyan);
+    color: var(--color-on-surface);
+    font-weight: 600;
+  }
+
+  .skills-pill.active:hover {
+    background: var(--color-brand-cyan);
   }
 
   .skills-pill-clear {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border-radius: 8px;
     color: var(--color-on-surface-variant);
-    border-color: rgba(27, 28, 26, 0.12);
-    font-size: 11.5px;
   }
 
   .skills-pill-clear[hidden] {
@@ -616,12 +621,12 @@ const expandCategories: SkillCategory[] = ["techniques", "modeles", "stack"];
   }
 
   .skills-pill-clear .material-symbols-outlined {
-    font-size: 14px;
+    font-size: 16px;
   }
 
   .skills-pill-clear:hover {
+    background: rgba(27, 28, 26, 0.06);
     color: var(--color-on-surface);
-    border-color: rgba(27, 28, 26, 0.3);
   }
 
   /* Le bento reflow automatiquement via View Transitions ; les non-match sortent du flow. */
@@ -655,38 +660,34 @@ const expandCategories: SkillCategory[] = ["techniques", "modeles", "stack"];
     }
 
     .skills-bar-row {
-      padding: 0.5rem;
-      gap: 0.5rem;
-    }
-
-    .skills-bar-label {
-      display: none;
+      padding: 5px;
+      gap: 4px;
     }
 
     .skills-bar-pills {
       flex: 1;
+      min-width: 0;
       overflow-x: auto;
       justify-content: flex-start;
       -webkit-overflow-scrolling: touch;
+      /* Indicateur visuel de scroll horizontal */
+      mask-image: linear-gradient(to right, black calc(100% - 24px), transparent);
+      -webkit-mask-image: linear-gradient(to right, black calc(100% - 24px), transparent);
     }
 
-    .skills-bar-toggle-label {
+    .skills-bar-divider {
       display: none;
     }
 
-    .skills-bar-toggle {
-      padding: 6px 8px;
-    }
-
     .skills-bar-expand-inner {
-      max-height: 50vh;
-      padding: 0.75rem 0.875rem 0.5rem;
+      padding: 0 0.875rem;
       border-top: none;
-      border-bottom: 1px solid rgba(27, 28, 26, 0.06);
     }
 
     .skills-bar.expanded .skills-bar-expand-inner {
-      padding-top: 0.75rem;
+      padding: 0.75rem 0.875rem 0.5rem;
+      border-bottom: 1px solid rgba(27, 28, 26, 0.06);
+      border-top: none;
     }
   }
 </style>
