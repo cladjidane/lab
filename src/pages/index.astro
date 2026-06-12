@@ -292,34 +292,28 @@ const dictWave = [4, 8, 5, 11, 3, 7, 9, 5];
       );
     })()}
 
-    <!-- Creative open (c7 r4) -->
-    <div
-      class="bento-tile bg-white grain-paper creative-tile overflow-hidden"
-      style="grid-column: 7; grid-row: 4;"
-    >
-      <svg class="creative-shapes" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
-        <rect class="c-solid" x="16" y="24" width="30" height="18" rx="3"/>
-        <rect class="c-solid" x="52" y="24" width="18" height="18" rx="3"/>
-        <rect class="c-solid" x="16" y="50" width="16" height="28" rx="3"/>
-        <rect class="c-open" x="38" y="50" width="32" height="28" rx="3"/>
-      </svg>
-      <span class="creative-bubble font-headline"></span>
-    </div>
-
-    <!-- Creative open (c8 r4) -->
-    <div
-      class="bento-tile bg-white grain-paper creative-tile overflow-hidden"
-      style="grid-column: 8; grid-row: 4;"
-    >
-      <svg class="creative-shapes" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
-        <rect class="c-solid" x="22" y="22" width="22" height="30" rx="3"/>
-        <rect class="c-solid" x="50" y="22" width="14" height="14" rx="3"/>
-        <rect class="c-open" x="50" y="42" width="26" height="34" rx="3"/>
-        <rect class="c-solid" x="22" y="58" width="22" height="18" rx="3"/>
-      </svg>
-      <span class="creative-label font-headline">lab ouvert</span>
-      <span class="creative-bubble font-headline"></span>
-    </div>
+    <!-- Programme ton agent (c7-8 r4) -->
+    {(() => {
+      const p = getProject("programme-ton-agent")!;
+      return (
+        <div
+          class="bento-tile bg-white grain-paper flex items-center justify-between px-6 overflow-hidden"
+          style="grid-column: 7 / 9; grid-row: 4;"
+          data-slug={p.slug}
+        >
+          <div>
+            <span class="font-headline text-[9px] uppercase tracking-[0.25em] text-brand-coral">Serious game · agentique</span>
+            <h2 class="font-headline text-xl font-bold text-on-surface leading-[0.95] mt-1">Programme<br />ton agent</h2>
+            <span class="font-body text-[10px] text-outline mt-1.5 block">Compose, lâche, paye la note</span>
+          </div>
+          <div class="ml-auto flex items-end gap-1.5 shrink-0">
+            <span class="w-6 h-10 rounded-md bg-brand-coral/20 -rotate-6"></span>
+            <span class="w-6 h-12 rounded-md bg-brand-coral/45"></span>
+            <span class="w-6 h-10 rounded-md bg-brand-coral/20 rotate-6"></span>
+          </div>
+        </div>
+      );
+    })()}
 
     <!-- ================= ROW 5 : UTILITY BAR ================= -->
 

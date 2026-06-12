@@ -18,6 +18,29 @@ interface Props {
 
 const { project } = Astro.props;
 
+// Rend le format long de `about` : `## sous-titre`, `**gras**`, premier paragraphe
+// en .prose-lead puis .prose-body. Mêmes classes que la modal de la home.
+function renderAbout(text: string): string {
+  const esc = (s: string) =>
+    s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  const boldify = (s: string) =>
+    esc(s).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+  let leadUsed = false;
+  return text
+    .split(/\n\n+/)
+    .map((b) => b.trim())
+    .filter(Boolean)
+    .map((block) => {
+      if (block.startsWith("## ")) {
+        return `<h3 class="prose-subhead">${boldify(block.slice(3).trim())}</h3>`;
+      }
+      const cls = leadUsed ? "prose-body" : "prose-lead";
+      leadUsed = true;
+      return `<p class="${cls}">${boldify(block)}</p>`;
+    })
+    .join("");
+}
+
 const colorMap = {
   cyan: { bg: "bg-brand-cyan", text: "text-brand-cyan", bgLight: "bg-brand-cyan/10", border: "border-brand-cyan/20" },
   amber: { bg: "bg-brand-amber", text: "text-brand-amber", bgLight: "bg-brand-amber/10", border: "border-brand-amber/20" },
@@ -244,9 +267,9 @@ const hasVideo = !hasMedia;
         function renderLightbox() {
           const item = items[lbCurrent];
           if (item.type === 'video') {
-            lbContent.innerHTML = `<video class="max-w-full max-h-[85vh] rounded-xl" autoplay loop muted playsinline controls><source src="${item.src}" type="video/mp4" /></video>`;
+            lbContent.innerHTML = `<video class="block w-auto h-auto max-w-[88vw] max-h-[85vh] rounded-xl object-contain" autoplay loop muted playsinline controls><source src="${item.src}" type="video/mp4" /></video>`;
           } else {
-            lbContent.innerHTML = `<img src="${item.src}" alt="" class="max-w-full max-h-[85vh] rounded-xl object-contain" />`;
+            lbContent.innerHTML = `<img src="${item.src}" alt="" class="block w-auto h-auto max-w-[88vw] max-h-[85vh] rounded-xl object-contain" />`;
           }
           if (lbCounter) lbCounter.textContent = `${lbCurrent + 1} / ${total}`;
           // Show/hide arrows
@@ -286,9 +309,7 @@ const hasVideo = !hasMedia;
           <div class:list={["w-2 h-2 rounded-full", colors.bg]}></div>
           De quoi il s'agit
         </h2>
-        <p class="font-body text-lg text-on-surface-variant leading-relaxed">
-          {project.about}
-        </p>
+        <div class="about-prose" set:html={renderAbout(project.about)} />
       </div>
 
       <div>

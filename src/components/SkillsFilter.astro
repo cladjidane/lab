@@ -130,14 +130,20 @@ const expandCategories: SkillCategory[] = ["techniques", "modeles", "stack"];
     }
 
     type Size = { cols: number; rows: number };
+    // Plan de croissance equilibre : les projets matches occupent des tuiles
+    // raisonnables (jamais 1x1 minuscule), les premiers (plus pertinents) plus
+    // grands. La taille decroit quand le nombre de matchs monte, pour rester
+    // lisible sans tout vouloir paver. Fonctionne pour n'importe quel total.
     function getGrowthPlan(matchCount: number): Size[] {
       if (matchCount <= 0) return [];
-      if (matchCount === 1) return [{ cols: 2, rows: 2 }];
-      if (matchCount === 2) return [{ cols: 2, rows: 2 }, { cols: 2, rows: 1 }];
-      if (matchCount === 3)
-        return [{ cols: 2, rows: 2 }, { cols: 2, rows: 1 }, { cols: 2, rows: 1 }];
-      if (matchCount <= 6) return Array(matchCount).fill({ cols: 2, rows: 1 });
-      return [];
+      let bigCount: number; // nombre de tuiles 2x2 en tete
+      if (matchCount <= 3) bigCount = matchCount; // peu de matchs => toutes grandes
+      else if (matchCount <= 5) bigCount = 3;
+      else if (matchCount <= 8) bigCount = 2;
+      else bigCount = 1;
+      return Array.from({ length: matchCount }, (_, i) =>
+        i < bigCount ? { cols: 2, rows: 2 } : { cols: 2, rows: 1 },
+      );
     }
 
     type Ranked =
@@ -176,6 +182,8 @@ const expandCategories: SkillCategory[] = ["techniques", "modeles", "stack"];
       return 1;
     }
 
+    // Compte les cases libres de la grille 8x5 une fois les tuiles placees, pour
+    // savoir combien de cases de remplissage ajouter (on garde la grille pleine).
     function computeFillerCount(): number {
       const TOTAL_CELLS = 8 * 5;
       const allTiles = document.querySelectorAll<HTMLElement>(".bento-tile");
@@ -183,7 +191,6 @@ const expandCategories: SkillCategory[] = ["techniques", "modeles", "stack"];
       allTiles.forEach((tile) => {
         if (tile.classList.contains("match-miss")) return;
         if (tile.classList.contains("skills-filler")) return;
-        if (tile.classList.contains("skills-pool-injected")) return;
         if (
           tile.classList.contains("creative-tile") &&
           !tile.classList.contains("skills-filler")
@@ -280,27 +287,26 @@ const expandCategories: SkillCategory[] = ["techniques", "modeles", "stack"];
 
       const plan = getGrowthPlan(ranked.length);
 
+      // Tous les projets matches (tier-1 comme tier-2 comme pool) sont regroupes
+      // et dimensionnes par le plan. Les cases non couvertes restent en fond
+      // propre : pas de fillers pointilles qui font "vide".
       ranked.forEach((r, i) => {
-        if (r.kind !== "real") return;
-        if (r.tier === 1) return;
-        const size = plan[i];
-        if (!size) return;
-        const cappedRows = Math.min(size.rows, 1);
-        r.el.setAttribute(
-          "style",
-          `grid-column: span ${size.cols}; grid-row: span ${cappedRows}; view-transition-name: tile-${r.slug};`,
-        );
+        const size = plan[i] || { cols: 2, rows: 1 };
+        if (r.kind === "real") {
+          r.el.setAttribute(
+            "style",
+            `grid-column: span ${size.cols}; grid-row: span ${size.rows}; view-transition-name: tile-${r.slug};`,
+          );
+        } else {
+          const tile = createPoolTileSized(r.p, size);
+          if (r.score >= 2) tile.classList.add("match-champion");
+          else tile.classList.add("match-hit");
+          grid.appendChild(tile);
+        }
       });
 
-      ranked.forEach((r, i) => {
-        if (r.kind !== "pool") return;
-        const size = plan[i] || { cols: 1, rows: 1 };
-        const tile = createPoolTileSized(r.p, size);
-        if (r.score >= 2) tile.classList.add("match-champion");
-        else tile.classList.add("match-hit");
-        grid.appendChild(tile);
-      });
-
+      // On complete la grille avec des cases de remplissage neutres : le pavage
+      // bento reste plein, meme la ou il n'y a pas de projet.
       const remaining = computeFillerCount();
       for (let i = 0; i < remaining; i++) {
         const filler = document.createElement("div");

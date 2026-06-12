@@ -188,6 +188,26 @@ export const projects: Project[] = [
       { type: "screenshot", src: "/images/dictaphone4.png", caption: "Timeline : 28 notes en février, 913 minutes de voix capturées" },
     ],
   },
+  {
+    slug: "programme-ton-agent",
+    name: "Programme ton agent",
+    descriptionFr:
+      "Un serious game pour comprendre l'agentique en la manipulant. On compose un agent IA carte par carte (modèle, mémoire, outils, garde-fous), on le lâche sur une vraie demande, et on ressent dans le portefeuille pourquoi un agent qui en fait trop coûte cher pour rien.",
+    about:
+      "Comprendre l'IA ne passe pas par des slides. Un schéma au mur, on hoche la tête, trois minutes plus tard c'est oublié. **Programme ton agent fait manipuler au lieu d'écouter** : on construit un agent, on le lance sur une vraie demande, et on en vit les conséquences dans le portefeuille.\n\n## La méthode AAA\n\nAcculturation, Arbitrage, Action. D'abord comprendre de quoi on parle, ensuite trancher des choix concrets et en subir les conséquences, enfin agir et manipuler plutôt qu'écouter. C'est à ce moment que ça rentre vraiment.\n\n## La boucle de jeu\n\nOn compose l'agent carte par carte : un modèle (le léger doute et retente, le lourd tranche du premier coup mais coûte plus), une consigne, une mémoire, des outils, des garde-fous. Puis on le lâche sur une demande client. Sa boucle d'appels se déroule à l'écran, le harnais à gauche, le modèle à droite. Le contexte grossit à chaque tour, et chaque tour coûte. Le défi : la bonne réponse, au meilleur prix.\n\n## Ce que le jeu fait ressentir\n\nLe contexte est renvoyé en entier au modèle à chaque appel : plus il enfle, plus ça coûte. La mémoire qui persiste entre les manches paye quand elle est propre et empoisonne quand elle est périmée. Un outil bavard appelé souvent devient un gouffre à tokens. Le retry, la compaction et l'hallucination cessent d'être des mots pour devenir des lignes sur le compteur.\n\n## Sous le capot\n\n**Moteur déterministe, séparé de la vue.** Toute la logique de coût, de mémoire et de retries vit dans un moteur TypeScript pur, vérifié par des tests qui rejouent une simulation chiffrée : le jeu optimal réussit en autonomie sous le budget, le jeu négligent crame tout. La vue Svelte ne fait qu'animer l'état produit. Neuf missions jouables, du débutant en une manche à l'agent cumulatif sur plusieurs manches.\n\n## L'usage\n\nConstruit pour la formation (formateur certifié Qualiopi), les talks, et bientôt les Kafés IA. Jouable gratuitement en ligne.",
+    tags: ["Serious game", "Pédagogie"],
+    techStack: ["Svelte 5", "TypeScript", "Vite", "Vitest"],
+    skills: ["agents", "typescript", "creative", "content", "edtech"],
+    tagColor: "coral",
+    tier: 1,
+    tryUrl: "https://programme-ton-agent.vercel.app",
+    tryLabel: "Jouer",
+    media: [
+      { type: "video", src: "/videos/programme-ton-agent.mp4", poster: "/images/programme-ton-agent-poster.webp", caption: "Une partie : on compose l'agent, on le lâche, le compteur de coût grimpe" },
+      { type: "screenshot", src: "/images/programme-ton-agent-build.webp", caption: "Construction : brancher les outils, chaque carte rejoint le contexte et pèse" },
+      { type: "screenshot", src: "/images/programme-ton-agent-verdict.webp", caption: "Le verdict : juste et autonome, mais payé plus cher que nécessaire" },
+    ],
+  },
   // ===================== SMALL (2) =====================
   {
     slug: "skeletonify",

@@ -557,6 +557,14 @@
   width: 100%;
 }
 
+/* Dans le carrousel, le slide centre ses enfants (align-items:center) : sans
+   hauteur explicite, le wrapper prend la taille du contenu et le max-height:100%
+   de la video devient circulaire, donc la video deborde en hauteur. On borne. */
+.modal-media .carousel-slide .video-wrapper {
+  height: 100%;
+  max-height: 100%;
+}
+
 .modal-media img,
 .modal-media video {
   max-width: 100%;
