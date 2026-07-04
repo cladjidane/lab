@@ -12,20 +12,56 @@ const dictWave = [4, 8, 5, 11, 3, 7, 9, 5];
 ---
 
 <Layout title="Le lab IA de Fabien Canu" description="Le lab IA de Fabien Canu. 25 ans de code, l'IA comme levier. Une vingtaine de produits sortis en 18 mois : PAI (mémoire persistante), Jaja (assistant vocal), Uptake, Vokable, Epicycle Draw, et d'autres. Terrain d'essai en continu.">
-  <main class="bento-grid bg-surface">
-    <!-- ================= ROW 1-2 : TROIS STARS ================= -->
+  <div class="lab-page">
 
-    <!-- FC Branding (c1 r1) -->
-    <div
-      class="bento-tile bg-on-surface grain-kraft flex flex-col items-center justify-center text-center overflow-hidden px-2"
-      style="grid-column: 1; grid-row: 1;"
-      data-info="about"
-    >
-      <span class="font-headline text-4xl font-bold text-white tracking-tighter leading-none">FC</span>
-      <span class="font-headline text-[9px] text-white/80 mt-1.5 leading-none">Fabien Canu</span>
-      <span class="font-headline text-[7px] uppercase tracking-[0.3em] text-white/45 mt-1">Lab · 2026</span>
-      <div class="absolute bottom-1.5 left-1.5 w-2 h-2 rounded-full bg-brand-cyan" style="z-index:2;"></div>
-    </div>
+    <!-- ================= HERO ================= -->
+    <header class="hero-wrap">
+      <div class="flex items-center gap-2 mb-3">
+        <span class="w-2 h-2 rounded-full bg-brand-cyan"></span>
+        <span class="font-headline text-[11px] uppercase tracking-[0.28em] text-on-surface-variant">L'atelier de · Lab 2026</span>
+      </div>
+      <h1 class="hero-name">Fabien Canu</h1>
+
+      <div class="hero-strip">
+        <figure class="hero-cell hero-photo grain-kraft" style="margin:0;">
+          <span class="material-symbols-outlined ph">person</span>
+          <figcaption>ta trombine ici</figcaption>
+        </figure>
+
+        <div class="hero-cell bg-white grain-paper flex flex-col justify-center px-7">
+          <p class="font-body text-[19px] md:text-[23px] font-medium text-on-surface leading-snug">25 ans de code. Aujourd'hui je fais bosser l'IA sur du <span class="text-primary font-bold">concret</span>.</p>
+        </div>
+
+        <div class="hero-cell bg-on-surface grain-kraft flex flex-col justify-center gap-3 px-6 py-5">
+          <span class="font-headline text-[10px] uppercase tracking-[0.24em] text-brand-cyan">Ce que je fais</span>
+          <p class="font-body text-[13.5px] text-white/85 leading-snug">Je conçois des produits IA et je les branche sur ce qui existe déjà. Du prototype à la prod, et je forme les équipes.</p>
+          <div class="flex flex-wrap gap-1.5">
+            <span class="font-headline text-[9px] uppercase tracking-[0.06em] text-white/75" style="background:rgba(255,255,255,0.09); padding:4px 9px; border-radius:5px;">Architecture produit</span>
+            <span class="font-headline text-[9px] uppercase tracking-[0.06em] text-white/75" style="background:rgba(255,255,255,0.09); padding:4px 9px; border-radius:5px;">Intégration IA</span>
+            <span class="font-headline text-[9px] uppercase tracking-[0.06em] text-white/75" style="background:rgba(255,255,255,0.09); padding:4px 9px; border-radius:5px;">Agentique</span>
+            <span class="font-headline text-[9px] uppercase tracking-[0.06em] text-white/75" style="background:rgba(255,255,255,0.09); padding:4px 9px; border-radius:5px;">Formation</span>
+          </div>
+        </div>
+      </div>
+
+    </header>
+
+    <!-- ================= MOSAIQUE ================= -->
+    <div class="mosaic-frame">
+      <!-- Filtres, au niveau de la mosaïque -->
+      <SkillsFilter />
+
+      <main class="bento-grid">
+        <!-- ================= ROW 1-2 : TROIS STARS ================= -->
+
+        <!-- Case vide — rythme (c1 r1) -->
+        <div class="bento-tile creative-tile bg-surface-container-low grain-paper" style="grid-column: 1; grid-row: 1;">
+          <svg class="creative-shapes" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+            <rect class="c-open" x="30" y="30" width="40" height="40" rx="6"></rect>
+          </svg>
+          <span class="creative-bubble"></span>
+          <span class="creative-label">à venir</span>
+        </div>
 
     <!-- PAI hero (c2-3, r1-2) -->
     {(() => {
@@ -347,57 +383,86 @@ const dictWave = [4, 8, 5, 11, 3, 7, 9, 5];
       <span class="font-headline text-[7px] uppercase tracking-[0.15em] text-outline mt-1 leading-tight block">produits IA<br />2025-26</span>
     </div>
 
-    <!-- Context Collective (c4 r5) -->
-    <div
-      class="bento-tile bento-bg-cyan grain-paper flex flex-col items-center justify-center overflow-hidden"
-      style="grid-column: 4; grid-row: 5;"
-      data-info="context-collective"
-    >
-      <span class="material-symbols-outlined text-xl text-primary mb-0.5">hub</span>
-      <span class="font-headline text-[11px] font-bold text-on-surface leading-tight text-center">Context<br/>Collective</span>
-      <span class="font-headline text-[8px] uppercase tracking-[0.15em] text-on-surface-variant mt-0.5">Communauté IA</span>
+    <!-- Cases vides — rythme (c4, c5-6, c7-8 r5) -->
+    <div class="bento-tile creative-tile bg-surface-container grain-paper" style="grid-column: 4; grid-row: 5;">
+      <svg class="creative-shapes" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+        <rect class="c-open" x="32" y="32" width="36" height="36" rx="6"></rect>
+      </svg>
+      <span class="creative-bubble"></span>
+      <span class="creative-label">à venir</span>
     </div>
 
-    <!-- Fabien Canu bio (c5 r5) -->
-    <div
-      class="bento-tile bg-surface-container grain-paper flex flex-col items-center justify-center text-center p-3 overflow-hidden"
-      style="grid-column: 5; grid-row: 5;"
-      data-info="fabien"
-    >
-      <span class="material-symbols-outlined text-xl text-on-surface mb-0.5">person</span>
-      <span class="font-headline text-[11px] font-bold text-on-surface leading-tight">Fabien<br />Canu</span>
-      <span class="font-headline text-[8px] uppercase tracking-[0.2em] text-on-surface-variant mt-0.5">À propos</span>
+    <div class="bento-tile creative-tile bg-surface-container-low grain-paper" style="grid-column: 5 / 7; grid-row: 5;">
+      <svg class="creative-shapes" viewBox="0 0 200 100" preserveAspectRatio="xMidYMid meet">
+        <rect class="c-solid" x="18" y="34" width="34" height="34" rx="5"></rect>
+        <rect class="c-open" x="86" y="30" width="40" height="40" rx="6"></rect>
+        <rect class="c-solid" x="150" y="38" width="28" height="28" rx="4"></rect>
+      </svg>
+      <span class="creative-bubble"></span>
+      <span class="creative-label">en incubation</span>
     </div>
 
-    <!-- Koality (c6 r5) -->
-    <div
-      class="bento-tile bento-bg-coral grain-coarse flex flex-col items-center justify-center overflow-hidden"
-      style="grid-column: 6; grid-row: 5;"
-      data-info="koality"
-    >
-      <span class="font-headline text-2xl font-bold text-brand-coral leading-none">K</span>
-      <span class="font-headline text-[9px] font-bold text-on-surface mt-0.5">Koality</span>
-      <span class="font-headline text-[7px] uppercase tracking-[0.2em] text-on-surface-variant">Co-fondateur</span>
+    <div class="bento-tile creative-tile bg-surface-container-high grain-coarse" style="grid-column: 7 / 9; grid-row: 5;">
+      <svg class="creative-shapes" viewBox="0 0 200 100" preserveAspectRatio="xMidYMid meet">
+        <rect class="c-open" x="60" y="30" width="40" height="40" rx="6"></rect>
+        <rect class="c-solid" x="120" y="36" width="30" height="30" rx="4"></rect>
+      </svg>
+      <span class="creative-bubble"></span>
+      <span class="creative-label">la suite arrive</span>
     </div>
+      </main>
+    </div>
+    <!-- fin mosaic-frame -->
 
-    <!-- Contact (c7-8 r5) -->
-    <div
-      class="bento-tile bg-on-surface grain-kraft flex items-center justify-center gap-3 group cursor-pointer overflow-hidden"
-      style="grid-column: 7 / 9; grid-row: 5;"
-      data-info="contact"
-    >
-      <div class="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-brand-cyan"></div>
-      <span class="material-symbols-outlined text-2xl text-white/80 group-hover:text-white transition-colors">mail</span>
-      <div class="flex flex-col items-start">
-        <span class="font-headline text-base font-bold text-white leading-tight">Ecrire</span>
-        <span class="font-headline text-[9px] uppercase tracking-[0.25em] text-white/60">fabien@koality.fr</span>
+    <!-- ================= RESEAU / COMMUNAUTE ================= -->
+    <section class="network">
+      <div class="network-grid">
+        <a href="https://www.context-collective.org/" target="_blank" rel="noopener" class="bento-tile bg-white grain-paper flex flex-col justify-between p-6 overflow-hidden" style="border-radius:12px; min-height:172px; text-decoration:none;">
+          <span class="material-symbols-outlined text-2xl text-primary">hub</span>
+          <div>
+            <h3 class="font-headline text-xl font-bold text-on-surface">Context Collective</h3>
+            <p class="font-body text-sm text-on-surface-variant mt-1">La communauté IA appliquée de Brest. Entre praticiens, pas théoriciens.</p>
+          </div>
+        </a>
+
+        <div class="bento-tile bento-bg-amber grain-coarse flex flex-col justify-between p-6 overflow-hidden" style="border-radius:12px; min-height:172px;">
+          <span class="material-symbols-outlined text-2xl text-brand-amber">coffee</span>
+          <div>
+            <h3 class="font-headline text-xl font-bold text-on-surface">Les Kafés IA</h3>
+            <p class="font-body text-sm text-on-surface-variant mt-1">Des rencontres pour démystifier l'IA, sans jargon, autour d'un café.</p>
+          </div>
+        </div>
+
+        <a href="https://www.linkedin.com/in/fabien-canu/" target="_blank" rel="noopener" class="bento-tile bg-on-surface grain-kraft flex flex-col justify-between p-6 overflow-hidden" style="border-radius:12px; min-height:172px; text-decoration:none;">
+          <span class="material-symbols-outlined text-2xl text-brand-cyan">link</span>
+          <div>
+            <h3 class="font-headline text-xl font-bold text-white">LinkedIn</h3>
+            <p class="font-body text-sm text-white/70 mt-1">Là où je publie ce que j'apprends, chaque semaine.</p>
+          </div>
+        </a>
       </div>
-      <span class="material-symbols-outlined text-sm text-brand-cyan ml-2 group-hover:translate-x-1 transition-transform">arrow_forward</span>
-    </div>
-  </main>
 
-  <!-- Filtres par compétences -->
-  <SkillsFilter />
+      <a href="mailto:fabien@koality.fr" class="bento-tile bg-on-surface grain-kraft flex items-center justify-center gap-3 group overflow-hidden" style="border-radius:12px; margin-top:12px; min-height:96px; text-decoration:none;">
+        <span class="material-symbols-outlined text-2xl text-white/80 group-hover:text-white transition-colors">mail</span>
+        <span class="font-headline text-lg font-bold text-white">On en parle&nbsp;?</span>
+        <span class="font-headline text-[11px] uppercase tracking-[0.2em] text-white/55 ml-2">fabien@koality.fr</span>
+        <span class="material-symbols-outlined text-sm text-brand-cyan ml-1 group-hover:translate-x-1 transition-transform">arrow_forward</span>
+      </a>
+    </section>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="lab-footer">
+      <span>© 2026 Fabien Canu · Lab</span>
+      <nav class="footer-links">
+        <a href="/mentions-legales">Mentions légales</a>
+        <a href="https://koality.fr" target="_blank" rel="noopener">Koality</a>
+        <a href="https://www.linkedin.com/in/fabien-canu/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/cladjidane" target="_blank" rel="noopener">GitHub</a>
+      </nav>
+    </footer>
+
+  </div>
+  <!-- fin lab-page -->
 
   <!-- Modal -->
   <div id="modal" class="modal-backdrop" role="dialog" aria-modal="true">
