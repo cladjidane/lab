@@ -1,967 +1,618 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import SkillsFilter from "../components/SkillsFilter.astro";
-import { projects } from "../data/projects";
-
-function getProject(slug: string) {
-  return projects.find((p) => p.slug === slug);
-}
-
-const waveBars = [10, 16, 8, 20, 6, 14, 10, 24, 12, 18, 7, 16];
-const dictWave = [4, 8, 5, 11, 3, 7, 9, 5];
 ---
 
-<Layout title="Le lab IA de Fabien Canu" description="Le lab IA de Fabien Canu. 25 ans de code, l'IA comme levier. Une vingtaine de produits sortis en 18 mois : PAI (mémoire persistante), Jaja (assistant vocal), Uptake, Vokable, Epicycle Draw, et d'autres. Terrain d'essai en continu.">
-  <div class="lab-page">
-
-    <!-- ================= HERO ================= -->
-    <header class="hero-wrap">
-      <div class="flex items-center gap-2 mb-3">
-        <span class="w-2 h-2 rounded-full bg-brand-cyan"></span>
-        <span class="font-headline text-[11px] uppercase tracking-[0.28em] text-on-surface-variant">L'atelier de · Lab 2026</span>
+<Layout
+  title="Fabien Canu — Architecte produit IA, en Bretagne"
+  description="Architecte produit IA, en Bretagne. 25 ans à concevoir et livrer des produits digitaux. Conseil et architecture IA, formation, réalisation. Co-fondateur de Koality."
+>
+  <!-- ================= NAV ================= -->
+  <nav class="home-nav">
+    <div class="home-nav-inner">
+      <a href="/" class="home-brand">Fabien Canu</a>
+      <div class="home-nav-links">
+        <a href="#a-propos" class="home-nav-link home-nav-hide-mobile">À propos</a>
+        <a href="/lab" class="home-nav-link">Le lab</a>
+        <a href="mailto:contact@koality.fr" class="home-nav-cta">Écrire</a>
       </div>
-      <h1 class="hero-name">Fabien Canu</h1>
+    </div>
+  </nav>
 
-      <div class="hero-strip">
-        <figure class="hero-cell hero-photo grain-kraft" style="margin:0;">
-          <span class="material-symbols-outlined ph">person</span>
-          <figcaption>ta trombine ici</figcaption>
-        </figure>
-
-        <div class="hero-cell bg-white grain-paper flex flex-col justify-center px-7">
-          <p class="font-body text-[19px] md:text-[23px] font-medium text-on-surface leading-snug">25 ans de code. Aujourd'hui je fais bosser l'IA sur du <span class="text-primary font-bold">concret</span>.</p>
+  <main class="home">
+    <!-- ================= ARRIVÉE ================= -->
+    <section class="home-hero-band">
+      <div class="home-hero">
+        <div class="home-eyebrow">
+          <span class="home-eyebrow-dash"></span>
+          <span class="home-eyebrow-txt">Architecte produit IA · Bretagne</span>
         </div>
-
-        <div class="hero-cell bg-on-surface grain-kraft flex flex-col justify-center gap-3 px-6 py-5">
-          <span class="font-headline text-[10px] uppercase tracking-[0.24em] text-brand-cyan">Ce que je fais</span>
-          <p class="font-body text-[13.5px] text-white/85 leading-snug">Je conçois des produits IA et je les branche sur ce qui existe déjà. Du prototype à la prod, et je forme les équipes.</p>
-          <div class="flex flex-wrap gap-1.5">
-            <span class="font-headline text-[9px] uppercase tracking-[0.06em] text-white/75" style="background:rgba(255,255,255,0.09); padding:4px 9px; border-radius:5px;">Architecture produit</span>
-            <span class="font-headline text-[9px] uppercase tracking-[0.06em] text-white/75" style="background:rgba(255,255,255,0.09); padding:4px 9px; border-radius:5px;">Intégration IA</span>
-            <span class="font-headline text-[9px] uppercase tracking-[0.06em] text-white/75" style="background:rgba(255,255,255,0.09); padding:4px 9px; border-radius:5px;">Agentique</span>
-            <span class="font-headline text-[9px] uppercase tracking-[0.06em] text-white/75" style="background:rgba(255,255,255,0.09); padding:4px 9px; border-radius:5px;">Formation</span>
-          </div>
-        </div>
+        <h1 class="home-h1">Fabien<br />Canu<span class="accent">.</span></h1>
+        <p class="home-lead">
+          25 ans à concevoir et livrer des produits digitaux. Aujourd'hui, l'IA
+          au quotidien.
+        </p>
       </div>
-
-    </header>
-
-    <!-- ================= MOSAIQUE ================= -->
-    <div class="mosaic-frame">
-      <!-- Filtres, au niveau de la mosaïque -->
-      <SkillsFilter />
-
-      <main class="bento-grid">
-        <!-- ================= ROW 1-2 : TROIS STARS ================= -->
-
-        <!-- Case vide — rythme (c1 r1) -->
-        <div class="bento-tile creative-tile bg-surface-container-low grain-paper" style="grid-column: 1; grid-row: 1;">
-          <svg class="creative-shapes" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
-            <rect class="c-open" x="30" y="30" width="40" height="40" rx="6"></rect>
-          </svg>
-          <span class="creative-bubble"></span>
-          <span class="creative-label">à venir</span>
-        </div>
-
-    <!-- PAI hero (c2-3, r1-2) -->
-    {(() => {
-      const p = getProject("pai")!;
-      return (
-        <div
-          class="bento-tile bento-bg-cyan grain-paper flex flex-col justify-end p-8 overflow-hidden"
-          style="grid-column: 2 / 4; grid-row: 1 / 3;"
-          data-slug={p.slug}
-        >
-          <div>
-            <span class="font-headline text-[10px] uppercase tracking-[0.3em] text-primary">Infrastructure IA</span>
-            <h2 class="font-headline text-7xl font-bold text-on-surface leading-[0.82] mt-2">{p.name}</h2>
-            <span class="font-body text-sm text-on-surface-variant mt-3 block max-w-[220px]">1500+ sessions, 50+ projets, une memoire qui persiste</span>
-          </div>
-          <div class="absolute top-5 right-5 flex items-baseline gap-1" style="z-index:2;">
-            <span class="font-headline text-xs font-bold text-primary">1500+</span>
-            <span class="font-headline text-[8px] uppercase tracking-wider text-on-surface-variant">sessions</span>
-          </div>
-        </div>
-      );
-    })()}
-
-    <!-- JAJA hero (c4-6, r1-2) -->
-    {(() => {
-      const p = getProject("jaja")!;
-      return (
-        <div
-          class="bento-tile bento-bg-coral grain-paper flex flex-col justify-end p-10 overflow-hidden"
-          style="grid-column: 4 / 7; grid-row: 1 / 3;"
-          data-slug={p.slug}
-        >
-          <div class="absolute top-10 right-10 h-28 flex items-end gap-[3px] opacity-55" style="z-index:2;">
-            {waveBars.map((h) => (
-              <div class="w-1.5 rounded-full bg-brand-coral" style={`height: ${h * 4}px`}></div>
-            ))}
-          </div>
-          <div class="absolute top-10 left-10 flex items-center gap-2" style="z-index:2;">
-            <span class="w-1.5 h-1.5 rounded-full bg-brand-coral animate-pulse"></span>
-            <span class="font-headline text-[9px] uppercase tracking-[0.25em] text-on-surface-variant">live · voice · agents</span>
-          </div>
-          <div>
-            <span class="font-headline text-[10px] uppercase tracking-[0.3em] text-on-surface-variant">Orchestration IA</span>
-            <h2 class="font-headline text-[120px] font-bold text-on-surface leading-[0.75] mt-3 tracking-tighter">{p.name}</h2>
-            <span class="font-body text-base text-on-surface-variant mt-3 block">L'assistant qui agit, pas qui cause.</span>
-          </div>
-        </div>
-      );
-    })()}
-
-    <!-- Oignon Roscoff hero (c7-8, r1-2) -->
-    {(() => {
-      const p = getProject("oignon-roscoff-aop")!;
-      return (
-        <div
-          class="bento-tile bento-bg-amber grain-coarse flex flex-col justify-end p-8 overflow-hidden"
-          style="grid-column: 7 / 9; grid-row: 1 / 3;"
-          data-slug={p.slug}
-        >
-          <div class="absolute top-5 right-5 font-headline text-[42px] font-bold text-brand-amber leading-none" style="z-index:2;">-80<span class="text-xl">%</span></div>
-          <div>
-            <span class="font-headline text-[10px] uppercase tracking-[0.3em] text-on-surface-variant">AOP · Filiere agricole</span>
-            <h2 class="font-headline text-[38px] font-bold text-on-surface leading-[0.85] mt-2">Oignon<br />de Roscoff</h2>
-            <span class="font-body text-[11px] text-on-surface-variant mt-3 block">29 mois de prod · 100 producteurs</span>
-          </div>
-        </div>
-      );
-    })()}
-
-    <!-- Skeletonify (c1 r2) -->
-    {(() => {
-      const p = getProject("skeletonify")!;
-      return (
-        <div
-          class="bento-tile bg-surface-container grain-paper flex flex-col justify-end p-4 overflow-hidden"
-          style="grid-column: 1; grid-row: 2;"
-          data-slug={p.slug}
-        >
-          <div class="absolute top-3 left-3 right-3 space-y-1.5 opacity-40" style="z-index:2;">
-            <div class="h-1.5 rounded-full bg-outline-variant w-full"></div>
-            <div class="h-1.5 rounded-full bg-outline-variant w-3/4"></div>
-            <div class="h-1.5 rounded-full bg-outline-variant w-5/6"></div>
-          </div>
-          <h3 class="font-headline text-sm font-bold text-on-surface leading-tight">Skeletonify</h3>
-          <span class="font-headline text-[8px] text-outline uppercase tracking-wider mt-0.5">Anonymisation IA</span>
-        </div>
-      );
-    })()}
-
-    <!-- ================= ROW 3-4 : MEDIUM + HERO VERTICAL ================= -->
-
-    <!-- Uptake hero vertical (c1-2, r3-4) -->
-    {(() => {
-      const p = getProject("uptake")!;
-      return (
-        <div
-          class="bento-tile bento-bg-cyan grain-paper flex flex-col justify-end p-7 overflow-hidden"
-          style="grid-column: 1 / 3; grid-row: 3 / 5;"
-          data-slug={p.slug}
-        >
-          <div class="absolute top-6 right-6" style="z-index:2;">
-            <span class="material-symbols-outlined text-2xl text-primary">translate</span>
-          </div>
-          <div>
-            <span class="font-headline text-[10px] uppercase tracking-[0.3em] text-primary">Web · IA · Apprentissage</span>
-            <h2 class="font-headline text-[54px] font-bold text-on-surface leading-[0.82] mt-2">{p.name}</h2>
-            <span class="font-body text-xs text-primary mt-2 block">4 LLM orchestrés</span>
-            <div class="mt-4 flex items-center gap-2">
-              <div class="h-px w-8 bg-primary"></div>
-              <span class="font-headline text-[9px] uppercase tracking-[0.2em] text-on-surface-variant">Anglais par articles réels</span>
-            </div>
-          </div>
-        </div>
-      );
-    })()}
-
-    <!-- Oligae (c3-4, r3) -->
-    {(() => {
-      const p = getProject("oligae")!;
-      return (
-        <div
-          class="bento-tile bg-white grain-paper flex items-center justify-between px-6 overflow-hidden"
-          style="grid-column: 3 / 5; grid-row: 3;"
-          data-slug={p.slug}
-        >
-          <div>
-            <span class="font-headline text-[9px] uppercase tracking-[0.25em] text-brand-coral">SaaS · ODG agricoles</span>
-            <h2 class="font-headline text-3xl font-bold text-on-surface leading-[0.9] mt-1">{p.name}</h2>
-            <div class="flex items-center gap-3 mt-1.5">
-              <span class="font-headline text-[10px] text-outline"><span class="font-bold text-on-surface">2</span> prod</span>
-              <span class="w-1 h-1 rounded-full bg-outline-variant"></span>
-              <span class="font-headline text-[10px] text-outline"><span class="font-bold text-on-surface">11</span> demos</span>
-              <span class="w-1 h-1 rounded-full bg-outline-variant"></span>
-              <span class="font-headline text-[10px] text-outline"><span class="font-bold text-on-surface">1</span> mois</span>
-            </div>
-          </div>
-          <div class="relative flex items-center justify-center w-16 h-16 rounded-full bg-brand-coral/10">
-            <span class="material-symbols-outlined text-3xl text-brand-coral">hub</span>
-          </div>
-        </div>
-      );
-    })()}
-
-    <!-- Karousel (c6-7, r3) -->
-    {(() => {
-      const p = getProject("karousel")!;
-      return (
-        <div
-          class="bento-tile bg-surface-container-high grain-paper flex items-center px-5 overflow-hidden"
-          style="grid-column: 6 / 8; grid-row: 3;"
-          data-slug={p.slug}
-        >
-          <div>
-            <span class="font-headline text-[9px] uppercase tracking-[0.2em] text-on-surface-variant">LinkedIn</span>
-            <h2 class="font-headline text-2xl font-bold text-on-surface mt-0.5">{p.name}</h2>
-            <span class="font-body text-[10px] text-outline mt-0.5 block">LLM + compilateur</span>
-          </div>
-          <div class="ml-auto flex gap-1.5">
-            <span class="w-6 h-10 rounded-sm bg-primary/25"></span>
-            <span class="w-6 h-10 rounded-sm bg-primary/50"></span>
-            <span class="w-6 h-10 rounded-sm bg-primary/75"></span>
-          </div>
-        </div>
-      );
-    })()}
-
-    <!-- Claude Analysis (c5 r3) -->
-    {(() => {
-      const p = getProject("claude-analysis")!;
-      return (
-        <div
-          class="bento-tile bg-surface-container grain-paper flex flex-col justify-between p-4 overflow-hidden"
-          style="grid-column: 5; grid-row: 3;"
-          data-slug={p.slug}
-        >
-          <span class="material-symbols-outlined text-lg text-brand-amber">analytics</span>
-          <div>
-            <h3 class="font-headline text-sm font-bold text-on-surface leading-tight">{p.name}</h3>
-            <span class="font-headline text-[8px] text-outline uppercase tracking-wider">Anatomie LLM</span>
-          </div>
-        </div>
-      );
-    })()}
-
-    <!-- Privacy Filter (c8 r3) -->
-    {(() => {
-      const p = getProject("privacy-filter")!;
-      return (
-        <div
-          class="bento-tile bg-surface-container-low grain-paper flex flex-col justify-between p-4 overflow-hidden"
-          style="grid-column: 8; grid-row: 3;"
-          data-slug={p.slug}
-        >
-          <span class="material-symbols-outlined text-lg text-brand-coral">shield_lock</span>
-          <div>
-            <h3 class="font-headline text-sm font-bold text-on-surface leading-tight">{p.name}</h3>
-            <span class="font-headline text-[8px] text-outline uppercase tracking-wider">PII local devant LLM</span>
-          </div>
-        </div>
-      );
-    })()}
-
-    <!-- Dictaphone (c4-5, r4) -->
-    {(() => {
-      const p = getProject("dictaphone")!;
-      return (
-        <div
-          class="bento-tile bg-white grain-paper flex items-center gap-4 px-6 overflow-hidden"
-          style="grid-column: 4 / 6; grid-row: 4;"
-          data-slug={p.slug}
-        >
-          <div class="flex items-center justify-center w-12 h-12 rounded-full bg-on-surface">
-            <span class="material-symbols-outlined text-white">mic</span>
-          </div>
-          <div class="flex-1">
-            <h2 class="font-headline text-2xl font-bold text-on-surface leading-tight">{p.name}</h2>
-            <div class="flex items-center gap-1.5 mt-0.5">
-              <span class="w-1.5 h-1.5 rounded-full bg-brand-coral"></span>
-              <span class="font-headline text-[10px] text-outline uppercase tracking-wider">Transcription locale</span>
-            </div>
-          </div>
-          <div class="flex items-end gap-[2px] h-8">
-            {dictWave.map((h) => (
-              <div class="w-0.5 bg-on-surface rounded-full" style={`height: ${h * 3}px`}></div>
-            ))}
-          </div>
-        </div>
-      );
-    })()}
-
-    <!-- Epicycle Draw (c3 r4) -->
-    {(() => {
-      const p = getProject("epicycle-draw")!;
-      return (
-        <div
-          class="bento-tile bg-white grain-paper flex flex-col justify-between p-4 overflow-hidden"
-          style="grid-column: 3; grid-row: 4;"
-          data-slug={p.slug}
-        >
-          <span class="material-symbols-outlined text-lg text-primary">donut_large</span>
-          <div>
-            <h3 class="font-headline text-sm font-bold text-on-surface leading-tight">{p.name}</h3>
-            <span class="font-headline text-[8px] text-outline uppercase tracking-wider">Tracé par Fourier</span>
-          </div>
-        </div>
-      );
-    })()}
-
-    <!-- Vokable (c6 r4) -->
-    {(() => {
-      const p = getProject("vokable")!;
-      return (
-        <div
-          class="bento-tile bg-surface-container-low grain-paper flex flex-col justify-between p-4 overflow-hidden"
-          style="grid-column: 6; grid-row: 4;"
-          data-slug={p.slug}
-        >
-          <span class="material-symbols-outlined text-lg text-brand-coral">graphic_eq</span>
-          <div>
-            <h3 class="font-headline text-sm font-bold text-on-surface-variant leading-tight">{p.name}</h3>
-            <span class="font-headline text-[8px] text-outline uppercase tracking-wider">Note vocale → contenu</span>
-          </div>
-        </div>
-      );
-    })()}
-
-    <!-- Programme ton agent (c7-8 r4) -->
-    {(() => {
-      const p = getProject("programme-ton-agent")!;
-      return (
-        <div
-          class="bento-tile bg-white grain-paper flex items-center justify-between px-6 overflow-hidden"
-          style="grid-column: 7 / 9; grid-row: 4;"
-          data-slug={p.slug}
-        >
-          <div>
-            <span class="font-headline text-[9px] uppercase tracking-[0.25em] text-brand-coral">Serious game · agentique</span>
-            <h2 class="font-headline text-xl font-bold text-on-surface leading-[0.95] mt-1">Programme<br />ton agent</h2>
-            <span class="font-body text-[10px] text-outline mt-1.5 block">Compose, lâche, paye la note</span>
-          </div>
-          <div class="ml-auto flex items-end gap-1.5 shrink-0">
-            <span class="w-6 h-10 rounded-md bg-brand-coral/20 -rotate-6"></span>
-            <span class="w-6 h-12 rounded-md bg-brand-coral/45"></span>
-            <span class="w-6 h-10 rounded-md bg-brand-coral/20 rotate-6"></span>
-          </div>
-        </div>
-      );
-    })()}
-
-    <!-- ================= ROW 5 : UTILITY BAR ================= -->
-
-    <!-- Expertise Avant-Projet (c1-2 r5) -->
-    <div
-      class="bento-tile bg-on-surface grain-kraft flex items-center gap-3 px-5 overflow-hidden group cursor-pointer"
-      style="grid-column: 1 / 3; grid-row: 5;"
-      data-info="expertise"
-    >
-      <div class="flex items-baseline gap-0.5">
-        <span class="font-headline text-3xl font-bold text-brand-cyan leading-none">48</span>
-        <span class="font-headline text-sm font-bold text-brand-cyan">h</span>
-      </div>
-      <div class="flex-1 min-w-0">
-        <span class="font-headline text-[9px] uppercase tracking-[0.2em] text-white/60 block">Offre Koality</span>
-        <span class="font-headline text-xs font-bold text-white leading-tight block">Expertise Avant-Projet</span>
-      </div>
-      <span class="material-symbols-outlined text-lg text-brand-cyan">arrow_forward</span>
-    </div>
-
-    <!-- AI stats (c3 r5) -->
-    <div
-      class="bento-tile bg-surface-container-high grain-paper flex flex-col items-center justify-center text-center px-2 overflow-hidden"
-      style="grid-column: 3; grid-row: 5;"
-      data-info="ai-stats"
-    >
-      <div class="flex items-baseline gap-0.5">
-        <span class="font-headline text-xl font-bold text-primary leading-none">~</span>
-        <span class="font-headline text-3xl font-bold text-on-surface leading-none">20</span>
-      </div>
-      <span class="font-headline text-[7px] uppercase tracking-[0.15em] text-outline mt-1 leading-tight block">produits IA<br />2025-26</span>
-    </div>
-
-    <!-- Cases vides — rythme (c4, c5-6, c7-8 r5) -->
-    <div class="bento-tile creative-tile bg-surface-container grain-paper" style="grid-column: 4; grid-row: 5;">
-      <svg class="creative-shapes" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
-        <rect class="c-open" x="32" y="32" width="36" height="36" rx="6"></rect>
-      </svg>
-      <span class="creative-bubble"></span>
-      <span class="creative-label">à venir</span>
-    </div>
-
-    <div class="bento-tile creative-tile bg-surface-container-low grain-paper" style="grid-column: 5 / 7; grid-row: 5;">
-      <svg class="creative-shapes" viewBox="0 0 200 100" preserveAspectRatio="xMidYMid meet">
-        <rect class="c-solid" x="18" y="34" width="34" height="34" rx="5"></rect>
-        <rect class="c-open" x="86" y="30" width="40" height="40" rx="6"></rect>
-        <rect class="c-solid" x="150" y="38" width="28" height="28" rx="4"></rect>
-      </svg>
-      <span class="creative-bubble"></span>
-      <span class="creative-label">en incubation</span>
-    </div>
-
-    <div class="bento-tile creative-tile bg-surface-container-high grain-coarse" style="grid-column: 7 / 9; grid-row: 5;">
-      <svg class="creative-shapes" viewBox="0 0 200 100" preserveAspectRatio="xMidYMid meet">
-        <rect class="c-open" x="60" y="30" width="40" height="40" rx="6"></rect>
-        <rect class="c-solid" x="120" y="36" width="30" height="30" rx="4"></rect>
-      </svg>
-      <span class="creative-bubble"></span>
-      <span class="creative-label">la suite arrive</span>
-    </div>
-      </main>
-    </div>
-    <!-- fin mosaic-frame -->
-
-    <!-- ================= RESEAU / COMMUNAUTE ================= -->
-    <section class="network">
-      <div class="network-grid">
-        <a href="https://www.context-collective.org/" target="_blank" rel="noopener" class="bento-tile bg-white grain-paper flex flex-col justify-between p-6 overflow-hidden" style="border-radius:12px; min-height:172px; text-decoration:none;">
-          <span class="material-symbols-outlined text-2xl text-primary">hub</span>
-          <div>
-            <h3 class="font-headline text-xl font-bold text-on-surface">Context Collective</h3>
-            <p class="font-body text-sm text-on-surface-variant mt-1">La communauté IA appliquée de Brest. Entre praticiens, pas théoriciens.</p>
-          </div>
-        </a>
-
-        <div class="bento-tile bento-bg-amber grain-coarse flex flex-col justify-between p-6 overflow-hidden" style="border-radius:12px; min-height:172px;">
-          <span class="material-symbols-outlined text-2xl text-brand-amber">coffee</span>
-          <div>
-            <h3 class="font-headline text-xl font-bold text-on-surface">Les Kafés IA</h3>
-            <p class="font-body text-sm text-on-surface-variant mt-1">Des rencontres pour démystifier l'IA, sans jargon, autour d'un café.</p>
-          </div>
-        </div>
-
-        <a href="https://www.linkedin.com/in/fabien-canu/" target="_blank" rel="noopener" class="bento-tile bg-on-surface grain-kraft flex flex-col justify-between p-6 overflow-hidden" style="border-radius:12px; min-height:172px; text-decoration:none;">
-          <span class="material-symbols-outlined text-2xl text-brand-cyan">link</span>
-          <div>
-            <h3 class="font-headline text-xl font-bold text-white">LinkedIn</h3>
-            <p class="font-body text-sm text-white/70 mt-1">Là où je publie ce que j'apprends, chaque semaine.</p>
-          </div>
-        </a>
-      </div>
-
-      <a href="mailto:fabien@koality.fr" class="bento-tile bg-on-surface grain-kraft flex items-center justify-center gap-3 group overflow-hidden" style="border-radius:12px; margin-top:12px; min-height:96px; text-decoration:none;">
-        <span class="material-symbols-outlined text-2xl text-white/80 group-hover:text-white transition-colors">mail</span>
-        <span class="font-headline text-lg font-bold text-white">On en parle&nbsp;?</span>
-        <span class="font-headline text-[11px] uppercase tracking-[0.2em] text-white/55 ml-2">fabien@koality.fr</span>
-        <span class="material-symbols-outlined text-sm text-brand-cyan ml-1 group-hover:translate-x-1 transition-transform">arrow_forward</span>
-      </a>
     </section>
 
-    <!-- ================= FOOTER ================= -->
-    <footer class="lab-footer">
-      <span>© 2026 Fabien Canu · Lab</span>
-      <nav class="footer-links">
-        <a href="/mentions-legales">Mentions légales</a>
-        <a href="https://koality.fr" target="_blank" rel="noopener">Koality</a>
-        <a href="https://www.linkedin.com/in/fabien-canu/" target="_blank" rel="noopener">LinkedIn</a>
-        <a href="https://github.com/cladjidane" target="_blank" rel="noopener">GitHub</a>
-      </nav>
-    </footer>
+    <div class="home-col">
 
-  </div>
-  <!-- fin lab-page -->
-
-  <!-- Modal -->
-  <div id="modal" class="modal-backdrop" role="dialog" aria-modal="true">
-    <button id="modal-close-outside" class="modal-close-outside" aria-label="Fermer">
-      <span class="material-symbols-outlined" style="font-size:22px;">close</span>
-    </button>
-    <button id="modal-nav-prev" class="modal-nav-btn modal-nav-prev" aria-label="Projet précédent">
-      <span class="material-symbols-outlined" style="font-size:22px;">chevron_left</span>
-    </button>
-    <button id="modal-nav-next" class="modal-nav-btn modal-nav-next" aria-label="Projet suivant">
-      <span class="material-symbols-outlined" style="font-size:22px;">chevron_right</span>
-    </button>
-    <div class="modal-content relative" id="modal-inner">
-      <div class="modal-controls">
-        <button class="modal-drawer-toggle" id="modal-drawer-toggle" aria-label="Afficher/masquer les infos">
-          <span class="material-symbols-outlined" style="font-size:20px;">side_navigation</span>
-        </button>
-        <button id="modal-close" aria-label="Fermer">
-          <span class="material-symbols-outlined" style="font-size:20px;">close</span>
-        </button>
-      </div>
-      <div class="modal-media" id="modal-media"></div>
-      <div class="modal-info" id="modal-info"></div>
-    </div>
-  </div>
-
-  <script define:vars={{ projects }}>
-    const projectMap = {};
-    projects.forEach((p) => {
-      projectMap[p.slug] = p;
-    });
-
-    const modal = document.getElementById("modal");
-    const modalInner = document.getElementById("modal-inner");
-    const modalMedia = document.getElementById("modal-media");
-    const modalInfo = document.getElementById("modal-info");
-    const modalClose = document.getElementById("modal-close");
-    const modalDrawerToggle = document.getElementById("modal-drawer-toggle");
-    const modalNavPrev = document.getElementById("modal-nav-prev");
-    const modalNavNext = document.getElementById("modal-nav-next");
-
-    let navItems = [];
-    let currentNavIdx = -1;
-
-    const colorMap = {
-      cyan: { accent: "#00d4ff", bg: "#e8fafe" },
-      coral: { accent: "#ff7e67", bg: "#fff0ed" },
-      amber: { accent: "#fbbc00", bg: "#fff8e1" },
-    };
-
-    // Info blocks (non-project tiles) — editorial layout
-    const infoBlocks = {
-      about: {
-        visual: `<div style="font-family:'Space Grotesk'; font-size:120px; font-weight:700; color:#1b1c1a; line-height:0.8;">FC</div><div style="font-family:'Space Grotesk'; font-size:18px; font-weight:700; color:#1b1c1a; margin-top:12px;">Fabien Canu</div><div style="font-family:'Space Grotesk'; font-size:10px; text-transform:uppercase; letter-spacing:0.3em; color:#6e7880; margin-top:6px;">Lab · 2026</div>`,
-        eyebrow: "Le lab IA de Fabien Canu",
-        title: "Un atelier, pas une vitrine",
-        body: "Ce que vous voyez ici, c'est une sélection. **Onze projets tirés d'une vingtaine, et d'autres à venir.** Le lab n'a pas de version finale : c'est un atelier qu'on ouvre, pas une collection qu'on expose.\n\n## Le fil\n\nVoix, transcription, agents, RAG, multi-LLM, orchestration. Des prototypes sortis en une nuit aux SaaS qui tournent en production, chaque projet pose la même question : **qu'est-ce que ça change, concrètement, pour quelqu'un qui en a besoin ?**\n\n## Pourquoi les ouvrir\n\nL'IA bouge trop vite pour attendre une version définitive. En montrer les itérations, avec leurs défauts, leurs redémarrages, leurs impasses, c'est la façon la plus honnête d'en parler. Pas de pitch. Des choses faites, comment, et ce qu'elles ont appris.\n\n## Et ensuite\n\nCe qui passe l'épreuve du terrain remonte chez **Koality** côté clients. **Construction** d'abord, le cœur du métier. Puis **cadrage** quand il faut décider avant d'engager, et **formation** quand il faut transmettre.",
-        tags: ["Atelier vivant", "IA appliquée", "En chantier"],
-      },
-      fabien: {
-        visual: `<div style="display:flex; flex-direction:column; align-items:center;"><div style="width:120px; height:120px; border-radius:20px; background:#1b1c1a; display:flex; align-items:center; justify-content:center; position:relative;"><span style="font-family:'Space Grotesk'; font-size:60px; font-weight:700; color:#fff; letter-spacing:-2px;">FC</span><div style="position:absolute; bottom:10px; right:10px; width:8px; height:8px; border-radius:50%; background:#00d4ff;"></div></div><div style="font-family:'Space Grotesk'; font-size:30px; font-weight:700; color:#1b1c1a; margin-top:14px;">Fabien Canu</div><div style="font-family:'Space Grotesk'; font-size:10px; text-transform:uppercase; letter-spacing:0.3em; color:#6e7880; margin-top:4px;">Concepteur IA · Brest</div></div>`,
-        eyebrow: "À propos",
-        title: "Fabien Canu",
-        body: "Concepteur et stratège produit, basé à Brest. **Vingt-cinq ans** à construire des choses pour le web, **douze** à co-diriger **Koality**. Mon métier d'aujourd'hui consiste moins à écrire du code moi-même qu'à **décider ce qui mérite d'être construit**, pour qui, et à mettre l'IA au service de cette décision plutôt que l'inverse.\n\n## Ce qui m'anime\n\nLes vrais outils plutôt que les démos. Une démo fonctionne une fois, devant un public préparé ; **un outil fonctionne tous les jours**, même quand personne ne regarde. J'arbitre toujours du côté de l'usage réel, pas du pitch. Prototype rapide, retour terrain, décision.\n\n## De moi à Koality\n\nCe qui se joue dans ce lab prolonge directement ce qu'on fait chez **Koality** depuis 2012. **Le cœur du métier, c'est la construction** : applications métier, SaaS, back-offices, intégrations IA. Autour, deux formats plus courts complètent : **Expertise Avant-Projet 48h** pour cadrer avant d'engager, et **formation** pour transmettre ce qu'on maîtrise.\n\n## Hors écran\n\nActif dans la communauté **Context Collective** à Brest. Conférencier bénévole sur l'IA appliquée et Claude Code, avec un angle pédagogique : **démystifier plutôt qu'impressionner**.",
-        tags: ["25 ans de code", "Fabriquant & stratège", "Co-fondateur Koality", "Brest"],
-        links: [
-          { label: "LinkedIn", href: "https://www.linkedin.com/in/fabien-canu/", primary: true, icon: "link" },
-          { label: "koality.fr", href: "https://koality.fr", primary: false, icon: "language" },
-          { label: "GitHub", href: "https://github.com/cladjidane", primary: false, icon: "code" },
-        ],
-      },
-      "ai-stats": {
-        visual: `<div style="font-family:'Space Grotesk'; font-size:140px; font-weight:700; color:#1b1c1a; line-height:0.8;"><span style="font-size:80px; color:#00d4ff; margin-right:8px;">~</span>20</div><div style="font-family:'Space Grotesk'; font-size:10px; text-transform:uppercase; letter-spacing:0.3em; color:#6e7880; margin-top:8px;">produits IA · 2025-2026</div>`,
-        eyebrow: "Vélocité utile",
-        title: "Une vingtaine de produits IA en 18 mois, et après ?",
-        body: "**Ce chiffre n'est pas un trophée.** C'est le signe d'une chose plus intéressante : l'IA permet de **passer de l'idée au prototype utilisable en quelques jours**, pas en quelques mois. Pour un décideur, ça veut dire tester plus, douter plus tôt, décider sur du concret.\n\n## Ce que le lab prouve\n\nQue l'accélération est réelle, **à condition de savoir ce qu'on veut construire**. Le levier n'est pas la vitesse brute, c'est le fait de pouvoir vérifier une hypothèse avant de la budgéter.\n\n## Ce qui ne change pas\n\nLe travail de conception reste humain. **L'IA accélère l'exécution, elle ne décide pas ce qu'il faut construire.** Sans cadrage préalable, la vitesse ne sert qu'à se tromper plus vite.",
-        tags: ["Vitesse utile", "Cadrage", "Usage réel"],
-      },
-      expertise: {
-        visual: `<div style="display:flex; flex-direction:column; align-items:center;"><div style="display:flex; align-items:baseline; gap:6px;"><span style="font-family:'Space Grotesk'; font-size:120px; font-weight:700; color:#1b1c1a; line-height:0.8;">48</span><span style="font-family:'Space Grotesk'; font-size:48px; font-weight:700; color:#00d4ff;">h</span></div><div style="font-family:'Space Grotesk'; font-size:10px; text-transform:uppercase; letter-spacing:0.3em; color:#6e7880; margin-top:10px;">Expertise Avant-Projet · Koality</div></div>`,
-        eyebrow: "Offre Koality",
-        title: "Expertise Avant-Projet · 48h",
-        body: "Avant d'engager plusieurs mois de développement ou quelques centaines de milliers d'euros, il existe une zone où l'on ne sait pas encore ce qu'on ne sait pas. **Le problème est-il bien posé ? La solution envisagée tient-elle la route ? La complexité a-t-elle été correctement estimée ?**\n\n## Le format\n\nL'Expertise Avant-Projet répond à ces questions en 48h. Un cadrage rapide, focalisé, conçu pour éviter de lancer un chantier sur une hypothèse bancale.\n\n## Le déroulé\n\nUn brief envoyé par le client, un échange d'une à deux heures pour poser le contexte, une journée de plongée dans le sujet, puis un document livrable qui identifie **ce qui tient**, **ce qui tangue**, **ce qui peut être sécurisé immédiatement** et **ce qui mérite une exploration avant d'engager plus**.\n\n## Pour qui\n\nUne offre Koality, conçue pour des décideurs qui veulent investir leurs ressources au bon endroit. Disponible pour des projets tech, IA, produit ou stratégie data.",
-        tags: ["48h", "Cadrage", "Pré-projet"],
-        links: [
-          { label: "En savoir plus", href: "https://koality.fr/expertise-avant-projet", primary: true, icon: "arrow_forward" },
-          { label: "LinkedIn", href: "https://www.linkedin.com/in/fabien-canu/", primary: false, icon: "link" },
-          { label: "koality.fr", href: "https://koality.fr", primary: false, icon: "language" },
-        ],
-      },
-      "context-collective": {
-        visual: `<div style="display:flex; flex-direction:column; align-items:center;"><div style="width:96px; height:96px; border-radius:12px; background:#e8fafe; display:flex; align-items:center; justify-content:center;"><span class="material-symbols-outlined" style="font-size:52px; color:#006386;">hub</span></div><div style="font-family:'Space Grotesk'; font-size:30px; font-weight:700; color:#1b1c1a; margin-top:14px; line-height:1;">Context Collective</div><div style="font-family:'Space Grotesk'; font-size:10px; text-transform:uppercase; letter-spacing:0.3em; color:#6e7880; margin-top:6px;">Communauté IA · Brest</div></div>`,
-        eyebrow: "Communauté",
-        title: "Context Collective",
-        body: "**Context Collective** est une communauté brestoise autour de l'IA appliquée. L'idée est simple : partager ce qui marche, ce qui rate, et les petits outils qu'on construit au passage, entre praticiens plutôt qu'entre théoriciens.\n\n## Pourquoi en parler ici\n\nUne partie des expériences du lab nourrit les échanges de la communauté, et inversement. Les discussions y sont concrètes, orientées usage, loin du bruit ambiant sur l'IA. C'est précieux quand on cherche à garder les pieds sur terre tout en explorant ce qui bouge vite.\n\n## Pour qui\n\nDéveloppeurs, designers, product, fondateurs, chercheurs. Brest et alentours, mais pas que : les échanges sont autant en ligne qu'en vrai.",
-        tags: ["Communauté", "IA appliquée", "Brest"],
-        links: [
-          { label: "context-collective.org", href: "https://www.context-collective.org/", primary: true, icon: "language" },
-        ],
-      },
-      koality: {
-        visual: `<div style="display:flex; flex-direction:column; align-items:center;"><div style="width:88px; height:88px; border-radius:12px; background:#fff0ed; display:flex; align-items:center; justify-content:center;"><span style="font-family:'Space Grotesk'; font-size:44px; font-weight:700; color:#ff7e67;">K</span></div><div style="font-family:'Space Grotesk'; font-size:36px; font-weight:700; color:#1b1c1a; margin-top:12px;">Koality</div><div style="font-family:'Space Grotesk'; font-size:10px; text-transform:uppercase; letter-spacing:0.3em; color:#6e7880; margin-top:4px;">Structure · Co-fondateur</div></div>`,
-        eyebrow: "Koality",
-        title: "La structure, côté professionnel",
-        body: "**Koality** est la structure que je co-dirige depuis 2012. Son métier, au cœur : **construire des applications et des services métier**, de la conception à la mise en production. SaaS, apps web, back-offices, intégrations IA, des outils qui tiennent la charge au quotidien.\n\n## Autour du cœur\n\nDeux formats plus courts viennent compléter la construction : **Expertise Avant-Projet 48h** pour cadrer un projet avant d'engager, et **formation** pour transmettre ce qu'on sait faire (organisme Datadock, candidature Qualiopi en cours).\n\n## Lab et missions\n\nLe lab présenté ici prolonge le travail Koality avec les outils IA les plus récents. **La frontière est claire** : d'un côté des projets clients avec leurs contraintes, de l'autre un terrain d'essai où peuvent être testées des idées qui ne rentreraient jamais dans un devis. Certaines remontent ensuite dans les offres.",
-        tags: ["Construction", "Accompagnement", "Formation", "Depuis 2012"],
-        links: [
-          { label: "koality.fr", href: "https://koality.fr", primary: true, icon: "language" },
-          { label: "LinkedIn", href: "https://www.linkedin.com/in/fabien-canu/", primary: false, icon: "link" },
-        ],
-      },
-      contact: {
-        visual: `<div style="display:flex; flex-direction:column; align-items:center;"><span class="material-symbols-outlined" style="font-size:72px; color:#1b1c1a;">mail</span><div style="font-family:'Space Grotesk'; font-size:24px; font-weight:700; color:#1b1c1a; margin-top:12px;">fabien@koality.fr</div></div>`,
-        eyebrow: "Contact",
-        title: "Prise de contact",
-        body: "**L'email reste le canal le plus efficace.** Réponse sous 48h en général, plus rapidement si le sujet est clair.\n\n## Ce qui fait gagner du temps\n\nUn message structuré en deux paragraphes : **le contexte**, **ce qui a déjà été essayé**, **ce qui est recherché**. Bien plus productif qu'un rendez-vous à froid.\n\n## Avant un appel\n\nUn premier échange écrit est toujours préférable avant de caler un créneau. Cela permet d'arriver préparé et d'éviter les rendez-vous exploratoires peu utiles.\n\n## Démarchage commercial\n\nLes sollicitations commerciales ne reçoivent pas de réponse. Merci de ne pas utiliser ce canal pour de la prospection.",
-        tags: ["Email", "Réponse sous 48h", "Pas de prospection"],
-        links: [
-          { label: "Ecrire un email", href: "mailto:fabien@koality.fr", primary: true, icon: "mail" },
-          { label: "LinkedIn", href: "https://www.linkedin.com/in/fabien-canu/", primary: false, icon: "link" },
-          { label: "koality.fr", href: "https://koality.fr", primary: false, icon: "language" },
-          { label: "GitHub", href: "https://github.com/cladjidane", primary: false, icon: "code" },
-        ],
-      },
-    };
-
-    function renderBody(text) {
-      const boldify = (s) => s.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
-      const blocks = text
-        .split(/\n\n+/)
-        .map((b) => b.trim())
-        .filter((b) => b && !b.startsWith("## "));
-      let leadUsed = false;
-      return blocks
-        .map((block) => {
-          const cls = !leadUsed ? "prose-lead" : "prose-body";
-          leadUsed = true;
-          return '<p class="' + cls + '">' + boldify(block) + "</p>";
-        })
-        .join("");
-    }
-
-    function renderSingleMedia(m, name, noCaption) {
-      let html = "";
-      if (m.type === "gif" || m.type === "screenshot" || m.type === "diagram" || m.type === "split" || m.type === "mockup") {
-        html = `<img src="${m.src}" alt="${name}" loading="lazy" />`;
-      } else if (m.type === "video") {
-        html = `<div class="video-wrapper" style="position:relative;">
-          <video src="${m.src}" ${m.poster ? `poster="${m.poster}"` : ""} muted loop playsinline preload="metadata" style="border-radius:0.5rem;"></video>
-          <button class="play-btn" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:64px; height:64px; border-radius:50%; background:rgba(27,28,26,0.7); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; transition: opacity 200ms;">
-            <span class="material-symbols-outlined" style="font-size:32px; color:#fff; margin-left:3px;">play_arrow</span>
-          </button>
-        </div>`;
-      }
-      if (!noCaption && m.caption) {
-        html += `<div class="modal-caption-bar" data-toggle-drawer>
-          <span class="caption-text">${m.caption}</span>
-          <span class="material-symbols-outlined">chevron_right</span>
-        </div>`;
-      }
-      return html;
-    }
-
-    function openModal(slug) {
-      const p = projectMap[slug];
-      if (!p) return;
-      currentNavIdx = navItems.findIndex((it) => it.type === "project" && it.id === slug);
-
-      const colors = colorMap[p.tagColor] || colorMap.cyan;
-
-      // Media
-      let mediaHtml = "";
-      if (p.media && p.media.length > 0) {
-        if (p.media.length === 1) {
-          const m = p.media[0];
-          mediaHtml = renderSingleMedia(m, p.name);
-        } else {
-          // Carousel for multiple media
-          mediaHtml = `<div class="carousel-container" style="display:flex; flex-direction:column; width:100%; height:100%; min-height:0;">
-            <div class="carousel-viewport" style="flex:1; min-height:0; display:flex; align-items:center; justify-content:center; position:relative;">
-              ${p.media.map((m, i) => `<div class="carousel-slide" data-index="${i}" style="display:${i === 0 ? 'flex' : 'none'}; align-items:center; justify-content:center; width:100%; height:100%;">${renderSingleMedia(m, p.name, true)}</div>`).join("")}
-            </div>
-            <div class="carousel-bar" style="display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 0 0;">
-              <span class="carousel-caption-text" style="font-family:'Manrope'; font-size:13px; color:#6e7880; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0; flex:1;">${p.media[0].caption || ""}</span>
-              <div style="display:flex; align-items:center; gap:8px; flex-shrink:0;">
-                <span class="carousel-counter" style="font-family:'Space Grotesk'; font-size:12px; color:#9ca3af; letter-spacing:0.05em; tabular-nums;">1 / ${p.media.length}</span>
-                <button class="carousel-prev-btn" style="width:36px; height:36px; border-radius:50%; background:#1b1c1a; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center;">
-                  <span class="material-symbols-outlined" style="font-size:18px; color:#fff;">chevron_left</span>
-                </button>
-                <button class="carousel-next-btn" style="width:36px; height:36px; border-radius:50%; background:#1b1c1a; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center;">
-                  <span class="material-symbols-outlined" style="font-size:18px; color:#fff;">chevron_right</span>
-                </button>
-              </div>
-            </div>
-          </div>`;
-        }
-      } else if (p.thumbnail) {
-        mediaHtml = `<img src="${p.thumbnail}" alt="${p.name}" loading="lazy" />`;
-      } else {
-        mediaHtml = `<div style="display:flex; align-items:center; justify-content:center; width:100%; height:200px; font-family:'Space Grotesk'; font-size:48px; font-weight:700; color:#e4e2de;">${p.name.substring(0, 2)}</div>`;
-      }
-      modalMedia.innerHTML = mediaHtml;
-
-      // Info
-      const tags = p.tags
-        .map(
-          (t) =>
-            `<span style="background:${colors.bg}; color:${colors.accent}; padding:4px 10px; border-radius:4px; font-family:'Space Grotesk'; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">${t}</span>`
-        )
-        .join("");
-
-      const techStack = p.techStack
-        .map(
-          (t) =>
-            `<span style="background:#f0eeea; padding:3px 8px; border-radius:4px; font-family:'Space Grotesk'; font-size:10px; font-weight:500; color:#6e7880; letter-spacing:0.04em;">${t}</span>`
-        )
-        .join("");
-
-      modalInfo.classList.remove("details-open");
-      modalInfo.innerHTML = `
-        <div class="modal-info-header">
-          <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:16px;">${tags}</div>
-          <h2 style="font-family:'Space Grotesk'; font-size:36px; font-weight:700; color:#1b1c1a; line-height:1; margin-bottom:16px;">${p.name}</h2>
-          <p class="modal-hook">${p.descriptionFr}</p>
-        </div>
-        <div class="modal-info-body">
-          <div class="modal-details-bar">
-            <button type="button" class="modal-details-toggle" aria-expanded="false">
-              <span class="modal-details-label">Voir les détails</span>
-              <span class="material-symbols-outlined modal-details-arrow">expand_more</span>
-            </button>
-            <div class="modal-details-line" aria-hidden="true"></div>
+      <!-- ================= LES 3 FAMILLES — colonnes ================= -->
+      <section class="home-fams">
+        <div class="home-fams-grid">
+          <div class="home-fam-card home-fam-card--cyan grain-paper">
+            <span class="material-symbols-outlined home-fam-icon home-fam-icon--cyan">hub</span>
+            <h2 class="home-fam-name">Conseil &amp; architecture IA</h2>
+            <div class="home-fam-words">Architecture · Intégration · Métier</div>
+            <p class="home-fam-txt">
+              J'intègre l'IA dans des produits qui existent déjà, là où elle fait
+              gagner du temps. Architecture, choix des bons modèles, mise en
+              production. Cartographie et données géographiques en spécialité.
+            </p>
           </div>
-          <div class="modal-details">${renderBody(p.about)}</div>
-          <div class="modal-techstack" style="display:flex; gap:6px; flex-wrap:wrap;">${techStack}</div>
+
+          <div class="home-fam-card home-fam-card--coral grain-paper">
+            <span class="material-symbols-outlined home-fam-icon home-fam-icon--coral">school</span>
+            <h2 class="home-fam-name">Formation</h2>
+            <div class="home-fam-words">Équipes · Indépendants · Financé</div>
+            <p class="home-fam-txt">
+              Je forme des équipes et des indépendants à travailler avec l'IA, pour
+              qui veut apprendre plutôt que déléguer. Dans un cadre financé ou non,
+              selon les situations.
+            </p>
+          </div>
+
+          <div class="home-fam-card home-fam-card--amber grain-paper">
+            <span class="material-symbols-outlined home-fam-icon home-fam-icon--amber">deployed_code</span>
+            <h2 class="home-fam-name">Réalisation</h2>
+            <div class="home-fam-words">Web · Mobile · Cartographie</div>
+            <p class="home-fam-txt">
+              Je conçois et je livre des produits, du cadrage jusqu'en production.
+              Applications web et mobile, cartographie, architectures métier.
+            </p>
+          </div>
         </div>
-      `;
+      </section>
 
-      const detailsToggle = modalInfo.querySelector(".modal-details-toggle");
-      const detailsBlock = modalInfo.querySelector(".modal-details");
-      if (detailsToggle && detailsBlock) {
-        let reflowTimer = null;
-        detailsToggle.addEventListener("click", () => {
-          const isOpen = modalInfo.classList.toggle("details-open");
-          detailsToggle.classList.toggle("open", isOpen);
-          detailsBlock.classList.toggle("open", isOpen);
-          detailsToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
-          detailsToggle.querySelector(".modal-details-label").textContent = isOpen ? "Réduire" : "Voir les détails";
-          modalInfo.classList.add("reflowing");
-          if (reflowTimer) clearTimeout(reflowTimer);
-          reflowTimer = setTimeout(() => modalInfo.classList.remove("reflowing"), 280);
-        });
-      }
-
-      modalInner.classList.remove("info-layout");
-      modal.classList.add("active");
-      modalInner.classList.remove("expanded");
-      modalInfo.scrollTop = 0;
-      const infoBodyEl = modalInfo.querySelector(".modal-info-body");
-      if (infoBodyEl) infoBodyEl.scrollTop = 0;
-      document.body.style.overflow = "hidden";
-
-      requestAnimationFrame(() => {
-        const isMobile = () => window.matchMedia("(max-width: 767px)").matches;
-        const video = modalMedia.querySelector("video");
-        const playBtn = modalMedia.querySelector(".play-btn");
-        if (video && playBtn) {
-          function startVideo() {
-            video.muted = false;
-            video.play();
-            video.setAttribute("controls", "");
-            playBtn.style.opacity = "0";
-            playBtn.style.pointerEvents = "none";
-            if (!isMobile()) modalInner.classList.add("expanded");
-          }
-          playBtn.addEventListener("click", (e) => {
-            e.stopPropagation();
-            startVideo();
-          });
-          video.addEventListener("click", (e) => {
-            e.stopPropagation();
-            if (!video.hasAttribute("controls")) {
-              startVideo();
-            }
-          });
-        }
-        const img = modalMedia.querySelector("img:not(.carousel-slide img)");
-        if (img) {
-          img.addEventListener("click", (e) => {
-            e.stopPropagation();
-            if (!isMobile()) modalInner.classList.toggle("expanded");
-          });
-        }
-
-        // Carousel controls
-        const carouselContainer = modalMedia.querySelector(".carousel-container");
-        if (carouselContainer) {
-          const slides = carouselContainer.querySelectorAll(".carousel-slide");
-          const captionText = carouselContainer.querySelector(".carousel-caption-text");
-          const counter = carouselContainer.querySelector(".carousel-counter");
-          const prevBtn = carouselContainer.querySelector(".carousel-prev-btn");
-          const nextBtn = carouselContainer.querySelector(".carousel-next-btn");
-          let idx = 0;
-          const total = slides.length;
-
-          function showSlide(newIdx) {
-            slides[idx].style.display = "none";
-            idx = (newIdx + total) % total;
-            slides[idx].style.display = "flex";
-            if (captionText) captionText.textContent = p.media[idx].caption || "";
-            if (counter) counter.textContent = `${idx + 1} / ${total}`;
-          }
-
-          prevBtn.addEventListener("click", (e) => { e.stopPropagation(); showSlide(idx - 1); });
-          nextBtn.addEventListener("click", (e) => { e.stopPropagation(); showSlide(idx + 1); });
-
-          // Click on slide image to expand
-          slides.forEach((slide) => {
-            slide.addEventListener("click", (e) => {
-              e.stopPropagation();
-              modalInner.classList.toggle("expanded");
-            });
-          });
-        }
-      });
-    }
-
-    function openInfoModal(id) {
-      const info = infoBlocks[id];
-      if (!info) return;
-      currentNavIdx = navItems.findIndex((it) => it.type === "info" && it.id === id);
-
-      modalMedia.innerHTML = `<div style="display:flex; flex-direction:column; align-items:center; justify-content:center; width:100%; height:100%; text-align:center;">${info.visual}</div>`;
-
-      const tags = (info.tags || [])
-        .map(
-          (t) =>
-            `<span style="background:#f5f3ef; color:#3e484f; padding:5px 11px; border-radius:4px; font-family:'Space Grotesk'; font-size:10px; font-weight:600; text-transform:uppercase; letter-spacing:0.08em;">${t}</span>`
-        )
-        .join("");
-
-      let linksHtml = "";
-      if (info.links && info.links.length) {
-        linksHtml =
-          '<div style="display:flex; flex-direction:column; gap:8px; margin-top:24px;">' +
-          info.links
-            .map((l) => {
-              const bg = l.primary ? "#1b1c1a" : "transparent";
-              const color = l.primary ? "#fff" : "#1b1c1a";
-              const border = l.primary ? "1px solid #1b1c1a" : "1px solid #e4e2de";
-              return `<a href="${l.href}" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:10px; background:${bg}; color:${color}; border:${border}; padding:12px 18px; border-radius:6px; font-family:'Space Grotesk'; font-size:13px; font-weight:600; text-decoration:none; letter-spacing:0.02em;"><span class="material-symbols-outlined" style="font-size:18px;">${l.icon}</span>${l.label}</a>`;
-            })
-            .join("") +
-          "</div>";
-      }
-
-      const bodyHtml = renderBody(info.body);
-
-      modalInfo.innerHTML = `
-        <div class="info-body" style="margin:0 auto;">
-          <span style="font-family:'Space Grotesk'; font-size:10px; text-transform:uppercase; letter-spacing:0.3em; color:#6e7880; display:block; margin-bottom:10px;">${info.eyebrow}</span>
-          <h2 style="font-family:'Space Grotesk'; font-size:36px; font-weight:700; color:#1b1c1a; line-height:1.05; margin-bottom:24px; letter-spacing:-0.01em;">${info.title}</h2>
-          ${bodyHtml}
-          <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:20px;">${tags}</div>
-          ${linksHtml}
+      <!-- ================= SUR SCÈNE — discret ================= -->
+      <section class="home-minor">
+        <div class="home-kicker">
+          <span class="home-kicker-dash"></span>
+          <span class="home-kicker-label">Sur scène &amp; dans le réseau</span>
         </div>
-      `;
+        <p class="home-minor-txt">
+          On m'invite aussi à en parler : AI Days Bretagne, Context Collective, le
+          Kafe IA en Finistère, et la série
+          <span class="home-italic">« L'IA pas pour les Nuls… mais presque »</span>.
+        </p>
+      </section>
 
-      modalInner.classList.add("info-layout");
-      modalInner.classList.remove("expanded");
-      modal.classList.add("active");
-      modalInfo.scrollTop = 0;
-      document.body.style.overflow = "hidden";
-    }
+      <hr class="home-rule" />
 
-    function closeModal() {
-      modal.classList.remove("active");
-      modalInner.classList.remove("expanded");
-      modalInner.classList.remove("info-layout");
-      document.body.style.overflow = "";
-      const video = modalMedia.querySelector("video");
-      if (video) {
-        video.pause();
-        video.currentTime = 0;
-      }
-    }
+      <!-- ================= UN CAS ================= -->
+      <section class="home-block">
+        <div class="home-kicker">
+          <span class="home-kicker-dash"></span>
+          <span class="home-kicker-label">Un cas · AOP · filière agricole</span>
+        </div>
+        <h2 class="home-h2">Oignon de Roscoff</h2>
+        <div class="home-case-meta">
+          <span>29 mois de production</span>
+          <span class="sep">/</span>
+          <span>100 à 150 producteurs</span>
+          <span class="sep">/</span>
+          <span>27 communes</span>
+        </div>
 
-    modalDrawerToggle.addEventListener("click", () => {
-      modalInner.classList.toggle("expanded");
-    });
+        <div class="home-shot">
+          <video
+            controls
+            preload="none"
+            playsinline
+            poster="/images/oignon-cas-poster.webp"
+            width="1280"
+            height="810"
+          >
+            <source src="/videos/oignon-cas.mp4" type="video/mp4" />
+            Votre navigateur ne peut pas lire cette vidéo.
+          </video>
+        </div>
+        <p class="home-shot-cap">
+          L'assistant « Oignon » remplit une déclaration, à la voix ou au texte. Démo, 1 min 40.
+        </p>
 
-    modalMedia.addEventListener("click", (e) => {
-      const captionBar = e.target.closest("[data-toggle-drawer]");
-      if (captionBar) {
-        e.stopPropagation();
-        modalInner.classList.toggle("expanded");
-      }
-    });
+        <div class="home-case-grid">
+          <div>
+            <div class="home-case-key">Au départ</div>
+            <p class="home-case-txt">
+              Six déclarations réglementaires sur papier, ressaisies chaque année à
+              l'identique par 100 à 150 producteurs répartis sur 27 communes.
+            </p>
+          </div>
+          <div>
+            <div class="home-case-key">Ce qui tourne</div>
+            <p class="home-case-txt">
+              Les six déclarations numérisées : formulaires intelligents, carte
+              cadastrale des parcelles, PDF au format officiel. Un assistant IA guide
+              la saisie, à la voix ou au texte. 80% de temps administratif en moins.
+            </p>
+          </div>
+        </div>
 
-    navItems = Array.from(document.querySelectorAll("[data-slug], [data-info]")).map((el) => ({
-      type: el.hasAttribute("data-slug") ? "project" : "info",
-      id: el.dataset.slug || el.dataset.info,
-    }));
+        <div class="home-tags-block">
+          <div class="home-tags-label">Ce qu'il a fallu réunir</div>
+          <div class="home-tags">
+            <span class="home-tag home-tag--hot">Design</span>
+            <span class="home-tag home-tag--hot">Analyse métier</span>
+            <span class="home-tag">Cartographie</span>
+            <span class="home-tag">Architecture data</span>
+            <span class="home-tag home-tag--hot">Assistant IA</span>
+            <span class="home-tag">Formulaires intelligents</span>
+            <span class="home-tag">Validation AOP</span>
+            <span class="home-tag">Déploiement</span>
+          </div>
+          <a href="/lab" class="home-inline-link">
+            Le reste est dans le lab <span class="accent">→</span>
+          </a>
+        </div>
+      </section>
 
-    // Délégation : couvre aussi les tuiles injectées dynamiquement par SkillsFilter (pool).
-    document.addEventListener("click", (e) => {
-      const target = e.target;
-      if (!(target instanceof Element)) return;
-      const tile = target.closest(".bento-tile");
-      if (!tile) return;
-      const slug = tile.getAttribute("data-slug");
-      const info = tile.getAttribute("data-info");
-      if (slug) {
-        openModal(slug);
-      } else if (info) {
-        e.stopPropagation();
-        openInfoModal(info);
-      }
-    });
+      <hr class="home-rule" />
 
-    // Exposé pour SkillsFilter afin de reconstruire navItems après injection pool.
-    window.__labRebuildNav = () => {
-      navItems = Array.from(document.querySelectorAll("[data-slug], [data-info]")).map((el) => ({
-        type: el.hasAttribute("data-slug") ? "project" : "info",
-        id: el.dataset.slug || el.dataset.info,
-      }));
-    };
+      <!-- ================= QUI JE SUIS ================= -->
+      <section id="a-propos" class="home-block">
+        <div class="home-kicker">
+          <span class="home-kicker-dash"></span>
+          <span class="home-kicker-label">Qui je suis</span>
+        </div>
+        <p class="home-about">
+          J'ai commencé le développement il y a vingt-cinq ans. J'ai basculé vers
+          l'IA parce que c'est là que le métier se réécrit en ce moment. Je codirige
+          <b>Koality</b>, une agence à Lesneven : je ne travaille pas seul.
+        </p>
+      </section>
+    </div>
 
-    modalClose.addEventListener("click", closeModal);
-    document.getElementById("modal-close-outside")?.addEventListener("click", closeModal);
-    modal.addEventListener("click", (e) => {
-      if (e.target === modal) closeModal();
-    });
-
-    function navigateModal(dir) {
-      if (currentNavIdx === -1 || navItems.length === 0) return;
-      const newIdx = (currentNavIdx + dir + navItems.length) % navItems.length;
-      const item = navItems[newIdx];
-      if (item.type === "project") openModal(item.id);
-      else openInfoModal(item.id);
-    }
-
-    modalNavPrev.addEventListener("click", (e) => { e.stopPropagation(); navigateModal(-1); });
-    modalNavNext.addEventListener("click", (e) => { e.stopPropagation(); navigateModal(1); });
-
-    document.addEventListener("keydown", (e) => {
-      if (!modal.classList.contains("active")) return;
-      if (e.key === "Escape") closeModal();
-      if (e.key === "ArrowLeft") navigateModal(-1);
-      if (e.key === "ArrowRight") navigateModal(1);
-    });
-
-    // Easter egg : click on empty creative tiles — non-repeating random whispers, per tile
-    const whispers = [
-      "chuuut ça mijote",
-      "work in progress",
-      "à suivre",
-      "prochaine idée",
-      "en incubation",
-      "le vide est fertile",
-      "laissez mijoter",
-      "hors menu",
-      "atelier ouvert",
-      "brainstorming silencieux",
-      "une piste creuse ici",
-      "idée n°∞",
-      "esquisse mentale",
-      "la meilleure case",
-      "zone franche",
-      "pas encore nommé",
-    ];
-    let creativeClicks = 0;
-    let lastWhisper = -1;
-    document.querySelectorAll(".creative-tile").forEach((tile) => {
-      const bubble = tile.querySelector(".creative-bubble");
-      const open = tile.querySelector(".c-open");
-      tile.addEventListener("click", () => {
-        creativeClicks++;
-        let msg;
-        if (creativeClicks >= 7) {
-          msg = "bravo, tu cliques sur du vide";
-        } else {
-          let idx;
-          do {
-            idx = Math.floor(Math.random() * whispers.length);
-          } while (idx === lastWhisper && whispers.length > 1);
-          lastWhisper = idx;
-          msg = whispers[idx];
-        }
-        bubble.textContent = msg;
-        bubble.classList.remove("show");
-        void bubble.offsetWidth;
-        bubble.classList.add("show");
-        if (open) {
-          open.classList.remove("wiggle");
-          void open.getBoundingClientRect();
-          open.classList.add("wiggle");
-        }
-      });
-    });
-  </script>
+    <!-- ================= CONTACT ================= -->
+    <section class="home-contact grain-kraft">
+      <div class="home-contact-inner">
+        <div class="home-contact-eyebrow">Parler</div>
+        <p class="home-contact-h">Envie d'en discuter ? Écrivez-moi.</p>
+        <a href="mailto:contact@koality.fr" class="home-contact-mail">contact@koality.fr</a>
+        <p class="home-contact-foot">
+          Rester au courant, sans me suivre partout,
+          <a href="https://www.linkedin.com/in/fabien-canu/" target="_blank" rel="noopener">LinkedIn</a>.
+        </p>
+      </div>
+    </section>
+  </main>
 </Layout>
+
+<style>
+  /* =================== NAV =================== */
+  .home-nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(251, 249, 245, 0.82);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(27, 28, 26, 0.07);
+    padding: 0 clamp(24px, 8vw, 130px);
+  }
+  .home-nav-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 0;
+  }
+  .home-brand {
+    font-family: "Space Grotesk", sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: #1b1c1a;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+  }
+  .home-nav-links {
+    display: flex;
+    align-items: center;
+    gap: 26px;
+  }
+  .home-nav-link {
+    font-family: "Space Grotesk", monospace;
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #6e7880;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  .home-nav-link:hover {
+    color: #ff7e67;
+  }
+  .home-nav-cta {
+    font-family: "Space Grotesk", monospace;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #fbf9f5;
+    background: #1b1c1a;
+    padding: 9px 16px;
+    border-radius: 100px;
+    text-decoration: none;
+    transition: background 0.2s ease;
+  }
+  .home-nav-cta:hover {
+    background: #35322d;
+  }
+
+  /* =================== LAYOUT =================== */
+  .home {
+    background: #fbf9f5;
+  }
+  .home-col {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 clamp(24px, 5vw, 72px);
+  }
+  .accent {
+    color: #ff7e67;
+  }
+  .home-rule {
+    border: 0;
+    height: 1px;
+    background: rgba(27, 28, 26, 0.1);
+    max-width: 1100px;
+    margin: 0;
+  }
+  .home-italic {
+    font-style: italic;
+    font-weight: 600;
+  }
+
+  /* =================== ARRIVÉE =================== */
+  .home-hero-band {
+    padding: 0 clamp(24px, 8vw, 130px);
+  }
+  .home-hero {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: clamp(64px, 10vw, 104px) 0 clamp(72px, 9vw, 116px);
+  }
+  .home-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 34px;
+  }
+  .home-eyebrow-dash {
+    width: 28px;
+    height: 3px;
+    background: #ff7e67;
+    display: inline-block;
+  }
+  .home-eyebrow-txt {
+    font-family: "Space Grotesk", monospace;
+    font-size: 12px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: #8f918c;
+  }
+  .home-h1 {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: clamp(3.2rem, 9vw, 88px);
+    line-height: 0.9;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    color: #1b1c1a;
+  }
+  .home-lead {
+    margin-top: 34px;
+    font-size: clamp(19px, 2.4vw, 23px);
+    line-height: 1.5;
+    color: #4a4643;
+    max-width: 560px;
+    font-weight: 400;
+  }
+
+  /* =================== LES 3 FAMILLES (colonnes) =================== */
+  .home-fams-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .home-fam-card {
+    padding: clamp(32px, 3vw, 44px);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .home-fam-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 26px 54px -32px rgba(27, 28, 26, 0.4);
+  }
+  .home-fam-card--cyan {
+    background-color: #e8fafe;
+  }
+  .home-fam-card--coral {
+    background-color: #fff0ed;
+  }
+  .home-fam-card--amber {
+    background-color: #fff8e1;
+  }
+  .home-fam-icon {
+    font-size: 46px;
+    line-height: 1;
+    margin-bottom: 22px;
+    display: block;
+  }
+  .home-fam-icon--cyan {
+    color: #006386;
+  }
+  .home-fam-icon--coral {
+    color: #e0563c;
+  }
+  .home-fam-icon--amber {
+    color: #c08a00;
+  }
+  .home-fam-name {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: clamp(24px, 2.4vw, 31px);
+    line-height: 1.05;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #1b1c1a;
+  }
+  .home-fam-words {
+    margin-top: 14px;
+    font-family: "Space Grotesk", monospace;
+    font-size: 11px;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: #7f8a86;
+  }
+  .home-fam-txt {
+    margin-top: 20px;
+    font-size: 16.5px;
+    line-height: 1.55;
+    color: #2a2620;
+  }
+
+  /* =================== KICKER (label de section) =================== */
+  .home-kicker {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .home-kicker-dash {
+    width: 24px;
+    height: 2px;
+    background: #ff7e67;
+    display: inline-block;
+  }
+  .home-kicker-label {
+    font-family: "Space Grotesk", monospace;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #9a968f;
+  }
+
+  /* =================== SUR SCÈNE (discret) =================== */
+  .home-minor {
+    padding: clamp(64px, 8vw, 88px) 0 clamp(56px, 7vw, 72px);
+    max-width: 1000px;
+  }
+  .home-minor-txt {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #4a4643;
+    max-width: 720px;
+  }
+
+  /* =================== BLOCKS =================== */
+  .home-block {
+    padding: clamp(80px, 11vw, 116px) 0;
+    max-width: 1100px;
+  }
+
+  /* =================== UN CAS =================== */
+  .home-h2 {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: clamp(40px, 6vw, 52px);
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: #1b1c1a;
+  }
+  .home-case-meta {
+    margin: 22px 0 32px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    font-family: "Space Grotesk", monospace;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #8f918c;
+  }
+  .home-case-meta .sep {
+    color: #d3ccc0;
+  }
+  .home-shot {
+    width: 100%;
+    max-width: 700px;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(27, 28, 26, 0.08);
+    box-shadow: 0 30px 60px -40px rgba(27, 28, 26, 0.4);
+  }
+  .home-shot img,
+  .home-shot video {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .home-shot-cap {
+    margin-top: 14px;
+    font-family: "Space Grotesk", monospace;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    color: #9a968f;
+  }
+  .home-case-grid {
+    margin-top: 34px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    max-width: 820px;
+  }
+  .home-case-key {
+    font-family: "Space Grotesk", monospace;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #ff7e67;
+    margin-bottom: 12px;
+  }
+  .home-case-txt {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #4a4643;
+  }
+  .home-tags-block {
+    margin-top: 38px;
+    padding-top: 30px;
+    border-top: 1px solid rgba(27, 28, 26, 0.1);
+    max-width: 820px;
+  }
+  .home-tags-label {
+    font-family: "Space Grotesk", monospace;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #9a968f;
+    margin-bottom: 16px;
+  }
+  .home-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .home-tag {
+    border: 1px solid rgba(27, 28, 26, 0.14);
+    border-radius: 100px;
+    padding: 9px 16px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #1b1c1a;
+  }
+  .home-tag--hot {
+    border-color: #ffd4ca;
+    color: #e0563c;
+    background: #fff0ed;
+    font-weight: 600;
+  }
+  .home-inline-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 28px;
+    font-size: 17px;
+    font-weight: 600;
+    color: #1b1c1a;
+    text-decoration: none;
+    border-bottom: 2px solid #ff7e67;
+    padding-bottom: 3px;
+    transition: color 0.2s ease;
+  }
+  .home-inline-link:hover {
+    color: #ff7e67;
+  }
+
+  /* =================== QUI JE SUIS =================== */
+  .home-about {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: clamp(21px, 2.8vw, 24px);
+    line-height: 1.5;
+    font-weight: 500;
+    color: #1b1c1a;
+    max-width: 680px;
+  }
+  .home-about b {
+    font-weight: 700;
+  }
+
+  /* =================== CONTACT =================== */
+  .home-contact {
+    margin-top: 20px;
+    background-color: #1b1c1a;
+    padding: clamp(80px, 10vw, 104px) clamp(24px, 8vw, 130px);
+  }
+  .home-contact-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .home-contact-eyebrow {
+    font-family: "Space Grotesk", monospace;
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #7a756c;
+    margin-bottom: 26px;
+  }
+  .home-contact-h {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: clamp(32px, 5vw, 40px);
+    line-height: 1.1;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: #fbf9f5;
+    max-width: 560px;
+  }
+  .home-contact-mail {
+    display: inline-block;
+    margin-top: 30px;
+    font-family: "Space Grotesk", monospace;
+    font-size: 22px;
+    color: #fbf9f5;
+    text-decoration: none;
+    border-bottom: 2px solid #ff7e67;
+    padding-bottom: 4px;
+    transition: color 0.2s ease;
+  }
+  .home-contact-mail:hover {
+    color: #ff7e67;
+  }
+  .home-contact-foot {
+    margin-top: 36px;
+    font-size: 16px;
+    color: #9a968f;
+  }
+  .home-contact-foot a {
+    color: #c9c4bb;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* =================== RESPONSIVE =================== */
+  @media (max-width: 860px) {
+    .home-fams-grid {
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+  }
+  @media (max-width: 680px) {
+    .home-case-grid {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+    .home-nav-hide-mobile {
+      display: none;
+    }
+  }
+</style>

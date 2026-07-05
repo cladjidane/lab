@@ -426,12 +426,13 @@ const expandCategories: SkillCategory[] = ["techniques", "modeles", "stack"];
 
 <style>
   .skills-bar {
-    position: relative;
-    margin: 0 0 16px;
-    z-index: 20;
+    position: fixed;
+    top: 0.875rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 50;
     width: max-content;
-    max-width: 100%;
-    border-radius: 10px;
+    border-radius: 8px;
     background: var(--color-surface-container);
     box-shadow: 0 1px 0 rgba(27, 28, 26, 0.04), 0 3px 14px rgba(27, 28, 26, 0.06);
     max-width: calc(100vw - 2rem);
