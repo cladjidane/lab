@@ -28,8 +28,7 @@ import Layout from "../layouts/Layout.astro";
         </div>
         <h1 class="home-h1">Fabien<br />Canu<span class="accent">.</span></h1>
         <p class="home-lead">
-          25 ans à concevoir et livrer des produits digitaux. Aujourd'hui, l'IA
-          au quotidien.
+          Tout le monde produit avec l'IA. Le savoir-faire, c'est autre chose.
         </p>
       </div>
     </section>
@@ -42,117 +41,139 @@ import Layout from "../layouts/Layout.astro";
           <div class="home-fam-card home-fam-card--cyan grain-paper">
             <span class="material-symbols-outlined home-fam-icon home-fam-icon--cyan">hub</span>
             <h2 class="home-fam-name">Conseil &amp; architecture IA</h2>
-            <div class="home-fam-words">Architecture · Intégration · Métier</div>
             <p class="home-fam-txt">
-              J'intègre l'IA dans des produits qui existent déjà, là où elle fait
-              gagner du temps. Architecture, choix des bons modèles, mise en
-              production. Cartographie et données géographiques en spécialité.
+              J'intègre l'IA dans des produits qui existent déjà. Architecture,
+              choix des bons modèles, mise en production. Cartographie et données
+              géographiques en spécialité.
             </p>
+            <p class="home-fam-tech">Claude, GPT · RAG &amp; embeddings · agents &amp; MCP · MapLibre, PostGIS</p>
           </div>
 
           <div class="home-fam-card home-fam-card--coral grain-paper">
             <span class="material-symbols-outlined home-fam-icon home-fam-icon--coral">school</span>
             <h2 class="home-fam-name">Formation</h2>
-            <div class="home-fam-words">Équipes · Indépendants · Financé</div>
             <p class="home-fam-txt">
-              Je forme des équipes et des indépendants à travailler avec l'IA, pour
-              qui veut apprendre plutôt que déléguer. Dans un cadre financé ou non,
-              selon les situations.
+              Je forme des équipes et des indépendants à travailler avec l'IA, du
+              premier contact jusqu'à l'autonomie.
             </p>
+            <p class="home-fam-qualiopi"><span class="check">✓</span> Certifié Qualiopi, les formations sont finançables.</p>
+            <p class="home-fam-tech">Claude, ChatGPT · Claude Code · prompt engineering · automatisation</p>
           </div>
 
           <div class="home-fam-card home-fam-card--amber grain-paper">
             <span class="material-symbols-outlined home-fam-icon home-fam-icon--amber">deployed_code</span>
             <h2 class="home-fam-name">Réalisation</h2>
-            <div class="home-fam-words">Web · Mobile · Cartographie</div>
             <p class="home-fam-txt">
               Je conçois et je livre des produits, du cadrage jusqu'en production.
               Applications web et mobile, cartographie, architectures métier.
             </p>
+            <p class="home-fam-tech">Astro, React · TypeScript, Node · PostgreSQL, PostGIS · MapLibre GL · Whisper, TTS</p>
           </div>
         </div>
-      </section>
-
-      <!-- ================= SUR SCÈNE — discret ================= -->
-      <section class="home-minor">
-        <div class="home-kicker">
-          <span class="home-kicker-dash"></span>
-          <span class="home-kicker-label">Sur scène &amp; dans le réseau</span>
-        </div>
-        <p class="home-minor-txt">
-          On m'invite aussi à en parler : AI Days Bretagne, Context Collective, le
-          Kafe IA en Finistère, et la série
-          <span class="home-italic">« L'IA pas pour les Nuls… mais presque »</span>.
-        </p>
       </section>
 
       <hr class="home-rule" />
 
-      <!-- ================= UN CAS ================= -->
-      <section class="home-block">
+      <!-- ================= EN PRODUCTION ================= -->
+      <section class="home-block home-prod">
         <div class="home-kicker">
           <span class="home-kicker-dash"></span>
-          <span class="home-kicker-label">Un cas · AOP · filière agricole</span>
+          <span class="home-kicker-label">En production</span>
         </div>
-        <h2 class="home-h2">Oignon de Roscoff</h2>
-        <div class="home-case-meta">
-          <span>29 mois de production</span>
-          <span class="sep">/</span>
-          <span>100 à 150 producteurs</span>
-          <span class="sep">/</span>
-          <span>27 communes</span>
-        </div>
-
-        <div class="home-shot">
-          <video
-            controls
-            preload="none"
-            playsinline
-            poster="/images/oignon-cas-poster.webp"
-            width="1280"
-            height="810"
-          >
-            <source src="/videos/oignon-cas.mp4" type="video/mp4" />
-            Votre navigateur ne peut pas lire cette vidéo.
-          </video>
-        </div>
-        <p class="home-shot-cap">
-          L'assistant « Oignon » remplit une déclaration, à la voix ou au texte. Démo, 1 min 40.
+        <h2 class="home-h2">Des réalisations récentes.</h2>
+        <p class="home-prod-lead">
+          Des dizaines d'autres derrière, souvent sous confidentialité.
+          <a href="https://koality.fr/realisations" target="_blank" rel="noopener">Le portfolio complet</a>.
         </p>
 
-        <div class="home-case-grid">
-          <div>
-            <div class="home-case-key">Au départ</div>
-            <p class="home-case-txt">
-              Six déclarations réglementaires sur papier, ressaisies chaque année à
-              l'identique par 100 à 150 producteurs répartis sur 27 communes.
-            </p>
-          </div>
-          <div>
-            <div class="home-case-key">Ce qui tourne</div>
-            <p class="home-case-txt">
-              Les six déclarations numérisées : formulaires intelligents, carte
-              cadastrale des parcelles, PDF au format officiel. Un assistant IA guide
-              la saisie, à la voix ou au texte. 80% de temps administratif en moins.
-            </p>
-          </div>
+        <div class="home-prod-grid">
+          <!-- Oignon de Roscoff -->
+          <article class="home-pcard">
+            <div class="home-pmedia">
+              <video
+                controls
+                preload="none"
+                playsinline
+                poster="/images/oignon-cas-poster.webp"
+                width="1280"
+                height="810"
+              >
+                <source src="/videos/oignon-cas.mp4" type="video/mp4" />
+                Votre navigateur ne peut pas lire cette vidéo.
+              </video>
+            </div>
+            <div class="home-pbody">
+              <div class="home-plabel">AOP · Filière agricole</div>
+              <h3 class="home-pname">Oignon de Roscoff</h3>
+              <p class="home-pproof">
+                Le syndicat avait déjà son outil de gestion. J'y ai greffé un
+                assistant IA qui remplit les six déclarations réglementaires à la
+                voix, sans toucher au reste. Les données restent chez eux.
+                <span class="home-pstat">80 % de temps de saisie en moins.</span>
+              </p>
+              <a href="/oignon-roscoff-aop" class="home-plink">Voir le détail <span class="accent">→</span></a>
+            </div>
+          </article>
+
+          <!-- Ma PAI -->
+          <article class="home-pcard">
+            <div class="home-pmedia">
+              <img
+                src="/images/pai-graph.gif"
+                alt="Le réseau de connaissances de ma PAI qui se construit au fil des sessions"
+                width="1280"
+                height="800"
+                loading="lazy"
+              />
+            </div>
+            <div class="home-pbody">
+              <div class="home-plabel">Développement assisté par IA</div>
+              <h3 class="home-pname">Ma PAI</h3>
+              <p class="home-pproof">
+                Mon assistant personnel. Il retient tout d'une session à l'autre :
+                les décisions, le contexte des projets, mes façons de bosser. De la
+                vraie prod, la mienne : 1500 sessions, 12 000 faits, l'IA à mes
+                côtés tous les jours.
+              </p>
+              <a href="/pai" class="home-plink">Voir le détail <span class="accent">→</span></a>
+            </div>
+          </article>
         </div>
 
-        <div class="home-tags-block">
-          <div class="home-tags-label">Ce qu'il a fallu réunir</div>
-          <div class="home-tags">
-            <span class="home-tag home-tag--hot">Design</span>
-            <span class="home-tag home-tag--hot">Analyse métier</span>
-            <span class="home-tag">Cartographie</span>
-            <span class="home-tag">Architecture data</span>
-            <span class="home-tag home-tag--hot">Assistant IA</span>
-            <span class="home-tag">Formulaires intelligents</span>
-            <span class="home-tag">Validation AOP</span>
-            <span class="home-tag">Déploiement</span>
+        <!-- ================= À DÉCOUVRIR DANS LE LAB ================= -->
+        <div class="home-lab-strip">
+          <div class="home-kicker">
+            <span class="home-kicker-dash"></span>
+            <span class="home-kicker-label">À découvrir dans le lab</span>
           </div>
-          <a href="/lab" class="home-inline-link">
-            Le reste est dans le lab <span class="accent">→</span>
-          </a>
+          <p class="home-lab-intro">
+            À côté du travail client, je construis mes propres outils pour creuser
+            l'IA en la manipulant. Chaque fiche détaille l'architecture et les
+            partis pris techniques.
+          </p>
+          <div class="home-lab-row">
+            <a href="/jaja" class="home-lab-card">
+              <span class="home-lab-dot" style="background:#00b6d8"></span>
+              <span class="home-lab-name">Jaja</span>
+              <span class="home-lab-hk">Les assistants vocaux répondent aux questions. Jaja exécute des tâches, plusieurs agents dispatchés en parallèle.</span>
+            </a>
+            <a href="/gitttte" class="home-lab-card">
+              <span class="home-lab-dot" style="background:#d9950a"></span>
+              <span class="home-lab-name">GITTTTE</span>
+              <span class="home-lab-hk">Croiser dix critères sur une carte, commune par commune. La zone qui colle ressort.</span>
+            </a>
+            <a href="/dictaphone" class="home-lab-card">
+              <span class="home-lab-dot" style="background:#ff7e67"></span>
+              <span class="home-lab-name">Dictaphone</span>
+              <span class="home-lab-hk">Tout ce qui se dit à l'oral, transcrit et retrouvable. En local, rien ne quitte la machine.</span>
+            </a>
+            <a href="/programme-ton-agent" class="home-lab-card">
+              <span class="home-lab-dot" style="background:#1b1c1a"></span>
+              <span class="home-lab-name">Programme ton agent</span>
+              <span class="home-lab-hk">Un jeu pour comprendre les agents IA. On en compose un, on le lâche, on voit la note.</span>
+            </a>
+          </div>
+          <a href="/lab" class="home-inline-link">Explorer tout le lab <span class="accent">→</span></a>
         </div>
       </section>
 
@@ -165,9 +186,20 @@ import Layout from "../layouts/Layout.astro";
           <span class="home-kicker-label">Qui je suis</span>
         </div>
         <p class="home-about">
-          J'ai commencé le développement il y a vingt-cinq ans. J'ai basculé vers
-          l'IA parce que c'est là que le métier se réécrit en ce moment. Je codirige
-          <b>Koality</b>, une agence à Lesneven : je ne travaille pas seul.
+          Vingt-cinq ans de métier, j'ai vu passer les modes. Depuis deux ans, je
+          branche l'IA sur tout ce que je construis.
+        </p>
+        <p class="home-about-line">
+          J'anime des rencontres IA en Bretagne, je présente, je participe. Et je
+          construis, souvent en coulisse.
+        </p>
+        <p class="home-about-line">
+          Ce qui m'intéresse, c'est l'IA qui tient en production une fois l'effet
+          démo passé, dans des métiers réels.
+        </p>
+        <p class="home-about-koality">
+          Basé à Lesneven. Je travaille sous <b>Koality</b>, ma structure,
+          certifiée Qualiopi.
         </p>
       </section>
     </div>
@@ -176,8 +208,9 @@ import Layout from "../layouts/Layout.astro";
     <section class="home-contact grain-kraft">
       <div class="home-contact-inner">
         <div class="home-contact-eyebrow">Parler</div>
-        <p class="home-contact-h">Envie d'en discuter ? Écrivez-moi.</p>
+        <p class="home-contact-h">Un projet, une formation, une intervention ? Écrivez-moi.</p>
         <a href="mailto:contact@koality.fr" class="home-contact-mail">contact@koality.fr</a>
+        <p class="home-contact-refs">Des <b>références clients à joindre directement</b>, sur demande.</p>
         <p class="home-contact-foot">
           Rester au courant, sans me suivre partout,
           <a href="https://www.linkedin.com/in/fabien-canu/" target="_blank" rel="noopener">LinkedIn</a>.
@@ -366,19 +399,39 @@ import Layout from "../layouts/Layout.astro";
     letter-spacing: -0.02em;
     color: #1b1c1a;
   }
-  .home-fam-words {
-    margin-top: 14px;
-    font-family: "Space Grotesk", monospace;
-    font-size: 11px;
-    letter-spacing: 0.13em;
-    text-transform: uppercase;
-    color: #7f8a86;
-  }
   .home-fam-txt {
-    margin-top: 20px;
+    margin-top: 18px;
     font-size: 16.5px;
     line-height: 1.55;
     color: #2a2620;
+  }
+  .home-fam-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: auto;
+    padding-top: 28px;
+  }
+  .home-fam-pill {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.005em;
+    padding: 5px 10px;
+    border-radius: 7px;
+    white-space: nowrap;
+  }
+  .home-fam-card--cyan .home-fam-pill {
+    background: rgba(0, 99, 134, 0.09);
+    color: #005f80;
+  }
+  .home-fam-card--coral .home-fam-pill {
+    background: rgba(207, 74, 48, 0.1);
+    color: #c2452d;
+  }
+  .home-fam-card--amber .home-fam-pill {
+    background: rgba(152, 112, 26, 0.13);
+    color: #82600f;
   }
 
   /* =================== KICKER (label de section) =================== */
@@ -613,6 +666,215 @@ import Layout from "../layouts/Layout.astro";
     }
     .home-nav-hide-mobile {
       display: none;
+    }
+  }
+
+  /* =================== FAMILLES : ligne techno + Qualiopi =================== */
+  .home-fam-tech {
+    font-family: "Space Grotesk", monospace;
+    font-size: 12.5px;
+    line-height: 1.6;
+    letter-spacing: 0.01em;
+    color: #8f918c;
+    margin-top: 22px;
+  }
+  .home-fam-qualiopi {
+    font-size: 15.5px;
+    line-height: 1.5;
+    color: #1b1c1a;
+    margin-top: 16px;
+  }
+  .home-fam-qualiopi .check {
+    color: #006386;
+    font-weight: 700;
+    margin-right: 4px;
+  }
+
+  /* =================== EN PRODUCTION (2 colonnes) =================== */
+  .home-prod-lead {
+    font-size: 16px;
+    line-height: 1.55;
+    color: #6e7880;
+    max-width: 640px;
+    margin: 16px 0 0;
+  }
+  .home-prod-lead a {
+    color: #1b1c1a;
+    text-decoration: none;
+    border-bottom: 1px solid #ff7e67;
+    padding-bottom: 1px;
+    white-space: nowrap;
+  }
+  .home-prod-grid {
+    margin-top: 34px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+    align-items: stretch;
+  }
+  .home-pcard {
+    background: #f4f2ec;
+    border: 1px solid rgba(27, 28, 26, 0.08);
+    border-radius: 18px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .home-pmedia {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    background: linear-gradient(150deg, #f3ede4, #e7ebe6);
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+  }
+  .home-pmedia video,
+  .home-pmedia img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .home-pbody {
+    padding: 24px 26px 26px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  .home-plabel {
+    font-family: "Space Grotesk", monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #e0563c;
+    margin-bottom: 10px;
+  }
+  .home-pname {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: clamp(24px, 3vw, 30px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #1b1c1a;
+    margin: 0 0 14px;
+  }
+  .home-pproof {
+    font-size: 16px;
+    line-height: 1.55;
+    color: #4a4643;
+    margin: 0 0 22px;
+  }
+  .home-pstat {
+    color: #1b1c1a;
+    font-weight: 700;
+    font-family: "Space Grotesk", sans-serif;
+  }
+  .home-plink {
+    margin-top: auto;
+    font-family: "Space Grotesk", monospace;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: #1b1c1a;
+    text-decoration: none;
+  }
+  /* =================== BANDE LAB =================== */
+  .home-lab-strip {
+    margin-top: clamp(48px, 6vw, 68px);
+  }
+  .home-lab-intro {
+    font-size: 16px;
+    line-height: 1.55;
+    color: #4a4643;
+    max-width: 680px;
+    margin: 0 0 24px;
+  }
+  .home-lab-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+  .home-lab-card {
+    background: #f4f2ec;
+    border: 1px solid rgba(27, 28, 26, 0.08);
+    border-radius: 14px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-height: 120px;
+    text-decoration: none;
+    transition: transform 0.2s ease;
+  }
+  .home-lab-card:hover {
+    transform: translateY(-3px);
+  }
+  .home-lab-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+  }
+  .home-lab-name {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: #1b1c1a;
+  }
+  .home-lab-hk {
+    font-size: 14px;
+    line-height: 1.45;
+    color: #4a4643;
+  }
+
+  /* =================== QUI JE SUIS : lignes complémentaires =================== */
+  .home-about-line {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #4a4643;
+    max-width: 620px;
+    margin-top: 18px;
+  }
+  .home-about-koality {
+    font-size: 16px;
+    line-height: 1.55;
+    color: #8f918c;
+    max-width: 620px;
+    margin-top: 18px;
+  }
+  .home-about-koality b {
+    color: #1b1c1a;
+    font-weight: 700;
+  }
+
+  /* =================== CONTACT : références =================== */
+  .home-contact-refs {
+    margin-top: 30px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    font-size: 16px;
+    line-height: 1.55;
+    color: #c9c4bb;
+    max-width: 520px;
+  }
+  .home-contact-refs b {
+    color: #fbf9f5;
+    font-weight: 600;
+  }
+
+  /* =================== RESPONSIVE (ajouts) =================== */
+  @media (max-width: 820px) {
+    .home-prod-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 900px) {
+    .home-lab-row {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  @media (max-width: 520px) {
+    .home-lab-row {
+      grid-template-columns: 1fr;
     }
   }
 </style>
