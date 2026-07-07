@@ -77,14 +77,22 @@ const ogImageURL = new URL(image, Astro.site ?? "https://fabiencanu.fr").toStrin
   <body class="bg-surface text-on-surface font-body selection:bg-brand-amber/30">
     <slot />
 
-    <!-- Google Analytics (GA4) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RJ4HWMYR45"></script>
-    <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-RJ4HWMYR45', { anonymize_ip: true });
-    </script>
+    <!--
+      Google Analytics (GA4) désactivé : cookie-based, imposerait un bandeau
+      de consentement. Remplacé par Plausible (sans cookie). Décommenter pour
+      réactiver GA4, mais il faudra alors ajouter un consentement cookies.
+      <script async src="https://www.googletagmanager.com/gtag/js?id=G-RJ4HWMYR45"></script>
+      <script is:inline>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-RJ4HWMYR45', { anonymize_ip: true });
+      </script>
+    -->
+
+    <!-- Plausible Analytics (sans cookie, aucun consentement requis) -->
+    <!-- Prérequis : créer le site "fabiencanu.fr" sur plausible.io (ou instance auto-hébergée) -->
+    <script defer data-domain="fabiencanu.fr" src="https://plausible.io/js/script.js"></script>
 
     <!-- Vercel Analytics (auto-injected en prod Vercel) -->
     <script defer src="/_vercel/insights/script.js"></script>
