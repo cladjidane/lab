@@ -745,23 +745,21 @@ import Layout from "../layouts/Layout.astro";
 
   /* =================== QUI JE SUIS =================== */
   .home-about-block {
+    max-width: none;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(300px, 420px);
+    grid-template-columns: minmax(0, 1fr) minmax(380px, 620px);
     gap: clamp(36px, 6vw, 72px);
     align-items: center;
   }
   .home-about-text {
-    max-width: 620px;
+    max-width: 560px;
   }
   .home-about-photo {
-    align-self: stretch;
     display: flex;
   }
   .home-about-photo img {
     width: 100%;
-    height: 100%;
-    max-height: 520px;
-    object-fit: cover;
+    height: auto;
     border-radius: 18px;
     border: 1px solid rgba(27, 28, 26, 0.09);
     box-shadow: 0 30px 60px -40px rgba(27, 28, 26, 0.4);
@@ -1128,10 +1126,7 @@ import Layout from "../layouts/Layout.astro";
       grid-template-columns: 1fr;
     }
     .home-about-photo {
-      max-width: 480px;
-    }
-    .home-about-photo img {
-      max-height: 380px;
+      max-width: 620px;
     }
   }
   @media (max-width: 520px) {
