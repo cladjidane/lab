@@ -27,3 +27,8 @@ pnpm-debug.log*
 public/gif/
 public/videos/*.mp3
 public/videos/*.mov
+
+# Fichiers de travail perso (non versionnes)
+LAB FC.zip
+candidature-ambassadeur-mistral.md
+design_handoff_modal_filters/
