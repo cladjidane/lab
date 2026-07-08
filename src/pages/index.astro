@@ -220,30 +220,41 @@ import Layout from "../layouts/Layout.astro";
       <hr class="home-rule" />
 
       <!-- ================= QUI JE SUIS ================= -->
-      <section id="a-propos" class="home-block">
-        <div class="home-kicker">
-          <span class="home-kicker-dash"></span>
-          <span class="home-kicker-label">Qui je suis</span>
+      <section id="a-propos" class="home-block home-about-block">
+        <div class="home-about-text">
+          <div class="home-kicker">
+            <span class="home-kicker-dash"></span>
+            <span class="home-kicker-label">Qui je suis</span>
+          </div>
+          <p class="home-about">
+            Je construis des produits depuis bien avant l'IA. Elle a changé mes
+            outils, pas ma façon de concevoir un produit.
+          </p>
+          <p class="home-about-line">
+            Je suis aussi (hyper)actif dans l'animation de rencontres autour de l'IA en
+            Bretagne, j'interviens en conférences et je partage mes expérimentations.
+            Mais l'essentiel de mon temps va à construire des produits pour mes
+            clients, avec une forte activité de R&amp;D en parallèle.
+          </p>
+          <p class="home-about-line">
+            Pour moi, la révolution de l'IA demande d'abord de prendre du recul :
+            l'aborder non pas comme une technologie de plus, mais comme une rupture
+            majeure de l'industrie du numérique.
+          </p>
+          <p class="home-about-koality">
+            Basé en Bretagne, j'interviens partout où un produit mérite d'être bien
+            conçu.
+          </p>
         </div>
-        <p class="home-about">
-          Je construis des produits depuis bien avant l'IA. Elle a changé mes
-          outils, pas ma façon de concevoir un produit.
-        </p>
-        <p class="home-about-line">
-          Je suis aussi (hyper)actif dans l'animation de rencontres autour de l'IA en
-          Bretagne, j'interviens en conférences et je partage mes expérimentations.
-          Mais l'essentiel de mon temps va à construire des produits pour mes
-          clients, avec une forte activité de R&amp;D en parallèle.
-        </p>
-        <p class="home-about-line">
-          Pour moi, la révolution de l'IA demande d'abord de prendre du recul :
-          l'aborder non pas comme une technologie de plus, mais comme une rupture
-          majeure de l'industrie du numérique.
-        </p>
-        <p class="home-about-koality">
-          Basé en Bretagne, j'interviens partout où un produit mérite d'être bien
-          conçu.
-        </p>
+        <div class="home-about-photo">
+          <img
+            src="/photo-fabien.jpg"
+            alt="Fabien Canu"
+            width="1300"
+            height="804"
+            loading="lazy"
+          />
+        </div>
       </section>
     </div>
 
@@ -733,6 +744,28 @@ import Layout from "../layouts/Layout.astro";
   }
 
   /* =================== QUI JE SUIS =================== */
+  .home-about-block {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 420px);
+    gap: clamp(36px, 6vw, 72px);
+    align-items: center;
+  }
+  .home-about-text {
+    max-width: 620px;
+  }
+  .home-about-photo {
+    align-self: stretch;
+    display: flex;
+  }
+  .home-about-photo img {
+    width: 100%;
+    height: 100%;
+    max-height: 520px;
+    object-fit: cover;
+    border-radius: 18px;
+    border: 1px solid rgba(27, 28, 26, 0.09);
+    box-shadow: 0 30px 60px -40px rgba(27, 28, 26, 0.4);
+  }
   .home-about {
     font-family: "Space Grotesk", sans-serif;
     font-size: clamp(21px, 2.8vw, 24px);
@@ -1090,6 +1123,15 @@ import Layout from "../layouts/Layout.astro";
   @media (max-width: 900px) {
     .home-lab-row {
       grid-template-columns: 1fr 1fr;
+    }
+    .home-about-block {
+      grid-template-columns: 1fr;
+    }
+    .home-about-photo {
+      max-width: 480px;
+    }
+    .home-about-photo img {
+      max-height: 380px;
     }
   }
   @media (max-width: 520px) {

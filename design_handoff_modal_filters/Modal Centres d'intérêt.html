@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Modal « Vos centres d'intérêt »</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;450;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    html, body { margin: 0; padding: 0; background: #1f1c18; font-family: "Inter Tight", system-ui, sans-serif; }
+    * { box-sizing: border-box; }
+    /* faux backdrop du lab (grille floutée) */
+    .backdrop {
+      position: fixed; inset: 0;
+      background:
+        linear-gradient(rgba(30,26,22,.55), rgba(30,26,22,.65)),
+        radial-gradient(600px 300px at 15% 20%, #3b3a3a, transparent 70%),
+        radial-gradient(700px 400px at 85% 80%, #d4c9b8, transparent 70%),
+        radial-gradient(500px 400px at 60% 40%, #b9c9d4, transparent 70%),
+        radial-gradient(500px 400px at 30% 75%, #d9c7c3, transparent 70%),
+        #6e6a62;
+      filter: blur(0px);
+    }
+    .stage {
+      position: fixed; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      padding: 32px;
+    }
+    .modal-card {
+      width: min(760px, 100%);
+      max-height: calc(100vh - 64px);
+      background: #F3EEE4;
+      border-radius: 10px;
+      box-shadow:
+        0 1px 2px rgba(0,0,0,.08),
+        0 30px 80px rgba(0,0,0,.35),
+        0 10px 30px rgba(0,0,0,.20);
+      overflow: hidden;
+      display: flex; flex-direction: column;
+    }
+    /* Scrollbar discrète dans la modal */
+    .modal-card *::-webkit-scrollbar { width: 6px; }
+    .modal-card *::-webkit-scrollbar-thumb { background: rgba(26,22,19,.15); border-radius: 3px; }
+    .modal-card *::-webkit-scrollbar-track { background: transparent; }
+
+    /* Gallery (autres variations) */
+    .gallery-toggle {
+      position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+      background: rgba(243,238,228,.9); color: #1A1613;
+      border: none; border-radius: 999px; padding: 8px 16px;
+      font-family: "JetBrains Mono", monospace; font-size: 11px; letter-spacing: 1.2px; text-transform: uppercase;
+      cursor: pointer; z-index: 30;
+      box-shadow: 0 4px 16px rgba(0,0,0,.3);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .gallery { position: fixed; inset: 0; background: #1f1c18; z-index: 40; overflow: auto; display: none; }
+    .gallery.open { display: block; }
+  </style>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script>
+    const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+      "titleSize": 44,
+      "pillRadius": 999,
+      "selectedStyle": "accent",
+      "density": "comfortable",
+      "showCounts": true,
+      "showSubtitle": true
+    }/*EDITMODE-END*/;
+  </script>
+
+  <script type="text/babel" src="tags.jsx"></script>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    // ─── V1 Editorial, Tweakable ─────────────────────────────────
+    function V1Editorial({ tweaks }) {
+      const [sel, setSel] = useState(new Set(['Agents', 'Claude', 'SaaS B2B']));
+      const toggle = (t) => setSel(s => { const n = new Set(s); n.has(t) ? n.delete(t) : n.add(t); return n; });
+
+      const density = tweaks.density;
+      const pad = density === 'dense' ? '28px 36px 22px' : density === 'comfortable' ? '32px 40px 28px' : '40px 48px 34px';
+      const tagGap = density === 'dense' ? 5 : 6;
+      const sectionGap = density === 'dense' ? 22 : density === 'comfortable' ? 28 : 34;
+      const pillPad = density === 'dense' ? '6px 12px' : '7px 14px';
+      const pillFs = density === 'dense' ? 12.5 : 13;
+
+      const selStyles = (on) => {
+        switch (tweaks.selectedStyle) {
+          case 'inverse':
+            return {
+              border: on ? '1px solid #1A1613' : '1px solid rgba(26,22,19,.14)',
+              background: on ? '#1A1613' : 'transparent',
+              color: on ? '#F3EEE4' : '#1A1613',
+            };
+          case 'outline':
+            return {
+              border: on ? '1px solid #1A1613' : '1px solid rgba(26,22,19,.12)',
+              background: 'transparent',
+              color: '#1A1613',
+              fontWeight: on ? 500 : 450,
+            };
+          case 'tint':
+            return {
+              border: on ? '1px solid rgba(26,22,19,.0)' : '1px solid rgba(26,22,19,.14)',
+              background: on ? 'rgba(26,22,19,.08)' : 'transparent',
+              color: '#1A1613',
+              fontWeight: on ? 500 : 450,
+            };
+          case 'accent':
+            return {
+              border: on ? '1px solid oklch(0.55 0.11 240)' : '1px solid rgba(26,22,19,.14)',
+              background: on ? 'oklch(0.55 0.11 240)' : 'transparent',
+              color: on ? '#F3EEE4' : '#1A1613',
+            };
+          default: return {};
+        }
+      };
+
+      return (
+        <div style={{ background: '#F3EEE4', display: 'flex', flexDirection: 'column', fontFamily: '"Inter Tight", system-ui, sans-serif', color: '#1A1613', height: '100%' }}>
+          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', padding: `${density === 'dense' ? 28 : 36}px ${density === 'dense' ? 36 : 40}px 0` }}>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ fontFamily: '"JetBrains Mono", monospace', fontSize: 10, letterSpacing: 2, textTransform: 'uppercase', color: '#8B7E6A', marginBottom: 14 }}>
+                Le lab, à votre main
+              </div>
+              <div style={{ fontFamily: '"Instrument Serif", serif', fontSize: tweaks.titleSize, lineHeight: 1.02, letterSpacing: -0.5, fontWeight: 400 }}>
+                Qu'est-ce qui vous <em style={{ fontStyle: 'italic', whiteSpace: 'nowrap' }}>amène&nbsp;?</em>
+              </div>
+              {tweaks.showSubtitle && (
+                <div style={{ fontSize: 14.5, lineHeight: 1.5, color: '#5C5346', marginTop: 14, maxWidth: 460 }}>
+                  Composez votre vue du lab. Les projets qui correspondent ressortent, les autres s'effacent.
+                </div>
+              )}
+            </div>
+            <button title="Fermer" style={{ border: '1px solid rgba(26,22,19,.14)', background: 'transparent', width: 36, height: 36, borderRadius: '50%', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#1A1613', flexShrink: 0, marginLeft: 16 }}>
+              <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" strokeWidth="1.4"><path d="M1 1l9 9M10 1L1 10"/></svg>
+            </button>
+          </div>
+
+          <div style={{ padding: pad, flex: 1, overflow: 'auto', minHeight: 0 }}>
+            {window.TAG_GROUPS.map((g, gi) => (
+              <div key={g.id} style={{ marginTop: gi === 0 ? 6 : sectionGap }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 12 }}>
+                  <div style={{ fontFamily: '"JetBrains Mono", monospace', fontSize: 9.5, letterSpacing: 2, textTransform: 'uppercase', color: '#8B7E6A', whiteSpace: 'nowrap' }}>
+                    {g.title}
+                  </div>
+                  <div style={{ flex: 1, height: 1, background: 'rgba(26,22,19,.08)' }} />
+                  {tweaks.showCounts && (
+                    <div style={{ fontFamily: '"JetBrains Mono", monospace', fontSize: 10, color: '#B5AA95', fontVariantNumeric: 'tabular-nums' }}>
+                      {g.tags.filter(t => sel.has(t)).length}/{g.tags.length}
+                    </div>
+                  )}
+                </div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: tagGap }}>
+                  {g.tags.map(t => {
+                    const on = sel.has(t);
+                    return (
+                      <button key={t} onClick={() => toggle(t)}
+                        style={{
+                          padding: pillPad, borderRadius: tweaks.pillRadius,
+                          fontSize: pillFs, fontFamily: 'inherit', fontWeight: 450,
+                          cursor: 'pointer', transition: 'all .15s',
+                          whiteSpace: 'nowrap',
+                          ...selStyles(on),
+                        }}>
+                        {t}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div style={{ padding: '16px 40px 22px', borderTop: '1px solid rgba(26,22,19,.08)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <button onClick={() => setSel(new Set())}
+              style={{ border: 'none', background: 'none', color: '#8B7E6A', fontSize: 13, cursor: 'pointer', fontFamily: 'inherit', padding: 0, borderBottom: '1px solid rgba(139,126,106,.4)' }}>
+              Réinitialiser
+            </button>
+            <div style={{ fontFamily: '"JetBrains Mono", monospace', fontSize: 11, color: '#8B7E6A', letterSpacing: 0.5 }}>
+              {sel.size} sélectionné{sel.size > 1 ? 's' : ''}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // ─── Tweaks panel ─────────────────────────────────────────────
+    function TweaksPanel({ tweaks, setTweaks, visible }) {
+      if (!visible) return null;
+      const set = (k, v) => setTweaks(t => {
+        const next = { ...t, [k]: v };
+        window.parent.postMessage({ type: '__edit_mode_set_keys', edits: { [k]: v } }, '*');
+        return next;
+      });
+      const Row = ({ label, children }) => (
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, padding: '10px 14px', borderBottom: '1px solid rgba(255,255,255,.06)' }}>
+          <span style={{ fontSize: 11, color: 'rgba(243,238,228,.6)', letterSpacing: .3, textTransform: 'uppercase', fontFamily: '"JetBrains Mono", monospace' }}>{label}</span>
+          <div>{children}</div>
+        </div>
+      );
+      const Seg = ({ value, onChange, options }) => (
+        <div style={{ display: 'flex', background: 'rgba(255,255,255,.06)', borderRadius: 6, padding: 2 }}>
+          {options.map(o => (
+            <button key={o.value} onClick={() => onChange(o.value)}
+              style={{ border: 'none', background: value === o.value ? 'rgba(243,238,228,.9)' : 'transparent',
+                color: value === o.value ? '#1A1613' : 'rgba(243,238,228,.7)',
+                padding: '5px 10px', fontSize: 11, cursor: 'pointer', borderRadius: 4, fontFamily: 'inherit',
+                fontWeight: value === o.value ? 500 : 400 }}>
+              {o.label}
+            </button>
+          ))}
+        </div>
+      );
+      const Toggle = ({ value, onChange }) => (
+        <button onClick={() => onChange(!value)}
+          style={{ width: 34, height: 20, borderRadius: 10, border: 'none', position: 'relative',
+            background: value ? 'rgba(243,238,228,.9)' : 'rgba(255,255,255,.12)', cursor: 'pointer', transition: 'background .15s', padding: 0 }}>
+          <span style={{ position: 'absolute', top: 2, left: value ? 16 : 2, width: 16, height: 16, borderRadius: 8,
+            background: value ? '#1A1613' : '#F3EEE4', transition: 'left .15s' }} />
+        </button>
+      );
+      return (
+        <div style={{ position: 'fixed', top: 20, right: 20, width: 300, zIndex: 50,
+          background: '#1A1613', color: '#F3EEE4', borderRadius: 10,
+          boxShadow: '0 20px 60px rgba(0,0,0,.5)', fontFamily: '"Inter Tight", sans-serif',
+          border: '1px solid rgba(243,238,228,.08)' }}>
+          <div style={{ padding: '12px 14px', borderBottom: '1px solid rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: .3 }}>Tweaks</div>
+            <div style={{ fontSize: 10, color: 'rgba(243,238,228,.4)', fontFamily: '"JetBrains Mono", monospace' }}>V1 · Éditorial</div>
+          </div>
+          <Row label="Taille titre">
+            <input type="range" min="32" max="60" step="2" value={tweaks.titleSize}
+              onChange={e => set('titleSize', +e.target.value)}
+              style={{ width: 120, accentColor: '#F3EEE4' }} />
+          </Row>
+          <Row label="Rayon pills">
+            <Seg value={tweaks.pillRadius} onChange={v => set('pillRadius', v)}
+              options={[{ value: 4, label: 'Carré' }, { value: 10, label: 'Doux' }, { value: 999, label: 'Pill' }]} />
+          </Row>
+          <Row label="Sélectionné">
+            <Seg value={tweaks.selectedStyle} onChange={v => set('selectedStyle', v)}
+              options={[{ value: 'inverse', label: 'Inverse' }, { value: 'outline', label: 'Outline' }, { value: 'tint', label: 'Teinte' }, { value: 'accent', label: 'Accent' }]} />
+          </Row>
+          <Row label="Densité">
+            <Seg value={tweaks.density} onChange={v => set('density', v)}
+              options={[{ value: 'dense', label: 'Dense' }, { value: 'comfortable', label: 'Confort' }, { value: 'airy', label: 'Aéré' }]} />
+          </Row>
+          <Row label="Compteurs /groupe">
+            <Toggle value={tweaks.showCounts} onChange={v => set('showCounts', v)} />
+          </Row>
+          <Row label="Sous-titre">
+            <Toggle value={tweaks.showSubtitle} onChange={v => set('showSubtitle', v)} />
+          </Row>
+        </div>
+      );
+    }
+
+    // ─── App ──────────────────────────────────────────────────────
+    function App() {
+      const [tweaks, setTweaks] = useState(TWEAK_DEFAULTS);
+      const [editMode, setEditMode] = useState(false);
+
+      useEffect(() => {
+        const onMsg = (e) => {
+          const d = e.data;
+          if (!d || typeof d !== 'object') return;
+          if (d.type === '__activate_edit_mode') setEditMode(true);
+          if (d.type === '__deactivate_edit_mode') setEditMode(false);
+        };
+        window.addEventListener('message', onMsg);
+        window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+        return () => window.removeEventListener('message', onMsg);
+      }, []);
+
+      return (
+        <>
+          <div className="backdrop" />
+          <div className="stage">
+            <div className="modal-card" style={{ height: 'min(640px, calc(100vh - 64px))' }}>
+              <V1Editorial tweaks={tweaks} />
+            </div>
+          </div>
+          <TweaksPanel tweaks={tweaks} setTweaks={setTweaks} visible={editMode} />
+        </>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
