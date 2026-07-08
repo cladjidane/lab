@@ -38,15 +38,15 @@ import Layout from "../layouts/Layout.astro";
             <span class="home-cred-txt">d'expérience</span>
           </div>
           <div class="home-cred-row">
-            <span class="home-cred-txt">Produits numériques de A à Z</span>
+            <span class="home-cred-txt">Développement &amp; design de produits numériques, de A à Z</span>
           </div>
           <div class="home-cred-row">
             <span class="home-cred-label">IA générative</span>
-            <span class="home-cred-txt">LLM · Agents · MCP</span>
+            <span class="home-cred-txt">LLM · RAG &amp; embeddings · agents &amp; MCP · SDK custom · orchestration multi-agents · voix &amp; vision</span>
           </div>
           <div class="home-cred-row">
             <span class="home-cred-label">Plateformes</span>
-            <span class="home-cred-txt">Web · Mobile · SaaS</span>
+            <span class="home-cred-txt">Web · Mobile · SaaS · API &amp; temps réel · outils métier</span>
           </div>
         </aside>
       </div>
@@ -66,18 +66,18 @@ import Layout from "../layouts/Layout.astro";
               Lorsque l'IA apporte une vraie valeur, je l'intègre dès la phase de
               conception.
             </p>
-            <p class="home-fam-tech">Claude, GPT · RAG &amp; embeddings · agents &amp; MCP · MapLibre, PostGIS</p>
+            <p class="home-fam-tech">SDK IA · RAG &amp; embeddings · orchestration d'agents · MCP · architecture logicielle · souveraineté des données</p>
           </div>
 
           <div class="home-fam-card home-fam-card--amber grain-paper">
             <span class="material-symbols-outlined home-fam-icon home-fam-icon--amber">deployed_code</span>
-            <h2 class="home-fam-name">Développement</h2>
+            <h2 class="home-fam-name">Développement &amp; design</h2>
             <p class="home-fam-txt">
               Je conçois et développe des applications web, mobiles et des outils
               métier sur mesure. J'interviens également en renfort sur des projets
               complexes nécessitant une expertise technique ou architecturale.
             </p>
-            <p class="home-fam-tech">Astro, React · TypeScript, Node · PostgreSQL, PostGIS · MapLibre GL · Whisper, TTS</p>
+            <p class="home-fam-tech">React &amp; React Native · Astro, Node · TypeScript, Tailwind · PostgreSQL, PostGIS · MapLibre · Whisper, TTS</p>
           </div>
 
           <div class="home-fam-card home-fam-card--coral grain-paper">
@@ -85,13 +85,20 @@ import Layout from "../layouts/Layout.astro";
             <h2 class="home-fam-name">Formation &amp; transmission</h2>
             <p class="home-fam-txt">
               J'accompagne les dirigeants, les équipes et les étudiants dans leur
-              montée en compétences, aussi bien sur les technologies web que sur les
-              usages concrets de l'IA. Les formations sont proposées par Koality
-              Academy, notre organisme de formation certifié Qualiopi, et sont
-              éligibles aux financements OPCO.
+              montée en compétences, sur les technologies web comme sur les usages
+              concrets de l'IA. J'interviens aussi comme formateur vacataire en
+              écoles supérieures et centres de formation.
             </p>
-            <p class="home-fam-tech">Claude, ChatGPT · Claude Code · prompt engineering · automatisation</p>
+            <p class="home-fam-tech">Claude, ChatGPT · Claude Code · prompt engineering · automatisation · workflows dev IA · pédagogie IA-native</p>
           </div>
+        </div>
+
+        <div class="home-fams-note">
+          <span class="home-fams-note-tag">Koality Academy</span>
+          <span class="home-fams-note-txt">
+            Mes formations sont dispensées via Koality Academy, notre organisme
+            certifié <strong>Qualiopi</strong>, éligible aux financements OPCO.
+          </span>
         </div>
       </section>
 
@@ -223,13 +230,15 @@ import Layout from "../layouts/Layout.astro";
           outils, pas ma façon de concevoir un produit.
         </p>
         <p class="home-about-line">
-          J'anime des rencontres autour de l'IA en Bretagne, j'interviens lors de
-          conférences et je partage mes expérimentations. Mais je passe surtout mon
-          temps à construire des produits, souvent en coulisse.
+          Je suis aussi hyper actif dans l'animation de rencontres autour de l'IA en
+          Bretagne, j'interviens en conférences et je partage mes expérimentations.
+          Mais l'essentiel de mon temps va à construire des produits pour mes
+          clients, avec une forte activité de R&amp;D en parallèle.
         </p>
         <p class="home-about-line">
-          Ce qui m'intéresse, ce n'est pas l'effet démo. C'est l'IA qui fonctionne
-          durablement en production, dans des métiers réels.
+          Pour moi, la révolution de l'IA demande d'abord de prendre du recul :
+          l'aborder non pas comme une technologie de plus, mais comme une rupture
+          majeure de l'industrie du numérique.
         </p>
         <p class="home-about-koality">
           Basé en Bretagne, j'interviens partout où un produit mérite d'être bien
@@ -249,7 +258,7 @@ import Layout from "../layouts/Layout.astro";
         </div>
         <p class="home-contact-cv">
           Pour aller plus loin :
-          <a href="/cv-fabien-canu.pdf" target="_blank" rel="noopener">mon CV détaillé en PDF</a>.
+          <a href="/Fabien-Canu-CV-Architecte-Produit-IA.pdf" target="_blank" rel="noopener">mon CV détaillé en PDF</a>.
         </p>
         <p class="home-contact-foot">
           Vous pouvez également me retrouver sur
@@ -370,7 +379,7 @@ import Layout from "../layouts/Layout.astro";
   /* -------- Encart credentials (hero) -------- */
   .home-hero-card {
     align-self: end;
-    width: 300px;
+    width: 368px;
     max-width: 100%;
     background: #f4f2ec;
     border: 1px solid rgba(27, 28, 26, 0.09);
@@ -533,6 +542,41 @@ import Layout from "../layouts/Layout.astro";
   .home-fam-card--amber .home-fam-pill {
     background: rgba(152, 112, 26, 0.13);
     color: #82600f;
+  }
+
+  /* =================== FAMILLES : encart Koality Academy =================== */
+  .home-fams-note {
+    margin-top: 18px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px 16px;
+    padding: 16px 22px;
+    background: #f4f2ec;
+    border: 1px solid rgba(27, 28, 26, 0.09);
+    border-radius: 14px;
+  }
+  .home-fams-note-tag {
+    font-family: "Space Grotesk", monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #006386;
+    background: rgba(0, 99, 134, 0.09);
+    padding: 6px 11px;
+    border-radius: 7px;
+    white-space: nowrap;
+  }
+  .home-fams-note-txt {
+    font-size: 15px;
+    line-height: 1.5;
+    color: #4a4643;
+    flex: 1;
+    min-width: 240px;
+  }
+  .home-fams-note-txt strong {
+    color: #1b1c1a;
+    font-weight: 700;
   }
 
   /* =================== KICKER (label de section) =================== */
