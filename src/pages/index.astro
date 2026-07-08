@@ -390,7 +390,7 @@ import Layout from "../layouts/Layout.astro";
   /* -------- Encart credentials (hero) -------- */
   .home-hero-card {
     align-self: end;
-    width: 368px;
+    width: 468px;
     max-width: 100%;
     background: #f4f2ec;
     border: 1px solid rgba(27, 28, 26, 0.09);
@@ -746,6 +746,8 @@ import Layout from "../layouts/Layout.astro";
   /* =================== QUI JE SUIS =================== */
   .home-about-block {
     max-width: none;
+    /* deborde le padding de .home-col pour matcher la largeur du hero (1400px) */
+    margin-inline: calc(-1 * clamp(24px, 5vw, 72px));
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(380px, 620px);
     gap: clamp(36px, 6vw, 72px);
@@ -892,7 +894,7 @@ import Layout from "../layouts/Layout.astro";
     }
     .home-hero-card {
       width: 100%;
-      max-width: 420px;
+      max-width: 468px;
     }
   }
   @media (max-width: 860px) {
@@ -1124,6 +1126,7 @@ import Layout from "../layouts/Layout.astro";
     }
     .home-about-block {
       grid-template-columns: 1fr;
+      margin-inline: 0;
     }
     .home-about-photo {
       max-width: 620px;
