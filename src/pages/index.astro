@@ -278,44 +278,46 @@ import Layout from "../layouts/Layout.astro";
           <a href="https://www.linkedin.com/in/fabien-canu/" target="_blank" rel="noopener">LinkedIn</a>,
           j'y partage régulièrement mes expérimentations.
         </p>
-        <div class="home-contact-labels">
-          <a
-            href="https://www.francenum.gouv.fr/activateurs/koality"
-            target="_blank"
-            rel="noopener"
-            class="home-label"
-            aria-label="Activateur France Num"
-          >
-            <img
-              src="/images/activateur-france-num.jpg"
-              alt="Activateur France Num"
-              width="400"
-              height="364"
-              loading="lazy"
-            />
-          </a>
-          <a
-            href="https://www.adnouest.org/"
-            target="_blank"
-            rel="noopener"
-            class="home-label"
-            aria-label="Membre ADN Ouest"
-          >
-            <img
-              src="/images/adn-ouest.png"
-              alt="Membre ADN Ouest"
-              width="600"
-              height="600"
-              loading="lazy"
-            />
-          </a>
-        </div>
-        <div class="home-contact-legal">
-          <a href="/mentions-legales">Mentions légales</a>
-          <span class="sep">·</span>
-          <a href="/confidentialite">Politique de confidentialité</a>
-          <span class="sep">·</span>
-          <a href="/cookies">Cookies</a>
+        <div class="home-contact-bottom">
+          <div class="home-contact-legal">
+            <a href="/mentions-legales">Mentions légales</a>
+            <span class="sep">·</span>
+            <a href="/confidentialite">Politique de confidentialité</a>
+            <span class="sep">·</span>
+            <a href="/cookies">Cookies</a>
+          </div>
+          <div class="home-contact-labels">
+            <a
+              href="https://www.francenum.gouv.fr/activateurs/koality"
+              target="_blank"
+              rel="noopener"
+              class="home-label"
+              aria-label="Activateur France Num"
+            >
+              <img
+                src="/images/activateur-france-num.jpg"
+                alt="Activateur France Num"
+                width="400"
+                height="364"
+                loading="lazy"
+              />
+            </a>
+            <a
+              href="https://www.adnouest.org/"
+              target="_blank"
+              rel="noopener"
+              class="home-label"
+              aria-label="Membre ADN Ouest"
+            >
+              <img
+                src="/images/adn-ouest.png"
+                alt="Membre ADN Ouest"
+                width="600"
+                height="600"
+                loading="lazy"
+              />
+            </a>
+          </div>
         </div>
       </div>
     </section>
@@ -888,21 +890,30 @@ import Layout from "../layouts/Layout.astro";
   .home-contact-cv a:hover {
     color: #fbf9f5;
   }
+  .home-contact-bottom {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
   .home-contact-labels {
-    margin-top: 40px;
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 16px;
   }
   .home-label {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    height: 44px;
-    padding: 6px 9px;
+    height: 54px;
+    padding: 7px 10px;
     background: #fbf9f5;
-    border-radius: 8px;
-    opacity: 0.72;
+    border-radius: 9px;
+    opacity: 0.95;
     transition: opacity 0.2s ease;
   }
   .home-label:hover {
@@ -914,9 +925,6 @@ import Layout from "../layouts/Layout.astro";
     display: block;
   }
   .home-contact-legal {
-    margin-top: 32px;
-    padding-top: 24px;
-    border-top: 1px solid rgba(255, 255, 255, 0.12);
     display: flex;
     flex-wrap: wrap;
     align-items: center;
