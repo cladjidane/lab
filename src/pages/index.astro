@@ -218,9 +218,11 @@ import Layout from "../layouts/Layout.astro";
       </section>
 
       <hr class="home-rule" />
+    </div>
 
-      <!-- ================= QUI JE SUIS ================= -->
-      <section id="a-propos" class="home-block home-about-block">
+    <!-- ================= QUI JE SUIS ================= -->
+    <section id="a-propos" class="home-about-band">
+      <div class="home-about-block">
         <div class="home-about-text">
           <div class="home-kicker">
             <span class="home-kicker-dash"></span>
@@ -255,8 +257,8 @@ import Layout from "../layouts/Layout.astro";
             loading="lazy"
           />
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
 
     <!-- ================= CONTACT ================= -->
     <section class="home-contact grain-kraft">
@@ -276,6 +278,38 @@ import Layout from "../layouts/Layout.astro";
           <a href="https://www.linkedin.com/in/fabien-canu/" target="_blank" rel="noopener">LinkedIn</a>,
           j'y partage régulièrement mes expérimentations.
         </p>
+        <div class="home-contact-labels">
+          <a
+            href="https://www.francenum.gouv.fr/activateurs/koality"
+            target="_blank"
+            rel="noopener"
+            class="home-label"
+            aria-label="Activateur France Num"
+          >
+            <img
+              src="/images/activateur-france-num.jpg"
+              alt="Activateur France Num"
+              width="400"
+              height="364"
+              loading="lazy"
+            />
+          </a>
+          <a
+            href="https://www.adnouest.org/"
+            target="_blank"
+            rel="noopener"
+            class="home-label"
+            aria-label="Membre ADN Ouest"
+          >
+            <img
+              src="/images/adn-ouest.png"
+              alt="Membre ADN Ouest"
+              width="600"
+              height="600"
+              loading="lazy"
+            />
+          </a>
+        </div>
         <div class="home-contact-legal">
           <a href="/mentions-legales">Mentions légales</a>
           <span class="sep">·</span>
@@ -744,10 +778,14 @@ import Layout from "../layouts/Layout.astro";
   }
 
   /* =================== QUI JE SUIS =================== */
+  /* Bande pleine largeur, meme systeme que le hero et le footer :
+     padding lateral clamp(24px, 8vw, 130px) + inner max-width 1400px centre */
+  .home-about-band {
+    padding: clamp(80px, 11vw, 116px) clamp(24px, 8vw, 130px);
+  }
   .home-about-block {
-    max-width: none;
-    /* deborde le padding de .home-col pour matcher la largeur du hero (1400px) */
-    margin-inline: calc(-1 * clamp(24px, 5vw, 72px));
+    max-width: 1400px;
+    margin: 0 auto;
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(380px, 620px);
     gap: clamp(36px, 6vw, 72px);
@@ -850,8 +888,33 @@ import Layout from "../layouts/Layout.astro";
   .home-contact-cv a:hover {
     color: #fbf9f5;
   }
+  .home-contact-labels {
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .home-label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+    padding: 6px 9px;
+    background: #fbf9f5;
+    border-radius: 8px;
+    opacity: 0.72;
+    transition: opacity 0.2s ease;
+  }
+  .home-label:hover {
+    opacity: 1;
+  }
+  .home-label img {
+    height: 100%;
+    width: auto;
+    display: block;
+  }
   .home-contact-legal {
-    margin-top: 44px;
+    margin-top: 32px;
     padding-top: 24px;
     border-top: 1px solid rgba(255, 255, 255, 0.12);
     display: flex;
@@ -1126,7 +1189,6 @@ import Layout from "../layouts/Layout.astro";
     }
     .home-about-block {
       grid-template-columns: 1fr;
-      margin-inline: 0;
     }
     .home-about-photo {
       max-width: 620px;
