@@ -263,9 +263,24 @@ import Layout from "../layouts/Layout.astro";
     <!-- ================= CONTACT ================= -->
     <section class="home-contact grain-kraft">
       <div class="home-contact-inner">
-        <div class="home-contact-top">
-          <div class="home-contact-eyebrow">Parler</div>
-          <div class="home-contact-labels">
+        <div class="home-contact-eyebrow">Parler</div>
+        <p class="home-contact-h">Un projet, un besoin d'expertise ou une formation ? Parlons-en !</p>
+        <div class="home-contact-lines">
+          <a href="mailto:fabien@koality.fr" class="home-contact-mail">fabien@koality.fr</a>
+          <a href="tel:+33648745829" class="home-contact-tel">06 48 74 58 29</a>
+        </div>
+        <p class="home-contact-cv">
+          Pour aller plus loin :
+          <a href="/Fabien-Canu-CV-Architecte-Produit-IA.pdf" target="_blank" rel="noopener">mon CV détaillé en PDF</a>.
+        </p>
+        <p class="home-contact-foot">
+          Vous pouvez également me retrouver sur
+          <a href="https://www.linkedin.com/in/fabien-canu/" target="_blank" rel="noopener">LinkedIn</a>,
+          j'y partage régulièrement mes expérimentations.
+        </p>
+        <div class="home-contact-labels">
+          <span class="home-contact-labels-cap">Reconnu et engagé</span>
+          <div class="home-contact-labels-row">
             <a
               href="https://www.francenum.gouv.fr/activateurs/koality"
               target="_blank"
@@ -298,20 +313,6 @@ import Layout from "../layouts/Layout.astro";
             </a>
           </div>
         </div>
-        <p class="home-contact-h">Un projet, un besoin d'expertise ou une formation ? Parlons-en !</p>
-        <div class="home-contact-lines">
-          <a href="mailto:fabien@koality.fr" class="home-contact-mail">fabien@koality.fr</a>
-          <a href="tel:+33648745829" class="home-contact-tel">06 48 74 58 29</a>
-        </div>
-        <p class="home-contact-cv">
-          Pour aller plus loin :
-          <a href="/Fabien-Canu-CV-Architecte-Produit-IA.pdf" target="_blank" rel="noopener">mon CV détaillé en PDF</a>.
-        </p>
-        <p class="home-contact-foot">
-          Vous pouvez également me retrouver sur
-          <a href="https://www.linkedin.com/in/fabien-canu/" target="_blank" rel="noopener">LinkedIn</a>,
-          j'y partage régulièrement mes expérimentations.
-        </p>
         <div class="home-contact-legal">
           <a href="/mentions-legales">Mentions légales</a>
           <span class="sep">·</span>
@@ -889,24 +890,28 @@ import Layout from "../layouts/Layout.astro";
   .home-contact-cv a:hover {
     color: #fbf9f5;
   }
-  .home-contact-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 24px;
-    margin-bottom: 26px;
-  }
   .home-contact-labels {
+    margin-top: 40px;
+  }
+  .home-contact-labels-cap {
+    display: block;
+    font-family: "Space Grotesk", monospace;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #7a756c;
+    margin-bottom: 16px;
+  }
+  .home-contact-labels-row {
     display: flex;
     align-items: center;
-    gap: 14px;
-    flex-shrink: 0;
+    gap: 16px;
   }
   .home-label {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    height: 104px;
+    height: 88px;
     padding: 12px 16px;
     background: #fbf9f5;
     border-radius: 12px;
