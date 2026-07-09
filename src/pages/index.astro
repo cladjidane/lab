@@ -263,29 +263,8 @@ import Layout from "../layouts/Layout.astro";
     <!-- ================= CONTACT ================= -->
     <section class="home-contact grain-kraft">
       <div class="home-contact-inner">
-        <div class="home-contact-eyebrow">Parler</div>
-        <p class="home-contact-h">Un projet, un besoin d'expertise ou une formation ? Parlons-en !</p>
-        <div class="home-contact-lines">
-          <a href="mailto:fabien@koality.fr" class="home-contact-mail">fabien@koality.fr</a>
-          <a href="tel:+33648745829" class="home-contact-tel">06 48 74 58 29</a>
-        </div>
-        <p class="home-contact-cv">
-          Pour aller plus loin :
-          <a href="/Fabien-Canu-CV-Architecte-Produit-IA.pdf" target="_blank" rel="noopener">mon CV détaillé en PDF</a>.
-        </p>
-        <p class="home-contact-foot">
-          Vous pouvez également me retrouver sur
-          <a href="https://www.linkedin.com/in/fabien-canu/" target="_blank" rel="noopener">LinkedIn</a>,
-          j'y partage régulièrement mes expérimentations.
-        </p>
-        <div class="home-contact-bottom">
-          <div class="home-contact-legal">
-            <a href="/mentions-legales">Mentions légales</a>
-            <span class="sep">·</span>
-            <a href="/confidentialite">Politique de confidentialité</a>
-            <span class="sep">·</span>
-            <a href="/cookies">Cookies</a>
-          </div>
+        <div class="home-contact-top">
+          <div class="home-contact-eyebrow">Parler</div>
           <div class="home-contact-labels">
             <a
               href="https://www.francenum.gouv.fr/activateurs/koality"
@@ -318,6 +297,27 @@ import Layout from "../layouts/Layout.astro";
               />
             </a>
           </div>
+        </div>
+        <p class="home-contact-h">Un projet, un besoin d'expertise ou une formation ? Parlons-en !</p>
+        <div class="home-contact-lines">
+          <a href="mailto:fabien@koality.fr" class="home-contact-mail">fabien@koality.fr</a>
+          <a href="tel:+33648745829" class="home-contact-tel">06 48 74 58 29</a>
+        </div>
+        <p class="home-contact-cv">
+          Pour aller plus loin :
+          <a href="/Fabien-Canu-CV-Architecte-Produit-IA.pdf" target="_blank" rel="noopener">mon CV détaillé en PDF</a>.
+        </p>
+        <p class="home-contact-foot">
+          Vous pouvez également me retrouver sur
+          <a href="https://www.linkedin.com/in/fabien-canu/" target="_blank" rel="noopener">LinkedIn</a>,
+          j'y partage régulièrement mes expérimentations.
+        </p>
+        <div class="home-contact-legal">
+          <a href="/mentions-legales">Mentions légales</a>
+          <span class="sep">·</span>
+          <a href="/confidentialite">Politique de confidentialité</a>
+          <span class="sep">·</span>
+          <a href="/cookies">Cookies</a>
         </div>
       </div>
     </section>
@@ -834,7 +834,6 @@ import Layout from "../layouts/Layout.astro";
     letter-spacing: 0.22em;
     text-transform: uppercase;
     color: #7a756c;
-    margin-bottom: 26px;
   }
   .home-contact-h {
     font-family: "Space Grotesk", sans-serif;
@@ -890,34 +889,31 @@ import Layout from "../layouts/Layout.astro";
   .home-contact-cv a:hover {
     color: #fbf9f5;
   }
-  .home-contact-bottom {
-    margin-top: 32px;
-    padding-top: 24px;
-    border-top: 1px solid rgba(255, 255, 255, 0.12);
+  .home-contact-top {
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     gap: 24px;
+    margin-bottom: 26px;
   }
   .home-contact-labels {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 14px;
+    flex-shrink: 0;
   }
   .home-label {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    height: 54px;
-    padding: 7px 10px;
+    height: 62px;
+    padding: 8px 11px;
     background: #fbf9f5;
-    border-radius: 9px;
-    opacity: 0.95;
-    transition: opacity 0.2s ease;
+    border-radius: 10px;
+    transition: transform 0.2s ease;
   }
   .home-label:hover {
-    opacity: 1;
+    transform: translateY(-2px);
   }
   .home-label img {
     height: 100%;
@@ -925,6 +921,9 @@ import Layout from "../layouts/Layout.astro";
     display: block;
   }
   .home-contact-legal {
+    margin-top: 44px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
     display: flex;
     flex-wrap: wrap;
     align-items: center;
