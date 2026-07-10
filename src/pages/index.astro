@@ -1,10 +1,12 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { personSchema, organizationSchema } from "../lib/schema";
 ---
 
 <Layout
   title="Fabien Canu · Architecte produit & IA · Bretagne"
   description="Architecte produit & IA en Bretagne. Conseil et architecture, développement d'applications web et mobiles, formation certifiée Qualiopi. 25 ans d'expérience produit."
+  schemas={[personSchema, organizationSchema]}
 >
   <!-- ================= NAV ================= -->
   <nav class="home-nav">

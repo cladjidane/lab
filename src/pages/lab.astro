@@ -2,16 +2,38 @@
 import Layout from "../layouts/Layout.astro";
 import SkillsFilter from "../components/SkillsFilter.astro";
 import { projects } from "../data/projects";
+import { personSchema } from "../lib/schema";
 
 function getProject(slug: string) {
   return projects.find((p) => p.slug === slug);
 }
 
+const collectionSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "Le lab IA de Fabien Canu",
+  url: "https://fabiencanu.fr/lab",
+  description:
+    "Une vingtaine de produits IA sortis en 18 mois, du prototype à l'outil en production.",
+  isPartOf: { "@id": "https://fabiencanu.fr/#fabien-canu" },
+  mainEntity: {
+    "@type": "ItemList",
+    itemListElement: projects
+      .filter((p) => p.tier === 1)
+      .map((p, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        name: p.name,
+        url: `https://fabiencanu.fr/${p.slug}`,
+      })),
+  },
+};
+
 const waveBars = [10, 16, 8, 20, 6, 14, 10, 24, 12, 18, 7, 16];
 const dictWave = [4, 8, 5, 11, 3, 7, 9, 5];
 ---
 
-<Layout title="Le lab IA de Fabien Canu" description="Le lab IA de Fabien Canu. 25 ans de code, l'IA comme levier. Une vingtaine de produits sortis en 18 mois : PAI (mémoire persistante), Jaja (assistant vocal), Uptake, Vokable, Epicycle Draw, et d'autres. Terrain d'essai en continu.">
+<Layout title="Le lab IA de Fabien Canu" description="Le lab IA de Fabien Canu. 25 ans de code, l'IA comme levier. Une vingtaine de produits sortis en 18 mois : PAI (mémoire persistante), Jaja (assistant vocal), Uptake, Vokable, Epicycle Draw, et d'autres. Terrain d'essai en continu." schemas={[personSchema, collectionSchema]}>
   <main class="bento-grid bg-surface">
     <!-- ================= ROW 1-2 : TROIS STARS ================= -->
 

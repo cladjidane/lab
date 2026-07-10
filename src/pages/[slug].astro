@@ -4,6 +4,7 @@ import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
 import { projects } from "../data/projects";
 import type { Project, ProjectMedia } from "../data/projects";
+import { projectSchema, projectBreadcrumb } from "../lib/schema";
 
 export function getStaticPaths() {
   return projects.map((project) => ({
@@ -56,7 +57,7 @@ const hasMedia = project.media && project.media.length > 0;
 const hasVideo = !hasMedia;
 ---
 
-<Layout title={`${project.name} · Lab IA Fabien Canu`} description={project.descriptionFr} image={project.thumbnail ?? "/images/og-image.png"} type="article">
+<Layout title={`${project.name} · Lab IA Fabien Canu`} description={project.descriptionFr} image={project.thumbnail ?? "/images/og-image.png"} type="article" schemas={[projectSchema(project), projectBreadcrumb(project)]}>
   <Nav />
 
   <article class="pt-32 pb-20 max-w-5xl mx-auto px-8">
