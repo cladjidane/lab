@@ -96,10 +96,13 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
     });
 
     await transport.sendMail({
-      from: `"Newsletter fabiencanu.fr" <${from}>`,
+      // Pas de nom d'expéditeur devant l'adresse : relayé depuis Vercel, OVH
+      // accepte le message puis le jette en silence quand le From porte un nom
+      // différent du compte authentifié. L'objet porte la marque à la place.
+      from,
       to,
       replyTo: email,
-      subject: `Newsletter : ${email}`,
+      subject: `Newsletter fabiencanu.fr : ${email}`,
       text: [
         "Nouvelle inscription à la newsletter.",
         "",
