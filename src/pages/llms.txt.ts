@@ -1,5 +1,6 @@
 import type { APIRoute } from "astro";
 import { projects } from "../data/projects";
+import { getArticles, isoDate } from "../lib/journal";
 
 const SITE = "https://fabiencanu.fr";
 
@@ -9,9 +10,20 @@ function oneLine(text: string): string {
   return first.replace(/\s+/g, " ");
 }
 
-export const GET: APIRoute = () => {
+export const GET: APIRoute = async () => {
   const tier1 = projects.filter((p) => p.tier === 1);
   const tier2 = projects.filter((p) => p.tier === 2);
+  const articles = await getArticles();
+
+  const journalSection =
+    articles.length === 0
+      ? ""
+      : `\n## Journal\n\n${articles
+          .map(
+            (a) =>
+              `- [${a.data.title}](${SITE}/journal/${a.id}) (${isoDate(a.data.date)}): ${oneLine(a.data.description)}`,
+          )
+          .join("\n")}\n`;
 
   const line = (p: (typeof projects)[number]) =>
     `- [${p.name}](${SITE}/${p.slug}): ${oneLine(p.descriptionFr)}`;
@@ -24,7 +36,8 @@ export const GET: APIRoute = () => {
 
 - [Accueil](${SITE}/): Présentation de Fabien Canu, ses trois activités (conseil et architecture, développement et design, formation et transmission) et ses réalisations en production.
 - [Le lab IA](${SITE}/lab): Terrain d'essai. Une vingtaine de produits IA sortis en 18 mois, du prototype à l'outil en production.
-
+- [Journal](${SITE}/journal): Les coulisses des expérimentations du lab. Flux RSS sur ${SITE}/rss.xml.
+${journalSection}
 ## Projets phares (lab)
 
 ${tier1.map(line).join("\n")}

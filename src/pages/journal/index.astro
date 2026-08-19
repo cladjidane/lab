@@ -1,0 +1,259 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import SiteNav from "../../components/SiteNav.astro";
+import Newsletter from "../../components/Newsletter.astro";
+import { getArticles, formatDate, isoDate, readingTime } from "../../lib/journal";
+
+const articles = await getArticles();
+
+const blogSchema = {
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  name: "Le journal de Fabien Canu",
+  url: "https://fabiencanu.fr/journal",
+  description:
+    "Les coulisses des expérimentations du lab : ce que je teste, ce que je construis, ce que j'abandonne.",
+  inLanguage: "fr-FR",
+  author: { "@id": "https://fabiencanu.fr/#fabien-canu" },
+  blogPost: articles.map((article) => ({
+    "@type": "BlogPosting",
+    headline: article.data.title,
+    description: article.data.description,
+    url: `https://fabiencanu.fr/journal/${article.id}`,
+    datePublished: isoDate(article.data.date),
+  })),
+};
+---
+
+<Layout
+  title="Journal · Fabien Canu"
+  description="Les coulisses des expérimentations du lab : ce que je teste, ce que je construis, ce que j'abandonne."
+  schemas={[blogSchema]}
+>
+  <SiteNav current="journal" />
+
+  <main class="jrn">
+    <div class="jrn-col">
+      <a href="/" class="jrn-back">← Retour à l'accueil</a>
+
+      <header class="jrn-head">
+        <div class="jrn-kicker">
+          <span class="jrn-kicker-dash"></span>
+          <span class="jrn-kicker-label">Journal</span>
+        </div>
+        <h1 class="jrn-h1">Les coulisses.</h1>
+        <p class="jrn-lead">
+          Le lab montre les projets. Ici, j'écris ce qu'il y a derrière : les
+          essais, les impasses, les outils que j'utilise au quotidien et ce que
+          j'en retire.
+        </p>
+        <a href="/rss.xml" class="jrn-rss">Suivre le flux RSS</a>
+      </header>
+
+      {articles.length === 0 ? (
+        <p class="jrn-empty">Le premier article arrive bientôt.</p>
+      ) : (
+        <ul class="jrn-list">
+          {articles.map((article) => (
+            <li class="jrn-item">
+              <a href={`/journal/${article.id}`} class="jrn-item-link">
+                <div class="jrn-item-meta">
+                  <time datetime={isoDate(article.data.date)}>{formatDate(article.data.date)}</time>
+                  <span class="sep">·</span>
+                  <span>{readingTime(article.body)} min de lecture</span>
+                  {article.data.draft && <span class="jrn-draft">Brouillon</span>}
+                </div>
+                <h2 class="jrn-item-title">{article.data.title}</h2>
+                <p class="jrn-item-desc">{article.data.description}</p>
+                {article.data.tags.length > 0 && (
+                  <div class="jrn-tags">
+                    {article.data.tags.map((tag) => (
+                      <span class="jrn-tag">{tag}</span>
+                    ))}
+                  </div>
+                )}
+                <span class="jrn-item-more">Lire <span class="accent">→</span></span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <div class="jrn-nl">
+        <Newsletter compact />
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .jrn {
+    background: #fbf9f5;
+    min-height: 70vh;
+  }
+  .jrn-col {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: clamp(40px, 6vw, 72px) clamp(24px, 5vw, 40px) clamp(72px, 9vw, 112px);
+  }
+  .accent {
+    color: #ff7e67;
+  }
+
+  .jrn-back {
+    font-family: "Space Grotesk", monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #8f918c;
+    text-decoration: none;
+  }
+  .jrn-back:hover {
+    color: #ff7e67;
+  }
+
+  .jrn-head {
+    margin-top: 30px;
+    padding-bottom: clamp(36px, 5vw, 52px);
+    border-bottom: 1px solid rgba(27, 28, 26, 0.1);
+  }
+  .jrn-kicker {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .jrn-kicker-dash {
+    width: 24px;
+    height: 2px;
+    background: #ff7e67;
+    display: inline-block;
+  }
+  .jrn-kicker-label {
+    font-family: "Space Grotesk", monospace;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #9a968f;
+  }
+  .jrn-h1 {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: clamp(38px, 6.4vw, 56px);
+    line-height: 1.02;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: #1b1c1a;
+    margin: 0;
+  }
+  .jrn-lead {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #4a4643;
+    max-width: 620px;
+    margin: 20px 0 0;
+  }
+  .jrn-rss {
+    display: inline-block;
+    margin-top: 22px;
+    font-family: "Space Grotesk", monospace;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #8f918c;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(110, 120, 128, 0.3);
+    padding-bottom: 2px;
+  }
+  .jrn-rss:hover {
+    color: #1b1c1a;
+    border-bottom-color: rgba(27, 28, 26, 0.45);
+  }
+
+  .jrn-empty {
+    margin: clamp(44px, 6vw, 64px) 0;
+    font-size: 17px;
+    color: #8f918c;
+  }
+
+  .jrn-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .jrn-item {
+    border-bottom: 1px solid rgba(27, 28, 26, 0.1);
+  }
+  .jrn-item-link {
+    display: block;
+    padding: clamp(28px, 4vw, 40px) 0;
+    text-decoration: none;
+  }
+  .jrn-item-link:hover .jrn-item-title {
+    color: #ff7e67;
+  }
+  .jrn-item-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    font-family: "Space Grotesk", monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #9a968f;
+  }
+  .jrn-item-meta .sep {
+    color: #d3ccc0;
+  }
+  .jrn-draft {
+    background: #fff0ed;
+    border: 1px dashed #e0563c;
+    border-radius: 5px;
+    padding: 2px 8px;
+    color: #c2452d;
+    letter-spacing: 0.08em;
+  }
+  .jrn-item-title {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: clamp(24px, 3.4vw, 30px);
+    line-height: 1.15;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    color: #1b1c1a;
+    margin: 14px 0 0;
+    transition: color 0.18s ease;
+  }
+  .jrn-item-desc {
+    font-size: 17px;
+    line-height: 1.6;
+    color: #4a4643;
+    max-width: 640px;
+    margin: 12px 0 0;
+  }
+  .jrn-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+  }
+  .jrn-tag {
+    border: 1px solid rgba(27, 28, 26, 0.14);
+    border-radius: 100px;
+    padding: 5px 13px;
+    font-size: 13px;
+    color: #4a4643;
+  }
+  .jrn-item-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 18px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #1b1c1a;
+  }
+
+  .jrn-nl {
+    margin-top: clamp(56px, 7vw, 80px);
+  }
+</style>

@@ -1,6 +1,10 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import Newsletter from "../components/Newsletter.astro";
 import { personSchema, organizationSchema } from "../lib/schema";
+import { getLatestArticle, formatDate, isoDate, readingTime } from "../lib/journal";
+
+const article = await getLatestArticle();
 ---
 
 <Layout
@@ -14,6 +18,7 @@ import { personSchema, organizationSchema } from "../lib/schema";
       <a href="/" class="home-brand">Fabien Canu</a>
       <div class="home-nav-links">
         <a href="#a-propos" class="home-nav-link home-nav-hide-mobile">À propos</a>
+        <a href="/journal" class="home-nav-link">Journal</a>
         <a href="/lab" class="home-nav-link">Le lab</a>
         <a href="mailto:fabien@koality.fr" class="home-nav-cta">Écrire</a>
       </div>
@@ -116,7 +121,12 @@ import { personSchema, organizationSchema } from "../lib/schema";
         <p class="home-prod-lead">
           La plupart de mes missions sont couvertes par des accords de
           confidentialité. Voici quelques exemples de projets que je peux partager.
-          <a href="https://koality.fr/realisations" target="_blank" rel="noopener">Le portfolio complet</a>.
+          <a
+            href="https://koality.fr/realisations"
+            target="_blank"
+            rel="noopener"
+            class="home-prod-portfolio">Le portfolio complet</a
+          >.
         </p>
 
         <div class="home-prod-grid">
@@ -216,6 +226,36 @@ import { personSchema, organizationSchema } from "../lib/schema";
             </a>
           </div>
           <a href="/lab" class="home-inline-link">Explorer tout le lab <span class="accent">→</span></a>
+        </div>
+      </section>
+
+      <hr class="home-rule" />
+
+      <!-- ================= JOURNAL + NEWSLETTER ================= -->
+      <section class="home-block home-journal">
+        {article && (
+          <>
+            <div class="home-kicker">
+              <span class="home-kicker-dash"></span>
+              <span class="home-kicker-label">Article du moment</span>
+            </div>
+            <h2 class="home-h2">Le journal.</h2>
+            <a href={`/journal/${article.id}`} class="home-jcard grain-paper">
+              <div class="home-jmeta">
+                <time datetime={isoDate(article.data.date)}>{formatDate(article.data.date)}</time>
+                <span class="sep">·</span>
+                <span>{readingTime(article.body)} min de lecture</span>
+              </div>
+              <h3 class="home-jtitle">{article.data.title}</h3>
+              <p class="home-jdesc">{article.data.description}</p>
+              <span class="home-jmore">Lire l'article <span class="accent">→</span></span>
+            </a>
+            <a href="/journal" class="home-inline-link">Tous les articles <span class="accent">→</span></a>
+          </>
+        )}
+
+        <div class={article ? "home-nl-wrap" : ""}>
+          <Newsletter />
         </div>
       </section>
 
@@ -1019,12 +1059,17 @@ import { personSchema, organizationSchema } from "../lib/schema";
     max-width: 640px;
     margin: 16px 0 0;
   }
-  .home-prod-lead a {
-    color: #1b1c1a;
+  .home-prod-portfolio {
+    color: #8a939b;
     text-decoration: none;
-    border-bottom: 1px solid #ff7e67;
+    border-bottom: 1px solid rgba(110, 120, 128, 0.3);
     padding-bottom: 1px;
     white-space: nowrap;
+    transition: color 0.18s ease, border-color 0.18s ease;
+  }
+  .home-prod-portfolio:hover {
+    color: #1b1c1a;
+    border-bottom-color: rgba(27, 28, 26, 0.45);
   }
   .home-prod-grid {
     margin-top: 34px;
@@ -1154,6 +1199,71 @@ import { personSchema, organizationSchema } from "../lib/schema";
     font-size: 14px;
     line-height: 1.45;
     color: #4a4643;
+  }
+
+  /* =================== JOURNAL + NEWSLETTER =================== */
+  .home-journal {
+    max-width: 1100px;
+  }
+  .home-jcard {
+    display: block;
+    margin-top: 30px;
+    background: #f4f2ec;
+    border: 1px solid rgba(27, 28, 26, 0.09);
+    border-radius: 18px;
+    padding: clamp(26px, 3.4vw, 36px);
+    max-width: 760px;
+    text-decoration: none;
+    transition: transform 0.2s ease;
+  }
+  .home-jcard:hover {
+    transform: translateY(-3px);
+  }
+  .home-jcard:hover .home-jtitle {
+    color: #ff7e67;
+  }
+  .home-jmeta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    font-family: "Space Grotesk", monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #9a968f;
+  }
+  .home-jmeta .sep {
+    color: #d3ccc0;
+  }
+  .home-jtitle {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: clamp(24px, 3.2vw, 30px);
+    line-height: 1.15;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    color: #1b1c1a;
+    margin: 14px 0 0;
+    transition: color 0.18s ease;
+  }
+  .home-jdesc {
+    font-size: 17px;
+    line-height: 1.6;
+    color: #4a4643;
+    margin: 12px 0 0;
+    max-width: 620px;
+  }
+  .home-jmore {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 20px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #1b1c1a;
+  }
+  .home-nl-wrap {
+    margin-top: clamp(48px, 6vw, 68px);
   }
 
   /* =================== QUI JE SUIS : lignes complémentaires =================== */

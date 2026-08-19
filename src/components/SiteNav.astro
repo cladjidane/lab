@@ -1,0 +1,94 @@
+---
+/** Barre de navigation des pages intérieures (journal, articles). */
+interface Props {
+  /** Rubrique en cours, mise en avant dans la barre. */
+  current?: "journal" | "lab";
+}
+
+const { current } = Astro.props;
+---
+
+<nav class="snav">
+  <div class="snav-inner">
+    <a href="/" class="snav-brand">Fabien Canu</a>
+    <div class="snav-links">
+      <a href="/#a-propos" class="snav-link snav-hide-mobile">À propos</a>
+      <a href="/journal" class={`snav-link ${current === "journal" ? "is-current" : ""}`}>Journal</a>
+      <a href="/lab" class={`snav-link ${current === "lab" ? "is-current" : ""}`}>Le lab</a>
+      <a href="mailto:fabien@koality.fr" class="snav-cta">Écrire</a>
+    </div>
+  </div>
+</nav>
+
+<style>
+  .snav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(251, 249, 245, 0.82);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(27, 28, 26, 0.07);
+    padding: 0 clamp(24px, 8vw, 130px);
+  }
+  .snav-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 0;
+  }
+  .snav-brand {
+    font-family: "Space Grotesk", sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: #1b1c1a;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+  }
+  .snav-links {
+    display: flex;
+    align-items: center;
+    gap: 26px;
+  }
+  .snav-link {
+    font-family: "Space Grotesk", monospace;
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #6e7880;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  .snav-link:hover {
+    color: #ff7e67;
+  }
+  .snav-link.is-current {
+    color: #1b1c1a;
+  }
+  .snav-cta {
+    font-family: "Space Grotesk", monospace;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #fbf9f5;
+    background: #1b1c1a;
+    padding: 9px 16px;
+    border-radius: 100px;
+    text-decoration: none;
+    transition: background 0.2s ease;
+  }
+  .snav-cta:hover {
+    background: #35322d;
+  }
+
+  @media (max-width: 640px) {
+    .snav-hide-mobile {
+      display: none;
+    }
+    .snav-links {
+      gap: 18px;
+    }
+  }
+</style>

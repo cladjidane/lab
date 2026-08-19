@@ -1,0 +1,278 @@
+---
+/**
+ * Bloc d'inscription à la newsletter.
+ *
+ * Le formulaire poste sur /api/newsletter, qui envoie un mail à Fabien.
+ * Aucune adresse n'est stockée sur le site.
+ *
+ * compact : version resserrée, pour le bas d'un article.
+ */
+interface Props {
+  compact?: boolean;
+  title?: string;
+  text?: string;
+}
+
+const {
+  compact = false,
+  title = "Les coulisses du lab",
+  text = "Vous avez aimé le lab ? La newsletter va plus loin : le détail des expérimentations, les essais qui n'ont pas marché, les outils que j'utilise au quotidien. Pas de rythme fixe, j'écris quand il y a de la matière.",
+} = Astro.props;
+
+const uid = `nl-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<section class={`nl ${compact ? "nl--compact" : ""} grain-paper`} data-newsletter>
+  <div class="nl-text">
+    <div class="nl-kicker">
+      <span class="nl-kicker-dash"></span>
+      <span class="nl-kicker-label">Newsletter</span>
+    </div>
+    <h2 class="nl-title">{title}</h2>
+    <p class="nl-txt">{text}</p>
+  </div>
+
+  <form class="nl-form" novalidate data-newsletter-form>
+    <label class="nl-label" for={uid}>Votre adresse mail</label>
+    <div class="nl-row">
+      <input
+        id={uid}
+        class="nl-input"
+        type="email"
+        name="email"
+        required
+        placeholder="prenom@exemple.fr"
+        autocomplete="email"
+        spellcheck="false"
+      />
+      <button class="nl-btn" type="submit">S'inscrire</button>
+    </div>
+
+    {/* Champ piège : invisible pour un visiteur, rempli par les robots. */}
+    <div class="nl-hp" aria-hidden="true">
+      <label for={`${uid}-hp`}>Ne pas remplir ce champ</label>
+      <input id={`${uid}-hp`} type="text" name="website" tabindex="-1" autocomplete="off" />
+    </div>
+
+    <p class="nl-legal">
+      Votre adresse sert uniquement à vous envoyer cette newsletter. Une demande
+      de désinscription à <a href="mailto:fabien@koality.fr">fabien@koality.fr</a>
+      suffit à la supprimer. Voir la <a href="/confidentialite">politique de confidentialité</a>.
+    </p>
+    <p class="nl-status" role="status" aria-live="polite"></p>
+  </form>
+</section>
+
+<script>
+  const ERREUR_GENERIQUE =
+    "L'inscription n'a pas pu être enregistrée. Écrivez-moi à fabien@koality.fr, je vous ajoute à la main.";
+
+  document.querySelectorAll<HTMLFormElement>("[data-newsletter-form]").forEach((form) => {
+    const input = form.querySelector<HTMLInputElement>('input[name="email"]')!;
+    const trap = form.querySelector<HTMLInputElement>('input[name="website"]')!;
+    const button = form.querySelector<HTMLButtonElement>("button")!;
+    const status = form.querySelector<HTMLParagraphElement>(".nl-status")!;
+
+    const dire = (message: string, etat: "ok" | "ko" | "") => {
+      status.textContent = message;
+      status.dataset.state = etat;
+    };
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const email = input.value.trim();
+
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+        dire("Cette adresse ne semble pas valide.", "ko");
+        input.focus();
+        return;
+      }
+
+      button.disabled = true;
+      dire("Envoi en cours…", "");
+
+      try {
+        const reponse = await fetch("/api/newsletter", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email,
+            website: trap.value,
+            page: window.location.pathname,
+          }),
+        });
+        const donnees = await reponse.json().catch(() => ({}));
+
+        if (reponse.ok) {
+          form.reset();
+          dire(donnees.message ?? "C'est noté, merci. À bientôt dans votre boîte mail.", "ok");
+        } else {
+          dire(donnees.message ?? ERREUR_GENERIQUE, "ko");
+        }
+      } catch {
+        dire(ERREUR_GENERIQUE, "ko");
+      } finally {
+        button.disabled = false;
+      }
+    });
+  });
+</script>
+
+<style>
+  .nl {
+    background: #f4f2ec;
+    border: 1px solid rgba(27, 28, 26, 0.09);
+    border-radius: 18px;
+    padding: clamp(28px, 4vw, 44px);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 420px);
+    gap: clamp(28px, 4vw, 56px);
+    align-items: start;
+  }
+  .nl--compact {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: clamp(24px, 3.5vw, 32px);
+  }
+
+  .nl-kicker {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+  .nl-kicker-dash {
+    width: 24px;
+    height: 2px;
+    background: #ff7e67;
+    display: inline-block;
+  }
+  .nl-kicker-label {
+    font-family: "Space Grotesk", monospace;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #9a968f;
+  }
+  .nl-title {
+    font-family: "Space Grotesk", sans-serif;
+    font-size: clamp(26px, 3.4vw, 34px);
+    line-height: 1.1;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    color: #1b1c1a;
+    margin: 0;
+  }
+  .nl-txt {
+    font-size: 16.5px;
+    line-height: 1.6;
+    color: #4a4643;
+    margin: 16px 0 0;
+    max-width: 560px;
+  }
+
+  .nl-form {
+    width: 100%;
+  }
+  .nl-label {
+    display: block;
+    font-family: "Space Grotesk", monospace;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #8f918c;
+    margin-bottom: 10px;
+  }
+  .nl-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .nl-input {
+    flex: 1 1 220px;
+    min-width: 0;
+    background: #fbf9f5;
+    border: 1px solid rgba(27, 28, 26, 0.16);
+    border-radius: 8px;
+    padding: 13px 15px;
+    font-family: "Manrope", sans-serif;
+    font-size: 16px;
+    color: #1b1c1a;
+    transition: border-color 0.18s ease;
+  }
+  .nl-input::placeholder {
+    color: #a8a49d;
+  }
+  .nl-input:focus {
+    outline: none;
+    border-color: #ff7e67;
+  }
+  .nl-btn {
+    flex: 0 0 auto;
+    background: #1b1c1a;
+    color: #fbf9f5;
+    border: 0;
+    border-radius: 8px;
+    padding: 13px 22px;
+    font-family: "Space Grotesk", monospace;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.18s ease;
+  }
+  .nl-btn:hover:not(:disabled) {
+    background: #35322d;
+  }
+  .nl-btn:disabled {
+    opacity: 0.55;
+    cursor: progress;
+  }
+
+  /* Champ piège : sorti de l'écran sans display:none, que les robots le voient. */
+  .nl-hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .nl-legal {
+    font-size: 13px;
+    line-height: 1.5;
+    color: #8f918c;
+    margin: 14px 0 0;
+  }
+  .nl-legal a {
+    color: #6e7880;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    text-decoration-color: rgba(110, 120, 128, 0.4);
+  }
+  .nl-legal a:hover {
+    color: #1b1c1a;
+  }
+
+  .nl-status {
+    font-size: 14.5px;
+    line-height: 1.5;
+    margin: 12px 0 0;
+    min-height: 1.2em;
+    color: #4a4643;
+  }
+  .nl-status[data-state="ok"] {
+    color: #1b1c1a;
+    font-weight: 600;
+  }
+  .nl-status[data-state="ko"] {
+    color: #c2452d;
+  }
+
+  @media (max-width: 900px) {
+    .nl {
+      grid-template-columns: 1fr;
+      gap: 26px;
+    }
+  }
+</style>

@@ -41,6 +41,13 @@ const ogImageURL = new URL(image, Astro.site ?? "https://fabiencanu.fr").toStrin
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="Le journal de Fabien Canu"
+      href="/rss.xml"
+    />
+
     <meta property="og:type" content={type} />
     <meta property="og:site_name" content="Le lab IA de Fabien Canu" />
     <meta property="og:title" content={title} />
