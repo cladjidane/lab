@@ -3,7 +3,7 @@ title: "Cinq semaines sans cahier des charges"
 description: "J'ai construit un produit complet sans écrire une ligne de spécification. Ce que ça a donné, où ça a cassé, et ce que j'en retiens sur la façon de travailler aujourd'hui."
 date: 2026-08-19
 tags: ["Méthode", "IA", "Cartographie"]
-draft: true
+draft: false
 ---
 
 Cet été j'ai monté un moteur de cartographie et son site de vente en cinq
