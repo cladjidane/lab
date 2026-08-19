@@ -131,3 +131,6 @@ mille, un modèle de données qui devient invivable dans deux ans.
 On ne met pas deux ans dans un bac à sable. C'est le seul endroit où je n'ai
 pas de réponse par l'essai, et je n'ai pas envie de faire semblant du
 contraire.
+
+La méthode que je tire de tout ça est écrite à part, et tenue à jour :
+[intention et jugement](/journal/methode-intention-et-jugement).
