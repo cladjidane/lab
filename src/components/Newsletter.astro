@@ -9,12 +9,15 @@
  */
 interface Props {
   compact?: boolean;
+  /** "sombre" : fond charcoal, pour détacher le bloc d'un voisin clair. */
+  tone?: "clair" | "sombre";
   title?: string;
   text?: string;
 }
 
 const {
   compact = false,
+  tone = "clair",
   title = "Les coulisses du lab",
   // Texte provisoire, en attente de la phrase de Fabien.
   text = "Les coulisses de ce que je fabrique dans le lab.",
@@ -23,7 +26,10 @@ const {
 const uid = `nl-${Math.random().toString(36).slice(2, 8)}`;
 ---
 
-<section class={`nl ${compact ? "nl--compact" : ""} grain-paper`} data-newsletter>
+<section
+  class={`nl ${compact ? "nl--compact" : ""} ${tone === "sombre" ? "nl--sombre grain-kraft" : "grain-paper"}`}
+  data-newsletter
+>
   <div class="nl-text">
     <div class="nl-kicker">
       <span class="nl-kicker-dash"></span>
@@ -268,6 +274,59 @@ const uid = `nl-${Math.random().toString(36).slice(2, 8)}`;
   }
   .nl-status[data-state="ko"] {
     color: #c2452d;
+  }
+
+  /* =============== VARIANTE SOMBRE =============== */
+  .nl--sombre {
+    background: #1b1c1a;
+    border-color: rgba(251, 249, 245, 0.12);
+  }
+  .nl--sombre .nl-kicker-label {
+    color: #8f918c;
+  }
+  .nl--sombre .nl-title {
+    color: #fbf9f5;
+  }
+  .nl--sombre .nl-txt {
+    color: #c9c4bb;
+  }
+  .nl--sombre .nl-label {
+    color: #9a968f;
+  }
+  .nl--sombre .nl-input {
+    background: #262724;
+    border-color: rgba(251, 249, 245, 0.16);
+    color: #fbf9f5;
+  }
+  .nl--sombre .nl-input::placeholder {
+    color: #7d7a74;
+  }
+  .nl--sombre .nl-btn {
+    background: #fbf9f5;
+    color: #1b1c1a;
+  }
+  .nl--sombre .nl-btn:hover:not(:disabled) {
+    background: #ff7e67;
+    color: #fbf9f5;
+  }
+  .nl--sombre .nl-legal {
+    color: #8f918c;
+  }
+  .nl--sombre .nl-legal a {
+    color: #c9c4bb;
+    text-decoration-color: rgba(201, 196, 187, 0.4);
+  }
+  .nl--sombre .nl-legal a:hover {
+    color: #fbf9f5;
+  }
+  .nl--sombre .nl-status {
+    color: #c9c4bb;
+  }
+  .nl--sombre .nl-status[data-state="ok"] {
+    color: #fbf9f5;
+  }
+  .nl--sombre .nl-status[data-state="ko"] {
+    color: #ff9d8a;
   }
 
   @media (max-width: 900px) {

@@ -234,28 +234,30 @@ const article = await getLatestArticle();
       <!-- ================= JOURNAL + NEWSLETTER ================= -->
       <section class="home-block home-journal">
         {article && (
-          <>
-            <div class="home-kicker">
-              <span class="home-kicker-dash"></span>
-              <span class="home-kicker-label">Article du moment</span>
-            </div>
-            <h2 class="home-h2">Le journal.</h2>
-            <a href={`/journal/${article.id}`} class="home-jcard grain-paper">
-              <div class="home-jmeta">
-                <time datetime={isoDate(article.data.date)}>{formatDate(article.data.date)}</time>
-                <span class="sep">·</span>
-                <span>{readingTime(article.body)} min de lecture</span>
-              </div>
-              <h3 class="home-jtitle">{article.data.title}</h3>
-              <p class="home-jdesc">{article.data.description}</p>
-              <span class="home-jmore">Lire l'article <span class="accent">→</span></span>
-            </a>
-            <a href="/journal" class="home-inline-link">Tous les articles <span class="accent">→</span></a>
-          </>
+          <div class="home-kicker">
+            <span class="home-kicker-dash"></span>
+            <span class="home-kicker-label">Article du moment</span>
+          </div>
         )}
+        {article && <h2 class="home-h2">Le journal.</h2>}
 
-        <div class={article ? "home-nl-wrap" : ""}>
-          <Newsletter />
+        <div class={`home-journal-grid ${article ? "" : "home-journal-grid--seule"}`}>
+          {article && (
+            <div class="home-jcol">
+              <a href={`/journal/${article.id}`} class="home-jcard grain-paper">
+                <div class="home-jmeta">
+                  <time datetime={isoDate(article.data.date)}>{formatDate(article.data.date)}</time>
+                  <span class="sep">·</span>
+                  <span>{readingTime(article.body)} min de lecture</span>
+                </div>
+                <h3 class="home-jtitle">{article.data.title}</h3>
+                <p class="home-jdesc">{article.data.description}</p>
+                <span class="home-jmore">Lire l'article <span class="accent">→</span></span>
+              </a>
+              <a href="/journal" class="home-inline-link">Tous les articles <span class="accent">→</span></a>
+            </div>
+          )}
+          <Newsletter compact tone="sombre" />
         </div>
       </section>
 
@@ -1205,14 +1207,28 @@ const article = await getLatestArticle();
   .home-journal {
     max-width: 1100px;
   }
+  .home-journal-grid {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: clamp(20px, 2.6vw, 32px);
+    align-items: start;
+  }
+  .home-journal-grid--seule {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 760px;
+  }
+  .home-jcol {
+    display: flex;
+    flex-direction: column;
+  }
   .home-jcard {
     display: block;
-    margin-top: 30px;
+    margin-top: 0;
     background: #f4f2ec;
     border: 1px solid rgba(27, 28, 26, 0.09);
     border-radius: 18px;
     padding: clamp(26px, 3.4vw, 36px);
-    max-width: 760px;
     text-decoration: none;
     transition: transform 0.2s ease;
   }
@@ -1262,8 +1278,10 @@ const article = await getLatestArticle();
     font-weight: 600;
     color: #1b1c1a;
   }
-  .home-nl-wrap {
-    margin-top: clamp(48px, 6vw, 68px);
+  @media (max-width: 900px) {
+    .home-journal-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
   }
 
   /* =================== QUI JE SUIS : lignes complémentaires =================== */
