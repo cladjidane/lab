@@ -16,7 +16,8 @@ interface Props {
 const {
   compact = false,
   title = "Les coulisses du lab",
-  text = "Vous avez aimé le lab ? La newsletter va plus loin : le détail des expérimentations, les essais qui n'ont pas marché, les outils que j'utilise au quotidien. Pas de rythme fixe, j'écris quand il y a de la matière.",
+  // Texte provisoire, en attente de la phrase de Fabien.
+  text = "Les coulisses de ce que je fabrique dans le lab.",
 } = Astro.props;
 
 const uid = `nl-${Math.random().toString(36).slice(2, 8)}`;

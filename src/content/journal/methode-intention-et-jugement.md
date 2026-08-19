@@ -1,6 +1,6 @@
 ---
 title: "Intention et jugement"
-description: "Ma méthode de travail avec des modèles qui produisent seuls la spec, le plan, le code et les contrôles. Sept points, ce que ça coûte, et la limite que je ne sais pas traiter."
+description: "Ma méthode de travail avec des modèles qui produisent seuls la spec, le plan, le code et les contrôles."
 date: 2026-08-19
 tags: ["Méthode", "IA"]
 draft: false
