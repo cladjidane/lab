@@ -174,7 +174,7 @@ parcouru, sinon plus personne ne sait la lire.
 
 ## Le coût humain total
 
-Il tient en six gestes : écrire une page d'intention, lire l'accusé de
+Il tient en six choses à faire : écrire une page d'intention, lire l'accusé de
 réception avant chaque lancement long, regarder chaque changement, attaquer
 une fois les sujets qui ne renvoient rien, ajouter un contrôle après chaque
 panne, entretenir la mémoire.
@@ -257,8 +257,8 @@ j'allais être redirigé après ».
 
 **Le mode provoquer du point 3 n'a jamais été employé.** Un audit tardif trouve quatre
 trous graves, tous les quatre sur le chemin de l'argent, aucun sur la
-cartographie. La cause tient à une chose : le tunnel de paiement n'a jamais
-été attaqué. La carto renvoyait un résultat à
+cartographie. La cause est simple : je n'ai jamais attaqué le tunnel de
+paiement. La carto renvoyait un résultat à
 chaque gravure, le paiement ne renvoyait rien, et personne n'est allé le
 chercher. Une demi-journée d'attaque aurait rendu les quatre faits.
 

@@ -77,8 +77,8 @@ lieu d'hypothèses. L'irréversible se traite pareil, dans une copie.
 
 ## L'intention et le jugement
 
-Deux gestes me restent, quelle que soit la puissance de l'outil : dire ce que
-je veux, et dire si le résultat est bon.
+Quelle que soit la puissance de l'outil, je dois faire deux choses : dire ce
+que je veux, et dire si le résultat est bon.
 
 L'écart entre les deux est énorme. Dire ce qu'on veut prend vingt minutes, une
 fois. Juger se fait cent fois par jour pendant des semaines.
@@ -86,7 +86,7 @@ fois. Juger se fait cent fois par jour pendant des semaines.
 Mon projet le montre dans les deux sens. Sur la carte, aucune intention écrite
 et beaucoup de jugement : ça a abouti au-delà de mes attentes. Sur le
 paiement, une intention parfaitement claire, vendre des cartes en ligne, et
-zéro jugement : j'ai récolté quatre trous.
+zéro jugement : ça a donné quatre trous.
 
 L'intention sert quand même à quelque chose. Le jugement seul répond « est-ce
 que ça me plaît », pas « est-ce que ça sert mon but ». Sans un cap posé, on
