@@ -8,7 +8,7 @@ export async function GET(context: APIContext) {
   return rss({
     title: "Le journal de Fabien Canu",
     description:
-      "Les coulisses des expérimentations du lab : ce que je teste, ce que je construis, ce que j'abandonne.",
+      "Les coulisses des expérimentations du lab, des essais qui aboutissent jusqu'aux abandons.",
     site: context.site ?? "https://fabiencanu.fr",
     items: articles.map((article) => ({
       title: article.data.title,

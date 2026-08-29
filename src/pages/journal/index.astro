@@ -12,7 +12,7 @@ const blogSchema = {
   name: "Le journal de Fabien Canu",
   url: "https://fabiencanu.fr/journal",
   description:
-    "Les coulisses des expérimentations du lab : ce que je teste, ce que je construis, ce que j'abandonne.",
+    "Les coulisses des expérimentations du lab, des essais qui aboutissent jusqu'aux abandons.",
   inLanguage: "fr-FR",
   author: { "@id": "https://fabiencanu.fr/#fabien-canu" },
   blogPost: articles.map((article) => ({
@@ -27,7 +27,7 @@ const blogSchema = {
 
 <Layout
   title="Journal · Fabien Canu"
-  description="Les coulisses des expérimentations du lab : ce que je teste, ce que je construis, ce que j'abandonne."
+  description="Les coulisses des expérimentations du lab, des essais qui aboutissent jusqu'aux abandons."
   schemas={[blogSchema]}
 >
   <SiteNav current="journal" />
