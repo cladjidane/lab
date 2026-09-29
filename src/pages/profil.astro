@@ -23,42 +23,31 @@ import Layout from "../layouts/Layout.astro";
 <main>
 
   <section class="band hero">
-    <div class="inner">
-      <div class="eyebrow"><span class="eyebrow-dash"></span><span class="eyebrow-txt">Architecte produit &amp; IA · Finistère</span></div>
-      <h1>Fabien<br />Canu<span class="accent">.</span></h1>
-      <div class="read">
-        <p class="lead">Je conçois et développe des produits numériques depuis vingt-cinq ans.</p>
-        <p>J’aime partir d’un besoin, explorer les possibles et faire évoluer les idées jusqu’à trouver la réponse la plus juste. Comprendre, essayer, ajuster, construire : c’est cette recherche permanente qui guide ma façon de travailler.</p>
-        <p><strong>Avec un objectif simple : créer des outils réellement adaptés à ceux qui vont les utiliser.</strong></p>
-      </div>
-      <div class="btns">
-        <a class="btn btn--primary" href="/Fabien-Canu-CV-Architecte-Produit-IA.pdf" target="_blank" rel="noopener">Voir mon CV</a>
-        <a class="btn btn--secondary" href="/lab">Découvrir le Lab</a>
-      </div>
-    </div>
-  </section>
-
-  <section class="band band--low">
-    <div class="inner">
-      <div class="kicker"><span class="kicker-dash"></span><span class="kicker-label">Méthode</span></div>
-      <h2>Du besoin au produit</h2>
-
-      <div class="dbp">
-        <div class="dbp-text">
-          <div class="hats">
-            <p class="hats-lead">Je travaille naturellement entre</p>
-            <ul class="hats-list">
-              <li class="hat hat--cyan">produit</li>
-              <li class="hat hat--coral">architecture</li>
-              <li class="hat hat--amber">développement</li>
-            </ul>
-          </div>
-          <div class="ai read">
-            <p>L’IA ajoute aujourd’hui de nouvelles possibilités à cette façon de travailler. Elle permet d’explorer plus vite, d’imaginer de nouvelles interactions et parfois de rendre possibles des usages qui auraient été trop complexes ou trop coûteux auparavant.</p>
-            <p>Je l’utilise quand elle apporte réellement quelque chose.</p>
-          </div>
+    <div class="inner hero-grid">
+      <div class="hero-main">
+        <div class="eyebrow"><span class="eyebrow-dash"></span><span class="eyebrow-txt">Architecte produit &amp; IA · Finistère</span></div>
+        <h1>Fabien<br />Canu<span class="accent">.</span></h1>
+        <div class="read">
+          <p class="lead">Je conçois et développe des produits numériques depuis vingt-cinq ans.</p>
+          <p>J’aime partir d’un besoin, explorer les possibles et faire évoluer les idées jusqu’à trouver la réponse la plus juste. Comprendre, essayer, ajuster, construire : c’est cette recherche permanente qui guide ma façon de travailler.</p>
+          <p><strong>Avec un objectif simple : créer des outils réellement adaptés à ceux qui vont les utiliser.</strong></p>
         </div>
-        <figure class="flow">
+        <div class="btns">
+          <a class="btn btn--primary" href="/Fabien-Canu-CV-Architecte-Produit-IA.pdf" target="_blank" rel="noopener">Voir mon CV</a>
+          <a class="btn btn--secondary" href="/lab">Découvrir le Lab</a>
+        </div>
+      </div>
+      <aside class="method">
+        <div class="kicker"><span class="kicker-dash"></span><span class="kicker-label">Du besoin au produit</span></div>
+        <div class="hats">
+          <p class="hats-lead">Je travaille naturellement entre</p>
+          <ul class="hats-list">
+            <li class="hat">produit</li>
+            <li class="hat">architecture</li>
+            <li class="hat">développement</li>
+          </ul>
+        </div>
+          <figure class="flow">
           <svg viewBox="0 0 440 480" role="img" aria-label="Du besoin au produit : un besoin, entrer dans un sujet métier, comprendre les usages et les contraintes, imaginer plusieurs réponses, en construire rapidement une première version. Si la réponse est juste, on obtient un produit adapté à ceux qui vont l'utiliser. Sinon, on revient imaginer d'autres réponses, à mesure que l'on apprend.">
             <defs>
               <marker id="fa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-head"/></marker>
@@ -90,7 +79,11 @@ import Layout from "../layouts/Layout.astro";
             <text x="418" y="285" class="f-loop-t" text-anchor="middle" transform="rotate(-90 418 285)">à mesure que l’on apprend</text>
           </svg>
         </figure>
-      </div>
+        <div class="method-ai">
+          <p>L’IA ajoute aujourd’hui de nouvelles possibilités à cette façon de travailler. Elle permet d’explorer plus vite, d’imaginer de nouvelles interactions et parfois de rendre possibles des usages qui auraient été trop complexes ou trop coûteux auparavant.</p>
+          <p>Je l’utilise quand elle apporte réellement quelque chose.</p>
+        </div>
+      </aside>
     </div>
   </section>
 
@@ -359,4 +352,24 @@ import Layout from "../layouts/Layout.astro";
   .mail:hover { color: var(--coral); }
   .tel { font-family: var(--display); font-size: 20px; color: var(--dark-2); text-decoration: none; letter-spacing: 0.02em; }
   .contact-lines { margin-top: 30px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 14px 32px; }
+  /* Hero fusionné, pleine hauteur */
+  .hero { min-height: calc(100svh - 61px); display: flex; align-items: center; padding-top: clamp(32px, 5vh, 64px); padding-bottom: clamp(32px, 5vh, 64px); }
+  .hero > .inner { width: 100%; }
+  .hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 520px); gap: clamp(36px, 6vw, 96px); align-items: center; }
+  .hero-main { min-width: 0; }
+  .method { min-width: 0; background: var(--low); border-radius: 14px; padding: 22px 24px 20px; }
+  .method .kicker { margin-bottom: 12px; }
+  .method .hats { flex-wrap: wrap; }
+  .method .hats { gap: 10px 12px; }
+  .method .hats-lead { font-size: 15px; }
+  .method .hat { font-size: 14px; padding: 5px 10px; }
+  .method .flow { margin-top: 16px; }
+  .method .flow svg { max-width: 340px; }
+  .method-ai { margin-top: 16px; font-size: 14px; line-height: 1.55; color: var(--ink-2); }
+  .method-ai p + p { margin-top: 10px; }
+  @media (max-width: 1000px) {
+    .hero { min-height: 0; }
+    .hero-grid { grid-template-columns: 1fr; }
+  }
+
 </style>
