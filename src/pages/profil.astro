@@ -11,19 +11,28 @@ import Layout from "../layouts/Layout.astro";
   robots="noindex, nofollow"
 >
 <div class="profil">
+<nav class="pnav">
+  <div class="pnav-inner">
+    <a href="/" class="pnav-brand">Fabien Canu</a>
+    <div class="pnav-links">
+      <a href="/lab" class="pnav-link">Le lab</a>
+      <a href="mailto:fabien@koality.fr" class="pnav-cta">Écrire</a>
+    </div>
+  </div>
+</nav>
 <main>
 
   <section class="band hero">
     <div class="inner">
-      <h1>Fabien Canu</h1>
-      <p class="title">Architecte produit &amp; IA</p>
+      <div class="eyebrow"><span class="eyebrow-dash"></span><span class="eyebrow-txt">Architecte produit &amp; IA · Finistère</span></div>
+      <h1>Fabien<br />Canu<span class="accent">.</span></h1>
       <div class="read">
-        <p>Je conçois et développe des produits numériques depuis vingt-cinq ans.</p>
+        <p class="lead">Je conçois et développe des produits numériques depuis vingt-cinq ans.</p>
         <p>J’aime partir d’un besoin, explorer les possibles et faire évoluer les idées jusqu’à trouver la réponse la plus juste. Comprendre, essayer, ajuster, construire : c’est cette recherche permanente qui guide ma façon de travailler.</p>
         <p><strong>Avec un objectif simple : créer des outils réellement adaptés à ceux qui vont les utiliser.</strong></p>
       </div>
       <div class="btns">
-        <a class="btn btn--primary" href="/Fabien-Canu-CV-Architecte-Produit-IA.pdf">Voir mon CV</a>
+        <a class="btn btn--primary" href="/Fabien-Canu-CV-Architecte-Produit-IA.pdf" target="_blank" rel="noopener">Voir mon CV</a>
         <a class="btn btn--secondary" href="/lab">Découvrir le Lab</a>
       </div>
     </div>
@@ -31,7 +40,7 @@ import Layout from "../layouts/Layout.astro";
 
   <section class="band band--low">
     <div class="inner">
-      <div class="dots"><i></i><i></i><i></i></div>
+      <div class="kicker"><span class="kicker-dash"></span><span class="kicker-label">Méthode</span></div>
       <h2>Du besoin au produit</h2>
 
       <div class="dbp">
@@ -87,7 +96,7 @@ import Layout from "../layouts/Layout.astro";
 
   <section class="band">
     <div class="inner">
-      <div class="dots"><i></i><i></i><i></i></div>
+      <div class="kicker"><span class="kicker-dash"></span><span class="kicker-label">Exemples</span></div>
       <h2>Quelques projets</h2>
       <p class="intro">Des sujets très différents, mais toujours la même démarche : comprendre ce qu’on cherche réellement à faire, rendre l’idée concrète et voir jusqu’où elle peut aller.</p>
 
@@ -140,7 +149,7 @@ import Layout from "../layouts/Layout.astro";
   <section class="band band--low">
     <div class="inner lab">
       <div>
-        <div class="dots"><i></i><i></i><i></i></div>
+        <div class="kicker"><span class="kicker-dash"></span><span class="kicker-label">Expérimentations</span></div>
         <h2>Le Lab</h2>
       </div>
       <div class="read">
@@ -153,21 +162,21 @@ import Layout from "../layouts/Layout.astro";
   </section>
 
   <section class="band band--dark">
-    <div class="inner read">
-      <h2>Aujourd’hui</h2>
-      <p>J’ai envie de mettre cette façon de travailler au service d’une équipe, sur des sujets où produit et technologie doivent avancer ensemble.</p>
-      <p>Mon parcours me permet de passer de l’idée à l’architecture et de l’architecture au code, tout en gardant le besoin et l’usage comme point de référence.</p>
-      <p class="ask">Vous avez un sujet qui mérite d’être exploré&nbsp;? Parlons-en.</p>
-      <div class="sign">
-        <p class="n">Fabien Canu</p>
-        <p class="t">Architecte produit &amp; IA · Finistère</p>
-        <div class="foot-links">
-          <a href="/Fabien-Canu-CV-Architecte-Produit-IA.pdf">CV</a>
-          <a href="https://www.linkedin.com/in/fabien-canu/">LinkedIn</a>
-          <a class="mail-btn" href="mailto:fabien@koality.fr">Me contacter</a>
-        </div>
-        <p class="contact-line">fabien@koality.fr · 06 48 74 58 29</p>
+    <div class="inner">
+      <div class="eyebrow eyebrow--dark"><span class="eyebrow-dash"></span><span class="eyebrow-txt">Aujourd’hui</span></div>
+      <div class="read read--dark">
+        <p>J’ai envie de mettre cette façon de travailler au service d’une équipe, sur des sujets où produit et technologie doivent avancer ensemble.</p>
+        <p>Mon parcours me permet de passer de l’idée à l’architecture et de l’architecture au code, tout en gardant le besoin et l’usage comme point de référence.</p>
       </div>
+      <p class="ask">Vous avez un sujet qui mérite d’être exploré&nbsp;? Parlons-en.</p>
+      <div class="contact-lines">
+        <a class="mail" href="mailto:fabien@koality.fr">fabien@koality.fr</a>
+        <a class="tel" href="tel:+33648745829">06 48 74 58 29</a>
+      </div>
+      <p class="contact-foot">
+        <a href="/Fabien-Canu-CV-Architecte-Produit-IA.pdf" target="_blank" rel="noopener">CV</a>
+        <a href="https://www.linkedin.com/in/fabien-canu/" target="_blank" rel="noopener">LinkedIn</a>
+      </p>
     </div>
   </section>
 </main>
@@ -197,39 +206,33 @@ import Layout from "../layouts/Layout.astro";
   a { color: inherit; }
   img, video { display: block; max-width: 100%; }
 
-  .band { padding-block: 88px; padding-inline: clamp(20px, 8vw, 130px); }
+  .band { padding-block: clamp(80px, 11vw, 116px); padding-inline: clamp(24px, 8vw, 130px); }
   .band--low { background: var(--low); }
   .band--dark { background: var(--ink); color: var(--surface); }
-  .inner { max-width: 1100px; margin: 0 auto; }
+  .inner { max-width: 1400px; margin: 0 auto; }
   .read { max-width: 660px; }
-  .inner.read { max-width: 1100px; }
+  .inner.read { max-width: 1400px; }
   .inner.read > * { max-width: 660px; }
   .read p + p { margin-top: 18px; }
   .read p { color: var(--ink-2); }
   .read strong { color: var(--ink); font-weight: 700; }
 
   h1, h2, h3 { font-family: var(--display); font-weight: 700; letter-spacing: -0.02em; text-wrap: balance; }
-  h1 { font-size: clamp(44px, 7vw, 84px); line-height: 1; }
-  h2 { font-size: clamp(28px, 3.6vw, 40px); line-height: 1.12; margin-bottom: 28px; }
+  h1 { font-size: clamp(3.2rem, 9vw, 88px); line-height: 0.9; letter-spacing: -0.04em; }
+  h2 { font-size: clamp(40px, 6vw, 52px); line-height: 1; letter-spacing: -0.03em; margin-bottom: 28px; }
   h3 { font-size: clamp(22px, 2.4vw, 28px); line-height: 1.2; }
 
-  .dots { display: flex; gap: 6px; margin-bottom: 18px; }
-  .dots i { width: 7px; height: 7px; border-radius: 50%; }
-  .dots i:nth-child(1) { background: var(--cyan); }
-  .dots i:nth-child(2) { background: var(--coral); }
-  .dots i:nth-child(3) { background: var(--amber); }
 
   /* Hero */
-  .hero { padding-top: 96px; padding-bottom: 96px; }
-  .hero .inner { padding-left: clamp(0px, 6vw, 90px); }
-  .hero .title { font-family: var(--display); font-size: clamp(20px, 2.2vw, 26px); font-weight: 500; color: var(--primary); margin-top: 14px; }
-  .hero .read { margin-top: 40px; }
+  .hero { padding-top: clamp(64px, 10vw, 104px); padding-bottom: clamp(72px, 9vw, 116px); }
+
+  .hero .read { margin-top: 34px; }
   .hero .read p:first-child { font-size: clamp(19px, 1.6vw, 21px); color: var(--ink); }
 
   .btns { margin-top: 36px; display: flex; flex-wrap: wrap; gap: 12px; }
-  .btn { font-family: var(--display); font-weight: 600; font-size: 16px; text-decoration: none; padding: 13px 22px; border-radius: 0.375rem; transition: background 0.2s ease; }
-  .btn--primary { background: var(--primary); color: var(--white); }
-  .btn--primary:hover { background: #007da8; }
+  .btn { font-family: var(--display); font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; padding: 12px 20px; border-radius: 100px; transition: background 0.2s ease; }
+  .btn--primary { background: var(--ink); color: var(--surface); }
+  .btn--primary:hover { background: #35322d; }
   .btn--secondary { background: #e4e2de; color: var(--ink); }
   .btn--secondary:hover { background: #dad8d3; }
   .btn:focus-visible, .more:focus-visible, .foot-links a:focus-visible { outline: 2px solid var(--coral); outline-offset: 3px; }
@@ -304,15 +307,7 @@ import Layout from "../layouts/Layout.astro";
   .band--dark h2 { color: var(--surface); }
   .band--dark .read p { color: var(--dark-2); }
   .band--dark .read strong { color: var(--surface); }
-  .ask { margin-top: 36px; font-family: var(--display); font-weight: 700; font-size: clamp(22px, 2.6vw, 30px); line-height: 1.25; color: var(--surface); }
-  .sign { margin-top: 48px; }
-  .sign .n { font-family: var(--display); font-weight: 700; font-size: 20px; }
-  .sign .t { font-size: 14px; color: var(--dark-3); margin-top: 2px; }
-  .foot-links { margin-top: 22px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
-  .foot-links a { font-family: var(--display); font-weight: 600; font-size: 15px; text-decoration: none; padding: 10px 18px; border-radius: 0.375rem; background: rgba(251, 249, 245, 0.1); color: var(--surface); }
-  .foot-links a:hover { background: rgba(251, 249, 245, 0.18); }
-  .foot-links a.mail-btn { background: var(--coral); color: var(--ink); }
-  .contact-line { margin-top: 18px; font-size: 15px; color: var(--dark-3); user-select: all; }
+  .ask { margin-top: 44px; font-family: var(--display); font-weight: 600; font-size: clamp(32px, 5vw, 40px); line-height: 1.1; letter-spacing: -0.02em; color: var(--surface); max-width: 640px; }
   footer { background: var(--ink); color: #7a756c; font-size: 12px; padding-inline: clamp(20px, 8vw, 130px); padding-block: 0 28px; }
   footer .inner { padding-top: 18px; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08); }
   footer a { color: var(--dark-3); text-decoration: none; margin-right: 14px; }
@@ -338,4 +333,30 @@ import Layout from "../layouts/Layout.astro";
     * { transition: none !important; }
   }
 
+  /* Alignement sur la page d'accueil */
+  .pnav { position: sticky; top: 0; z-index: 50; background: rgba(251, 249, 245, 0.82); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(27, 28, 26, 0.07); padding: 0 clamp(24px, 8vw, 130px); }
+  .pnav-inner { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 18px 0; }
+  .pnav-brand { font-family: var(--display); font-weight: 700; font-size: 16px; color: var(--ink); text-decoration: none; }
+  .pnav-links { display: flex; align-items: center; gap: 26px; }
+  .pnav-link { font-family: var(--display); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #6e7880; text-decoration: none; }
+  .pnav-link:hover { color: var(--ink); }
+  .pnav-cta { font-family: var(--display); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--surface); background: var(--ink); padding: 9px 16px; border-radius: 100px; text-decoration: none; }
+  .pnav-cta:hover { background: #35322d; }
+  .eyebrow { display: flex; align-items: center; gap: 12px; margin-bottom: 34px; }
+  .eyebrow-dash { width: 28px; height: 3px; background: var(--coral); display: inline-block; }
+  .eyebrow-txt { font-family: var(--display); font-size: 12px; letter-spacing: 0.24em; text-transform: uppercase; color: #8f918c; }
+  .eyebrow--dark .eyebrow-txt { color: #7a756c; }
+  .accent { color: var(--coral); }
+  .kicker { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+  .kicker-dash { width: 24px; height: 2px; background: var(--coral); display: inline-block; }
+  .kicker-label { font-family: var(--display); font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: #9a968f; }
+  .lead { font-size: clamp(19px, 2.4vw, 23px) !important; line-height: 1.5; color: var(--ink-2) !important; }
+  .contact-foot { margin-top: 28px; display: flex; gap: 22px; font-size: 15px; }
+  .contact-foot a { color: var(--dark-2); text-decoration: none; border-bottom: 1px solid rgba(201, 196, 187, 0.35); }
+  .read--dark p { color: var(--dark-2) !important; }
+
+  .mail { display: inline-block; font-family: var(--display); font-size: 22px; color: var(--surface); text-decoration: none; border-bottom: 2px solid var(--coral); padding-bottom: 4px; transition: color 0.2s ease; }
+  .mail:hover { color: var(--coral); }
+  .tel { font-family: var(--display); font-size: 20px; color: var(--dark-2); text-decoration: none; letter-spacing: 0.02em; }
+  .contact-lines { margin-top: 30px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 14px 32px; }
 </style>
