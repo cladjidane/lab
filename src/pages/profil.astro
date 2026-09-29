@@ -37,17 +37,10 @@ import Layout from "../layouts/Layout.astro";
           <a class="btn btn--secondary" href="/lab">Découvrir le Lab</a>
         </div>
       </div>
-      <aside class="method">
+      <div class="method">
         <div class="kicker"><span class="kicker-dash"></span><span class="kicker-label">Du besoin au produit</span></div>
-        <div class="hats">
-          <p class="hats-lead">Je travaille naturellement entre</p>
-          <ul class="hats-list">
-            <li class="hat">produit</li>
-            <li class="hat">architecture</li>
-            <li class="hat">développement</li>
-          </ul>
-        </div>
-          <figure class="flow">
+        <p class="method-lead">Je travaille naturellement entre <b>produit</b>, <b>architecture</b> et <b>développement</b>.</p>
+        <figure class="flow">
           <svg viewBox="0 0 440 480" role="img" aria-label="Du besoin au produit : un besoin, entrer dans un sujet métier, comprendre les usages et les contraintes, imaginer plusieurs réponses, en construire rapidement une première version. Si la réponse est juste, on obtient un produit adapté à ceux qui vont l'utiliser. Sinon, on revient imaginer d'autres réponses, à mesure que l'on apprend.">
             <defs>
               <marker id="fa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="f-head"/></marker>
@@ -79,11 +72,17 @@ import Layout from "../layouts/Layout.astro";
             <text x="418" y="285" class="f-loop-t" text-anchor="middle" transform="rotate(-90 418 285)">à mesure que l’on apprend</text>
           </svg>
         </figure>
-        <div class="method-ai">
-          <p>L’IA ajoute aujourd’hui de nouvelles possibilités à cette façon de travailler. Elle permet d’explorer plus vite, d’imaginer de nouvelles interactions et parfois de rendre possibles des usages qui auraient été trop complexes ou trop coûteux auparavant.</p>
-          <p>Je l’utilise quand elle apporte réellement quelque chose.</p>
-        </div>
-      </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--low ai-band">
+    <div class="inner ai-grid">
+      <div class="kicker"><span class="kicker-dash"></span><span class="kicker-label">Et l’IA</span></div>
+      <div class="ai-text">
+        <p>L’IA ajoute aujourd’hui de nouvelles possibilités à cette façon de travailler. Elle permet d’explorer plus vite, d’imaginer de nouvelles interactions et parfois de rendre possibles des usages qui auraient été trop complexes ou trop coûteux auparavant.</p>
+        <p>Je l’utilise quand elle apporte réellement quelque chose.</p>
+      </div>
     </div>
   </section>
 
@@ -355,21 +354,25 @@ import Layout from "../layouts/Layout.astro";
   /* Hero fusionné, pleine hauteur */
   .hero { min-height: calc(100svh - 61px); display: flex; align-items: center; padding-top: clamp(32px, 5vh, 64px); padding-bottom: clamp(32px, 5vh, 64px); }
   .hero > .inner { width: 100%; }
-  .hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 520px); gap: clamp(36px, 6vw, 96px); align-items: center; }
+  .hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(36px, 6vw, 96px); align-items: center; }
   .hero-main { min-width: 0; }
-  .method { min-width: 0; background: var(--low); border-radius: 14px; padding: 22px 24px 20px; }
-  .method .kicker { margin-bottom: 12px; }
-  .method .hats { flex-wrap: wrap; }
-  .method .hats { gap: 10px 12px; }
-  .method .hats-lead { font-size: 15px; }
-  .method .hat { font-size: 14px; padding: 5px 10px; }
-  .method .flow { margin-top: 16px; }
-  .method .flow svg { max-width: 340px; }
-  .method-ai { margin-top: 16px; font-size: 14px; line-height: 1.55; color: var(--ink-2); }
-  .method-ai p + p { margin-top: 10px; }
   @media (max-width: 1000px) {
     .hero { min-height: 0; }
     .hero-grid { grid-template-columns: 1fr; }
   }
 
+  .method { min-width: 0; display: flex; flex-direction: column; align-items: center; }
+  .method .kicker { align-self: stretch; margin-bottom: 14px; }
+  .method-lead { align-self: stretch; font-size: clamp(17px, 1.4vw, 19px); color: var(--ink-2); margin-bottom: 22px; }
+  .method-lead b { color: var(--ink); font-weight: 700; }
+  .method .flow { width: 100%; }
+  .method .flow svg { width: 100%; max-width: 580px; max-height: calc(100svh - 250px); }
+  .ai-band { padding-block: clamp(56px, 7vw, 88px); }
+  .ai-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: clamp(28px, 5vw, 72px); align-items: start; }
+  .ai-text { max-width: 760px; font-family: var(--display); font-size: clamp(20px, 2vw, 26px); line-height: 1.4; letter-spacing: -0.01em; color: var(--ink); }
+  .ai-text p + p { margin-top: 16px; color: var(--ink-2); }
+  @media (max-width: 1000px) {
+    .ai-grid { grid-template-columns: 1fr; }
+    .method .flow svg { max-height: none; }
+  }
 </style>
