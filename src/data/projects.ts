@@ -299,6 +299,7 @@ export const projects: Project[] = [
       { type: "screenshot", src: "/images/atelier-des-cartes-etat-major.webp", caption: "Kernilis gravé en style état-major 1840, à partir des données d'aujourd'hui." },
       { type: "screenshot", src: "/images/atelier-des-cartes-cassini.webp", caption: "Le même Kernilis en style Cassini, burin et lavis du XVIIIe siècle." },
       { type: "screenshot", src: "/images/atelier-des-cartes-carte-de-france.webp", caption: "Le même Kernilis en style carte de France des années 1930." },
+      { type: "screenshot", src: "/images/atelier-des-cartes-outil.webp", caption: "L'écran de réglage : les couches à gauche, les sources à droite, Kernilis en style Cassini au milieu." },
       { type: "screenshot", src: "/images/atelier-des-cartes-landerneau.webp", caption: "Le centre de Landerneau gravé à l'échelle des rues, septembre 2026." },
       { type: "screenshot", src: "/images/atelier-des-cartes-affiche.webp", caption: "Affiche « Les Ker du Nord-Finistère », avec son cartouche et sa table des lieux." },
     ],
