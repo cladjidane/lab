@@ -5,6 +5,10 @@ interface Props {
   title?: string;
   description?: string;
   image?: string;
+  /** Texte de remplacement de l'image de partage, « Le lab IA de Fabien Canu » par défaut. */
+  imageAlt?: string;
+  /** Nom du site affiché dans les aperçus de partage, « Le lab IA de Fabien Canu » par défaut. */
+  siteName?: string;
   type?: "website" | "article";
   /** Schemas JSON-LD spécifiques à la page (Person, CreativeWork, FAQPage, etc.). */
   schemas?: Record<string, unknown>[];
@@ -16,6 +20,8 @@ const {
   title = "Le lab IA de Fabien Canu",
   description = "Le lab IA de Fabien Canu. 25 ans de code et une vingtaine de produits sortis en 18 mois. PAI, Jaja, Uptake, Vokable et d'autres terrains d'essai.",
   image = "/images/og-image.png",
+  imageAlt = "Le lab IA de Fabien Canu",
+  siteName = "Le lab IA de Fabien Canu",
   type = "website",
   schemas = [],
   robots = "index, follow",
@@ -52,21 +58,21 @@ const ogImageURL = new URL(image, Astro.site ?? "https://fabiencanu.fr").toStrin
     />
 
     <meta property="og:type" content={type} />
-    <meta property="og:site_name" content="Le lab IA de Fabien Canu" />
+    <meta property="og:site_name" content={siteName} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL.toString()} />
     <meta property="og:image" content={ogImageURL} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Le lab IA de Fabien Canu" />
+    <meta property="og:image:alt" content={imageAlt} />
     <meta property="og:locale" content="fr_FR" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageURL} />
-    <meta name="twitter:image:alt" content="Le lab IA de Fabien Canu" />
+    <meta name="twitter:image:alt" content={imageAlt} />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
