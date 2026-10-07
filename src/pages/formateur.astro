@@ -482,8 +482,8 @@ const contactHref = `mailto:${contactMail}?subject=` + encodeURIComponent("Deman
        Dans Matomo, ils apparaissent dans Comportement > Événements, catégorie « Formateur ». -->
   <script is:inline>
     (function () {
-      var _paq = window._paq = window._paq || [];
-      var send = function (name) { _paq.push(["trackEvent", "Formateur", name]); };
+      // Matomo remplace window._paq une fois chargé : on le relit à chaque envoi
+      var send = function (name) { (window._paq = window._paq || []).push(["trackEvent", "Formateur", name]); };
 
       // Clics sur les liens : mail, téléphone, CV, jeu, Koality Academy
       document.addEventListener("click", function (event) {
