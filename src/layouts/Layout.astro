@@ -88,7 +88,7 @@ const ogImageURL = new URL(image, Astro.site ?? "https://fabiencanu.fr").toStrin
 
     <!--
       Google Analytics (GA4) désactivé : cookie-based, imposerait un bandeau
-      de consentement. Remplacé par Plausible (sans cookie). Décommenter pour
+      de consentement. Remplacé par Matomo (sans cookie). Décommenter pour
       réactiver GA4, mais il faudra alors ajouter un consentement cookies.
       <script async src="https://www.googletagmanager.com/gtag/js?id=G-RJ4HWMYR45"></script>
       <script is:inline>
@@ -99,9 +99,22 @@ const ogImageURL = new URL(image, Astro.site ?? "https://fabiencanu.fr").toStrin
       </script>
     -->
 
-    <!-- Plausible Analytics (sans cookie, aucun consentement requis) -->
-    <!-- Prérequis : créer le site "fabiencanu.fr" sur plausible.io (ou instance auto-hébergée) -->
-    <script defer data-domain="fabiencanu.fr" src="https://plausible.io/js/script.js"></script>
+    <!-- Matomo (stats.koality.fr, site n°4), sans cookie : aucun consentement requis -->
+    <script is:inline>
+      var _paq = window._paq = window._paq || [];
+      _paq.push(["disableCookies"]);
+      _paq.push(["trackPageView"]);
+      _paq.push(["enableLinkTracking"]);
+      (function () {
+        var base = "https://stats.koality.fr/";
+        _paq.push(["setTrackerUrl", base + "matomo.php"]);
+        _paq.push(["setSiteId", "4"]);
+        var tag = document.createElement("script");
+        tag.async = true;
+        tag.src = base + "matomo.js";
+        document.head.appendChild(tag);
+      })();
+    </script>
 
     <!-- Vercel Analytics (auto-injected en prod Vercel) -->
     <script defer src="/_vercel/insights/script.js"></script>

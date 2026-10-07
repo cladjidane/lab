@@ -478,37 +478,37 @@ const contactHref = `mailto:${contactMail}?subject=` + encodeURIComponent("Deman
 <footer><div class="inner"><a href="/mentions-legales">Mentions légales</a><a href="/confidentialite">Confidentialité</a></div></footer>
 
 </div>
-  <!-- Suivi Plausible de la page : un événement par action utile à mesurer.
-       Chaque nom doit exister comme objectif dans Plausible pour apparaître dans les statistiques. -->
+  <!-- Suivi Matomo de la page : un événement par action utile à mesurer.
+       Dans Matomo, ils apparaissent dans Comportement > Événements, catégorie « Formateur ». -->
   <script is:inline>
     (function () {
-      window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
-      var send = function (name) { window.plausible(name); };
+      var _paq = window._paq = window._paq || [];
+      var send = function (name) { _paq.push(["trackEvent", "Formateur", name]); };
 
       // Clics sur les liens : mail, téléphone, CV, jeu, Koality Academy
       document.addEventListener("click", function (event) {
         var link = event.target.closest && event.target.closest("a[href]");
         if (!link) return;
         var href = link.getAttribute("href");
-        if (href.indexOf("mailto:") === 0) send("Formateur : mail");
-        else if (href.indexOf("tel:") === 0) send("Formateur : téléphone");
-        else if (href.indexOf("CV-formateur") !== -1) send("Formateur : CV");
-        else if (href.indexOf("programme-ton-agent.vercel.app") !== -1) send("Formateur : jeu");
-        else if (href.indexOf("academy.koality.fr") !== -1) send("Formateur : Koality Academy");
+        if (href.indexOf("mailto:") === 0) send("Clic mail");
+        else if (href.indexOf("tel:") === 0) send("Clic téléphone");
+        else if (href.indexOf("CV-formateur") !== -1) send("Clic CV");
+        else if (href.indexOf("programme-ton-agent.vercel.app") !== -1) send("Clic jeu");
+        else if (href.indexOf("academy.koality.fr") !== -1) send("Clic Koality Academy");
       });
 
       // Ouverture des coulisses, comptée une seule fois par visite
       var backstage = document.querySelector(".backstage");
       var backstageSent = false;
       if (backstage) backstage.addEventListener("toggle", function () {
-        if (backstage.open && !backstageSent) { backstageSent = true; send("Formateur : coulisses"); }
+        if (backstage.open && !backstageSent) { backstageSent = true; send("Ouverture des coulisses"); }
       });
 
       // Arrivée en bas de page, sur le bloc de contact
       var contact = document.getElementById("contact");
       if (contact && "IntersectionObserver" in window) {
         var observer = new IntersectionObserver(function (entries) {
-          if (entries[0].isIntersecting) { send("Formateur : bas de page"); observer.disconnect(); }
+          if (entries[0].isIntersecting) { send("Arrivée en bas de page"); observer.disconnect(); }
         }, { threshold: 0.4 });
         observer.observe(contact);
       }
