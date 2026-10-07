@@ -1,15 +1,14 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import Layout from "../../layouts/Layout.astro";
 
-// Page de candidature pour les postes de formateur IA, envoyée avec le CV et la lettre.
-// Les cours de développement ont leur propre page : /formateur/developpement.
+// Page des cours de développement, pour les écoles d'informatique. Elle complète /formateur, consacrée à l'IA.
 // Fabien s'y présente en son nom. Depuis le 7 octobre 2026, la page assume le lien avec Koality :
 // adresse Koality et renvoi vers Koality Academy en bas de page, pour la formation en entreprise.
 // Non indexée et absente du plan du site : Fabien en envoie le lien lui-même.
 
 // Logos en une seule teinte (Simple Icons), insérés dans la page pour prendre la couleur du texte.
-const logoFiles = import.meta.glob<string>("../assets/logos/*.svg", { query: "?raw", import: "default", eager: true });
-const logo = (slug: string) => logoFiles[`../assets/logos/${slug}.svg`];
+const logoFiles = import.meta.glob<string>("../../assets/logos/*.svg", { query: "?raw", import: "default", eager: true });
+const logo = (slug: string) => logoFiles[`../../assets/logos/${slug}.svg`];
 
 interface Tool {
   name: string;
@@ -31,29 +30,30 @@ interface Track {
 
 const tracks: Track[] = [
   {
-    title: "Assistants et outils IA du quotidien",
-    tint: "coral",
-    icon: "auto_awesome",
-    audience: "Adultes en formation : salariés, indépendants, dirigeants, agents de collectivités.",
-    skills: "Repérer les tâches où l’outil aide et les cas où il invente une réponse, lui écrire une consigne, vérifier sa réponse avant de s’en servir, automatiser une tâche répétitive.",
-    level: "Accessible aux personnes qui découvrent l’IA, sans code",
-    withCode: false,
+    title: "Développement web",
+    tint: "amber",
+    icon: "code",
+    audience: "Étudiants en informatique et en métiers du web, de la première année au master. Adultes en reconversion.",
+    skills: "Écrire des pages web, développer une application complète avec sa base de données et ses droits d’utilisateurs, décider de la structure d’une application avant de coder.",
+    level: "Les participants écrivent du code",
+    withCode: true,
     tools: [
-      { name: "Claude", slug: "claude" },
-      { name: "ChatGPT", slug: "openai" },
-      { name: "Mistral", slug: "mistralai" },
-      { name: "Assistant sur mesure" },
-      { name: "Routines réutilisables" },
-      { name: "Écrire avec l’IA" },
-      { name: "Vérifier une réponse" },
-      { name: "Images générées" },
-      { name: "Dictée et transcription" },
-      { name: "Automatisation avec n8n", slug: "n8n" },
-      { name: "IA sur ses propres machines", slug: "ollama" },
-      { name: "RGPD et AI Act" },
-      { name: "Gamma" },
-      { name: "Canva", slug: "canva" },
-      { name: "Napkin" },
+      { name: "HTML", slug: "html5" },
+      { name: "CSS", slug: "css" },
+      { name: "JavaScript", slug: "javascript" },
+      { name: "TypeScript", slug: "typescript" },
+      { name: "PHP", slug: "php" },
+      { name: "Symfony", slug: "symfony" },
+      { name: "WordPress", slug: "wordpress" },
+      { name: "React", slug: "react" },
+      { name: "Next.js", slug: "nextdotjs" },
+      { name: "Node.js", slug: "nodedotjs" },
+      { name: "Astro", slug: "astro" },
+      { name: "Tailwind", slug: "tailwindcss" },
+      { name: "React Native et Expo", slug: "expo" },
+      { name: "PostgreSQL", slug: "postgresql" },
+      { name: "MySQL", slug: "mysql" },
+      { name: "Prisma", slug: "prisma" },
     ],
   },
   {
@@ -86,33 +86,6 @@ const tracks: Track[] = [
       { name: "Onyx" },
     ],
   },
-  {
-    title: "Développement web",
-    tint: "amber",
-    icon: "code",
-    audience: "Étudiants en informatique et en métiers du web, de la première année au master. Adultes en reconversion.",
-    skills: "Écrire des pages web, développer une application complète avec sa base de données et ses droits d’utilisateurs, décider de la structure d’une application avant de coder.",
-    level: "Les participants écrivent du code",
-    withCode: true,
-    tools: [
-      { name: "HTML", slug: "html5" },
-      { name: "CSS", slug: "css" },
-      { name: "JavaScript", slug: "javascript" },
-      { name: "TypeScript", slug: "typescript" },
-      { name: "PHP", slug: "php" },
-      { name: "Symfony", slug: "symfony" },
-      { name: "WordPress", slug: "wordpress" },
-      { name: "React", slug: "react" },
-      { name: "Next.js", slug: "nextdotjs" },
-      { name: "Node.js", slug: "nodedotjs" },
-      { name: "Astro", slug: "astro" },
-      { name: "Tailwind", slug: "tailwindcss" },
-      { name: "React Native et Expo", slug: "expo" },
-      { name: "PostgreSQL", slug: "postgresql" },
-      { name: "MySQL", slug: "mysql" },
-      { name: "Prisma", slug: "prisma" },
-    ],
-  },
 ];
 
 interface School {
@@ -121,14 +94,6 @@ interface School {
   subject: string;
 }
 const schoolGroups: { label: string; schools: School[] }[] = [
-  {
-    label: "Formations et interventions IA",
-    schools: [
-      { name: "Freelances et PME", dates: "depuis 2024", subject: "Formations à l’IA générative, sur les documents et les cas des stagiaires" },
-      { name: "Ateliers « De l’idée au produit »", dates: "juillet 2026", subject: "Construire une application avec un agent de code, en groupes de huit" },
-      { name: "Conférences", dates: "", subject: "AI Days, Finist’AI Club, BrestJS, Salon Tourisme & Numérique" },
-    ],
-  },
   {
     label: "Enseignement supérieur",
     schools: [
@@ -148,27 +113,10 @@ const schoolGroups: { label: string; schools: School[] }[] = [
 ];
 
 // Les quatre façons d'intervenir dans un établissement.
-const formats = [
-  { icon: "event", title: "Un cours ou quelques séances", text: "Pour compléter un programme existant sur un sujet précis, approfondir un point technique ou apporter un regard de praticien." },
-  { icon: "stacks", title: "Un module complet", text: "Je construis la progression sur plusieurs séances, avec cours, démonstrations, exercices et travaux pratiques." },
-  { icon: "description", title: "Un programme existant", text: "Je pars du syllabus, des objectifs pédagogiques et du niveau attendu pour construire les séances et les supports adaptés au groupe." },
-  { icon: "edit_note", title: "Un nouveau programme à construire", text: "Nous définissons les objectifs, la progression, les exercices et les livrables. Je propose un format et un volume horaire adaptés au public." },
-];
-
-// Programmes de formation IA déjà conçus, repris du CV formateur IA.
-const programs = [
-  { label: "Premiers usages", items: "Découvrir l’IA générative pour son activité, la littératie IA pour tous les collaborateurs, comprendre un agent IA par le jeu." },
-  { label: "Assistants et productivité", items: "Construire son assistant sur mesure, créer des routines réutilisables, écrire avec l’IA sans perdre sa voix, vérifier une réponse." },
-  { label: "IA par métier", items: "La fonction commerciale, la communication d’une petite structure, les images générées." },
-  { label: "Automatisation", items: "Automatiser sans coder avec n8n, cartographier et digitaliser ses process." },
-  { label: "Cadre légal", items: "Cadrer l’IA dans son entreprise, RGPD et AI Act, faire tourner une IA sur ses propres machines." },
-];
-
 // Menu du premier écran : un lien par partie de la page.
 const sections = [
-  { id: "formats", label: "Formats" },
   { id: "sujets", label: "Sujets" },
-  { id: "quotidien", label: "Déroulement" },
+  { id: "ia", label: "Enseigner avec l’IA" },
   { id: "pedagogie", label: "Pédagogie" },
   { id: "references", label: "Où j’enseigne" },
   { id: "partage", label: "Hors des cours" },
@@ -180,10 +128,10 @@ const contactHref = `mailto:${contactMail}?subject=` + encodeURIComponent("Deman
 ---
 
 <Layout
-  title="Formation IA · Fabien Canu, formateur dans le Finistère"
-  description="Fabien Canu forme aux assistants et aux outils IA du quotidien, en école, à l’université et en formation professionnelle. Basé dans le Finistère, sur site et à distance."
+  title="Cours de développement web et d’IA pour les développeurs · Fabien Canu"
+  description="Fabien Canu enseigne le développement web et l’usage de l’IA par les développeurs, en école d’ingénieurs, à l’université et en formation professionnelle."
   image="/images/og-formateur.png"
-  imageAlt="Fabien Canu, formateur en IA"
+  imageAlt="Fabien Canu, formateur"
   siteName="Fabien Canu"
   robots="noindex, nofollow"
 >
@@ -206,10 +154,11 @@ const contactHref = `mailto:${contactMail}?subject=` + encodeURIComponent("Deman
       <div class="hero-grid">
         <div class="hero-main">
           <h1>Fabien<br />Canu<span class="accent">.</span></h1>
-          <p class="role">Formateur en IA</p>
+          <p class="role">Cours de développement web et d’IA pour les développeurs</p>
           <div class="read">
-            <p class="lead">Je forme aux assistants et aux outils IA du quotidien. J’enseigne depuis 2015, en école d’ingénieurs, à l’université et en formation professionnelle.</p>
-            <p>Je conçois et développe des produits numériques depuis vingt-cinq ans. Je forme sur les outils que j’utilise dans mes projets.</p>
+            <p class="lead">Je développe des applications depuis vingt-cinq ans et j’enseigne depuis 2015, en école d’ingénieurs, à l’université et en formation professionnelle.</p>
+            <p>Je continue à concevoir et à développer des produits : j’enseigne les méthodes et les outils que j’utilise dans mes projets.</p>
+            <p><a class="more" href="/formateur">← Mes formations IA pour tous les métiers</a></p>
           </div>
         </div>
 
@@ -235,23 +184,6 @@ const contactHref = `mailto:${contactMail}?subject=` + encodeURIComponent("Deman
           ))}
         </ul>
       </nav>
-    </div>
-  </section>
-
-  <section id="formats" class="band formats-band">
-    <div class="inner">
-      <div class="kicker"><span class="kicker-dash"></span><span class="kicker-label">Formats</span></div>
-      <h2>Ce que je peux prendre en charge</h2>
-      <p class="intro">Vous avez déjà un programme précis ou seulement un sujet à couvrir. J’interviens sur une partie du parcours ou je prends en charge un module complet.</p>
-      <ol class="formats">
-        {formats.map((format) => (
-          <li>
-            <span class="material-symbols-outlined format-icon" aria-hidden="true">{format.icon}</span>
-            <h3>{format.title}</h3>
-            <p>{format.text}</p>
-          </li>
-        ))}
-      </ol>
     </div>
   </section>
 
@@ -282,7 +214,6 @@ const contactHref = `mailto:${contactMail}?subject=` + encodeURIComponent("Deman
           </article>
         ))}
       </div>
-
       <div class="custom grain-paper">
         <div class="custom-text">
           <h3>Une formation à la demande</h3>
@@ -293,28 +224,43 @@ const contactHref = `mailto:${contactMail}?subject=` + encodeURIComponent("Deman
     </div>
   </section>
 
-  <section id="quotidien" class="band">
+  <section id="ia" class="band">
     <div class="inner ai">
       <div class="ai-text">
-        <div class="kicker"><span class="kicker-dash"></span><span class="kicker-label">Pour tous les métiers</span></div>
-        <h2>Former aux outils IA du quotidien</h2>
+        <div class="kicker"><span class="kicker-dash"></span><span class="kicker-label">Pour les développeurs</span></div>
+        <h2>Enseigner le développement à l’heure de l’IA</h2>
         <div class="read">
-          <p class="lead">Ces formations s’adressent aux salariés, aux indépendants, aux dirigeants et aux agents de collectivités. Elles ne demandent aucune connaissance technique.</p>
-          <p>Les séances se déroulent sur les documents et les cas des participants. Chacun apprend à repérer les tâches où l’outil aide, à reconnaître les cas où il invente une réponse, à écrire une consigne et à vérifier le résultat avant de s’en servir.</p>
-          <p>Je forme sur l’outil choisi par l’école, le centre de formation ou l’entreprise. Ce peut être par exemple un assistant comme Claude, ChatGPT ou Mistral. Ce peut être aussi un outil plus spécialisé comme Gamma ou Canva. La liste reste ouverte : si vous utilisez un autre outil, je prépare la formation dessus.</p>
+          <p class="lead">Avec l’IA, savoir lire, comprendre, structurer et évaluer le code compte encore plus.</p>
+          <p>L’IA sait produire du code rapidement. Un étudiant ou un développeur doit donc comprendre le code produit et repérer les mauvais choix. Il doit ensuite savoir les corriger ou mieux guider l’outil.</p>
+          <p>Je construis mes séances dans ce but. Il reste valable quand l’outil ou le modèle change.</p>
         </div>
       </div>
 
       <div class="exercise grain-paper">
-        <h3 class="exercise-title">Des programmes déjà conçus</h3>
-        <dl class="programs">
-          {programs.map((program) => (
+        <h3 class="exercise-title">Un exercice en trois temps, par exemple</h3>
+        <ol class="steps">
+          <li>
+            <span class="step-n">1</span>
             <div>
-              <dt>{program.label}</dt>
-              <dd>{program.items}</dd>
+              <h4>Construire avec l’IA</h4>
+              <p>Le groupe fait construire une petite application par l’IA, fonction après fonction, sans consigne particulière sur son architecture.</p>
             </div>
-          ))}
-        </dl>
+          </li>
+          <li>
+            <span class="step-n">2</span>
+            <div>
+              <h4>Lire le résultat</h4>
+              <p>On ouvre le code. On repère les parties répétées, les dépendances inutiles et les endroits où une modification devient difficile.</p>
+            </div>
+          </li>
+          <li>
+            <span class="step-n">3</span>
+            <div>
+              <h4>Recommencer avec une structure choisie</h4>
+              <p>Le groupe décide d’une structure, l’écrit dans la consigne et recommence. Il compare ensuite les deux versions et discute des choix obtenus.</p>
+            </div>
+          </li>
+        </ol>
       </div>
     </div>
   </section>
@@ -328,7 +274,7 @@ const contactHref = `mailto:${contactMail}?subject=` + encodeURIComponent("Deman
           <p>J’aime partager ce que je sais. Préparer un cours me pousse souvent à approfondir le sujet, à le remettre à plat et à mieux l’expliquer.</p>
           <p>Dans un groupe, les niveaux sont rarement homogènes. J’adapte donc le rythme, les exercices et le niveau d’accompagnement. Je fais travailler les petits groupes à leur rythme, je laisse les plus avancés aller plus loin et j’écris des supports qui peuvent se lire à plusieurs niveaux.</p>
           <p>Le bon format dépend du groupe : son niveau de départ, le temps disponible et les savoir-faire attendus à la fin.</p>
-          <p>Je privilégie les séances où l’on produit quelque chose : un prototype, un diagnostic, une comparaison ou un petit projet que l’on peut relire et discuter.</p>
+          <p>Je privilégie les séances où l’on produit quelque chose : du code, un prototype, un diagnostic, une comparaison ou un petit projet que l’on peut relire et discuter.</p>
           <p class="signature">Le cours donne à chacun le temps d’apprendre. Mon travail est de le guider.</p>
         </div>
       </div>
@@ -338,73 +284,24 @@ const contactHref = `mailto:${contactMail}?subject=` + encodeURIComponent("Deman
     </div>
 
     <div class="inner backstage-wrap">
-      <details class="backstage">
-        <summary class="backstage-card grain-paper">
-          <span class="backstage-thumbs" aria-hidden="true">
-            <img src="/images/programme-ton-agent-build.webp" alt="" width="1440" height="752" loading="lazy" />
-            <img src="/images/formateur-comprehension-code-thumb.jpg" alt="" width="640" height="414" loading="lazy" />
-            <img src="/images/formateur-ardoise-montage.jpg" alt="" width="1600" height="1000" loading="lazy" />
-          </span>
-          <span class="backstage-label">
-            <span class="backstage-kicker">Les coulisses</span>
-            <span class="backstage-title">Comment je prépare mes formations</span>
-            <span class="backstage-hint">Des jeux, une réflexion sur la pédagogie et mes propres outils.</span>
-          </span>
-          <span class="backstage-toggle">
-            <span class="backstage-open">Ouvrir</span>
-            <span class="backstage-close">Refermer</span>
-            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" /></svg>
-          </span>
-        </summary>
-
-        <div class="backstage-body">
-          <article class="case grain-paper">
-            <p class="case-method">Apprendre par le jeu</p>
-            <p class="case-text">Je développe des outils pédagogiques dédiés à mes formations, et notamment des jeux. Les participants y prennent des décisions et voient leurs effets, sans aucun risque.</p>
-            <a class="case-visual" href="https://programme-ton-agent.vercel.app" target="_blank" rel="noopener" aria-label="Jouer à Programme ton agent">
-              <img src="/images/programme-ton-agent-build.webp" alt="Écran du jeu Programme ton agent : le joueur branche des outils sur son agent" width="1440" height="752" loading="lazy" />
-            </a>
-            <p class="case-example"><span>Un exemple</span>Programme ton agent</p>
-            <p class="case-text">Le joueur compose un agent IA carte par carte, le lance sur une demande et voit les conséquences et le coût de chaque choix.</p>
-            <p class="case-links">
-              <a class="more" href="https://programme-ton-agent.vercel.app" target="_blank" rel="noopener">Jouer →</a>
-              <a class="more" href="/programme-ton-agent">Voir le projet →</a>
-            </p>
-            <p class="case-text">J’ai conçu d’autres jeux sur le même principe, comme <a href="/epicycle-draw">Epicycle Draw</a> pour les séries de Fourier. Quand une notion résiste, je fabrique le jeu qui la fait comprendre.</p>
-          </article>
-
-          <article class="case grain-paper">
-            <p class="case-method">Une réflexion derrière chaque formation</p>
-            <p class="case-text">Chaque formation part d’une réflexion sur la façon d’apprendre. Je lis la recherche en pédagogie, j’en tire des principes et je les écris pour les reprendre d’un cours à l’autre.</p>
-            <div class="case-visual">
-              <img src="/images/formateur-comprehension-code.gif" alt="Un projet d’étudiants expliqué étape par étape : la carte du projet, puis chaque étape ouvre le fichier concerné" width="1280" height="828" loading="lazy" />
-            </div>
-            <p class="case-example"><span>Un exemple</span>Enseigner quand l’IA fait le travail</p>
-            <p class="case-text">Pour bâtir un programme, je pose la même question à chaque notion : si une IA réalisait parfaitement cette tâche, est-ce que je l’enseignerais quand même ? Je garde les notions qui passent ce tri. Je demande ensuite aux étudiants d’expliquer leur rendu, et je note cette explication.</p>
-            <p class="case-text">L’animation montre l’outil que j’ai construit pour ça. Il explique un projet étape par étape, et chaque étape ouvre le fichier de code concerné.</p>
-            <p class="case-text">J’utilise aussi des approches plus classiques, comme l’atelier AAA : acculturation, arbitrage, action.</p>
-          </article>
-
-          <article class="case grain-paper">
-            <p class="case-method">Mes propres outils</p>
-            <p class="case-text">Je développe mes propres outils pour préparer mes cours et produire mes supports.</p>
-            <div class="case-visual">
-              <img src="/images/formateur-ardoise-montage.jpg" alt="Écran de montage : l’aperçu de la vidéo, les réglages du clip et la ligne des mots prononcés" width="1600" height="1000" loading="lazy" />
-            </div>
-            <p class="case-example"><span>Un exemple</span>Mon générateur de vidéos</p>
-            <p class="case-text">Il conduit une vidéo de cours du sujet au film. Chaque animation démarre sur un mot prononcé, et je règle le film dans cet écran. La vidéo montrée vient d’un cours sur Next.js.</p>
-            <p class="case-example"><span>Un autre outil</span>Mon assistant de création de cours</p>
-            <p class="case-text">À partir du programme d’une formation, il prépare les supports et les activités interactives H5P, prêtes à déposer dans Moodle.</p>
-          </article>
+      <article class="method">
+        <div class="method-text">
+          <p class="method-tag">Un outil de cours</p>
+          <h3>La lecture guidée d’un code livré par l’IA</h3>
+          <p>Les étudiants suivent une action de bout en bout dans les fichiers d’un projet, dans l’ordre où le code s’exécute.</p>
+          <p>Un outil que j’ai développé affiche à côté du code la raison de chaque choix et les pièges.</p>
         </div>
-      </details>
+        <div class="method-visual">
+          <img src="/images/formateur-lecture-code.jpg" alt="Outil de lecture de code : le code à gauche, les étapes d’une action et leurs explications à droite" width="1600" height="900" loading="lazy" />
+        </div>
+      </article>
     </div>
   </section>
 
   <section id="references" class="band">
     <div class="inner">
       <div class="kicker"><span class="kicker-dash"></span><span class="kicker-label">Références</span></div>
-      <h2>Où j’enseigne et où je forme</h2>
+      <h2>Où j’enseigne</h2>
       <div class="school-groups">
         {schoolGroups.map((group) => (
           <div class="school-group">
@@ -478,42 +375,6 @@ const contactHref = `mailto:${contactMail}?subject=` + encodeURIComponent("Deman
 <footer><div class="inner"><a href="/mentions-legales">Mentions légales</a><a href="/confidentialite">Confidentialité</a></div></footer>
 
 </div>
-  <!-- Suivi Plausible de la page : un événement par action utile à mesurer.
-       Chaque nom doit exister comme objectif dans Plausible pour apparaître dans les statistiques. -->
-  <script is:inline>
-    (function () {
-      window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
-      var send = function (name) { window.plausible(name); };
-
-      // Clics sur les liens : mail, téléphone, CV, jeu, Koality Academy
-      document.addEventListener("click", function (event) {
-        var link = event.target.closest && event.target.closest("a[href]");
-        if (!link) return;
-        var href = link.getAttribute("href");
-        if (href.indexOf("mailto:") === 0) send("Formateur : mail");
-        else if (href.indexOf("tel:") === 0) send("Formateur : téléphone");
-        else if (href.indexOf("CV-formateur") !== -1) send("Formateur : CV");
-        else if (href.indexOf("programme-ton-agent.vercel.app") !== -1) send("Formateur : jeu");
-        else if (href.indexOf("academy.koality.fr") !== -1) send("Formateur : Koality Academy");
-      });
-
-      // Ouverture des coulisses, comptée une seule fois par visite
-      var backstage = document.querySelector(".backstage");
-      var backstageSent = false;
-      if (backstage) backstage.addEventListener("toggle", function () {
-        if (backstage.open && !backstageSent) { backstageSent = true; send("Formateur : coulisses"); }
-      });
-
-      // Arrivée en bas de page, sur le bloc de contact
-      var contact = document.getElementById("contact");
-      if (contact && "IntersectionObserver" in window) {
-        var observer = new IntersectionObserver(function (entries) {
-          if (entries[0].isIntersecting) { send("Formateur : bas de page"); observer.disconnect(); }
-        }, { threshold: 0.4 });
-        observer.observe(contact);
-      }
-    })();
-  </script>
 </Layout>
 
 <style>
@@ -567,7 +428,7 @@ const contactHref = `mailto:${contactMail}?subject=` + encodeURIComponent("Deman
   .btn:focus-visible { outline: 2px solid var(--coral); outline-offset: 3px; }
 
   /* Établissements, en deux groupes */
-  .school-groups { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(24px, 4vw, 56px); align-items: start; }
+  .school-groups { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(24px, 4vw, 56px); align-items: start; }
   .school-group { min-width: 0; }
   .school-group-label { font-family: var(--display); font-weight: 500; font-size: 12px; line-height: 1.65; letter-spacing: 0.14em; text-transform: uppercase; color: var(--label); margin-bottom: 12px; }
   .school-list { list-style: none; background: var(--white); border-radius: 14px; padding: 8px clamp(20px, 2.2vw, 28px); box-shadow: 0 12px 32px rgba(42, 42, 42, 0.06); }
@@ -604,6 +465,7 @@ const contactHref = `mailto:${contactMail}?subject=` + encodeURIComponent("Deman
 
   /* Formats d'intervention : quatre colonnes sans carte, chacune sous un trait */
   .formats-band { padding-top: clamp(16px, 2vw, 24px); }
+  .hero .more { padding-top: 0; }
   .formats { list-style: none; margin-top: 44px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(20px, 2.6vw, 36px); }
   .formats li { min-width: 0; }
   .format-icon { display: block; margin-bottom: 14px; font-size: 38px; line-height: 1; color: var(--primary); }
@@ -615,7 +477,7 @@ const contactHref = `mailto:${contactMail}?subject=` + encodeURIComponent("Deman
 
   /* Interventions : trois familles, avec leur public et leurs outils */
   .intro { max-width: 660px; color: var(--ink-2); }
-  .tracks { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 2vw, 24px); }
+  .tracks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(16px, 2vw, 24px); }
   .track { display: flex; flex-direction: column; min-width: 0; border-radius: 20px; padding: clamp(26px, 2.8vw, 38px); transition: transform 0.25s ease, box-shadow 0.25s ease; }
   .track:hover { transform: translateY(-4px); box-shadow: 0 26px 54px -32px rgba(27, 28, 26, 0.4); }
   .track--coral { background-color: #fff0ed; --tint: #c9482f; }
@@ -623,8 +485,6 @@ const contactHref = `mailto:${contactMail}?subject=` + encodeURIComponent("Deman
   .track--cyan { background-color: #e8fafe; --tint: #006386; }
   .track-icon { display: block; margin-bottom: 20px; font-size: 44px; line-height: 1; color: var(--tint); }
   .track-level { margin-top: 8px; font-family: var(--display); font-weight: 600; font-size: 14px; line-height: 1.35; color: var(--tint); }
-  .track-note { margin-top: 16px; font-size: 16px; line-height: 1.55; color: var(--ink-2); }
-  .track--link .more { margin-top: 18px; padding-top: 0; }
   .track-facts { margin-top: 18px; }
   .track-facts dt { font-family: var(--display); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--label); }
   .track-facts dd { margin: 4px 0 16px; font-size: 16px; line-height: 1.5; color: var(--ink-2); }
@@ -658,45 +518,36 @@ const contactHref = `mailto:${contactMail}?subject=` + encodeURIComponent("Deman
 
   /* Coulisses des méthodes : repliées par défaut, ouvertes par le bouton */
   .backstage-wrap { margin-top: clamp(40px, 5vw, 64px); }
-  .backstage summary { list-style: none; cursor: pointer; }
+  .backstage summary { display: inline-block; list-style: none; cursor: pointer; }
   .backstage summary::-webkit-details-marker { display: none; }
-  /* Le bandeau cliquable : deux vignettes, le titre, puis « Ouvrir » avec sa flèche */
-  .backstage-card { display: flex; align-items: center; gap: clamp(18px, 3vw, 36px); background: #f4f2ec; border: 1px solid rgba(27, 28, 26, 0.09); border-radius: 18px; padding: clamp(18px, 2.2vw, 28px); transition: background 0.2s ease, transform 0.2s ease; }
-  .backstage-card:hover { background: #efece4; }
-  .backstage-card:focus-visible { outline: 2px solid var(--coral); outline-offset: 4px; }
-  .backstage-thumbs { flex: none; display: flex; padding-left: 6px; }
-  .backstage-thumbs img { width: clamp(96px, 11vw, 148px); aspect-ratio: 16 / 10; object-fit: cover; object-position: left top; border-radius: 8px; border: 3px solid var(--white, #fff); box-shadow: 0 6px 18px rgba(27, 28, 26, 0.14); transition: transform 0.25s ease; }
-  .backstage-thumbs img:first-child { transform: rotate(-4deg); }
-  .backstage-thumbs img + img { margin-left: -34px; transform: rotate(3deg) translateY(6px); }
-  .backstage-card:hover .backstage-thumbs img:first-child { transform: rotate(-6deg) translateX(-4px); }
-  .backstage-card:hover .backstage-thumbs img + img { transform: rotate(5deg) translate(4px, 6px); }
-  .backstage-thumbs img:nth-child(3) { transform: rotate(-2deg) translateY(-4px); }
-  .backstage-card:hover .backstage-thumbs img:nth-child(3) { transform: rotate(-3deg) translate(10px, -4px); }
-  .backstage-label { flex: 1 1 auto; min-width: 0; display: grid; gap: 4px; }
-  .backstage-kicker { font-family: var(--display); font-weight: 500; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #a83a24; }
-  .backstage-title { font-family: var(--display); font-weight: 700; font-size: clamp(20px, 2.2vw, 26px); line-height: 1.2; letter-spacing: -0.01em; color: var(--ink); }
-  .backstage-hint { font-size: 16px; line-height: 1.5; color: var(--ink-2); }
-  .backstage-toggle { flex: none; display: inline-flex; align-items: center; gap: 8px; font-family: var(--display); font-weight: 600; font-size: 15px; color: var(--ink); }
-  .backstage-toggle svg { box-sizing: content-box; padding: 9px; border-radius: 50%; background: var(--ink); color: var(--surface); transition: transform 0.25s ease; }
-  .backstage[open] .backstage-toggle svg { transform: rotate(180deg); }
+  .backstage summary .btn { display: inline-block; }
+  .backstage summary:focus-visible { outline: 2px solid var(--coral); outline-offset: 4px; border-radius: 100px; }
   .backstage-close, .backstage[open] .backstage-open { display: none; }
   .backstage[open] .backstage-close { display: inline; }
-  .backstage-body { margin-top: 28px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 2vw, 24px); align-items: start; }
-  /* Une méthode par colonne : la méthode en deux lignes, puis un exemple */
-  .case { min-width: 0; overflow: hidden; background: #f4f2ec; border: 1px solid rgba(27, 28, 26, 0.09); border-radius: 18px; padding: clamp(20px, 2vw, 26px); }
-  .case-method { font-family: var(--display); font-weight: 700; font-size: 21px; line-height: 1.2; letter-spacing: -0.01em; color: var(--ink); }
-  .case-text { margin-top: 8px; font-size: 16px; line-height: 1.55; color: var(--ink-2); }
-  .case-text a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
-  .case-visual { display: block; margin-top: 18px; aspect-ratio: 16 / 9; border-radius: 10px; overflow: hidden; border: 1px solid rgba(27, 28, 26, 0.12); background: var(--ink); }
-  .case-visual img { width: 100%; height: 100%; object-fit: cover; object-position: left top; }
-  .case-example { margin-top: 18px; font-family: var(--display); font-weight: 700; font-size: 17px; line-height: 1.3; color: var(--ink); }
-  .case-example span { display: block; margin-bottom: 2px; font-weight: 500; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #a83a24; }
-  .case-steps { list-style: none; margin-top: 10px; display: grid; gap: 10px; counter-reset: step; }
-  .case-steps li { counter-increment: step; position: relative; padding-left: 34px; font-size: 16px; line-height: 1.5; color: var(--ink-2); }
-  .case-steps li::before { content: counter(step); position: absolute; left: 0; top: 1px; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; background: var(--primary); color: var(--white); font-family: var(--display); font-weight: 700; font-size: 12px; }
-  .case-steps strong { color: var(--ink); font-weight: 700; }
-  .case-links { display: flex; flex-wrap: wrap; gap: 0 22px; }
-  .case-links .more { padding-top: 12px; }
+  .backstage-body { margin-top: clamp(36px, 5vw, 56px); display: grid; gap: clamp(48px, 6vw, 80px); }
+  /* Une méthode : le texte à gauche, son exemple en image à droite */
+  .method { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(28px, 5vw, 72px); align-items: center; }
+  .method--stack { grid-template-columns: 1fr; gap: 28px; }
+  .method-text { min-width: 0; max-width: 620px; }
+  .method-tag { font-family: var(--display); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #a83a24; margin-bottom: 10px; }
+  .method h3 { font-size: clamp(22px, 2.2vw, 28px); line-height: 1.15; letter-spacing: -0.02em; }
+  .method-text p:not(.method-tag) { margin-top: 14px; font-size: 17px; line-height: 1.6; color: var(--ink-2); }
+  .method-text strong { color: var(--ink); font-weight: 700; }
+  .method-links { display: flex; flex-wrap: wrap; gap: 0 22px; margin-top: 4px !important; }
+  .method-visual { display: block; min-width: 0; border-radius: 14px; overflow: hidden; border: 1px solid rgba(27, 28, 26, 0.12); box-shadow: 0 18px 44px -22px rgba(27, 28, 26, 0.35); }
+  .method-visual img { width: 100%; height: auto; }
+  /* Deux exemples côte à côte sous une même méthode */
+  .examples { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(16px, 2vw, 24px); }
+  .example { min-width: 0; overflow: hidden; background: #f4f2ec; border: 1px solid rgba(27, 28, 26, 0.09); border-radius: 18px; padding: clamp(18px, 1.8vw, 24px); }
+  .example-visual, .aaa { aspect-ratio: 16 / 9; margin-bottom: 20px; border-radius: 10px; overflow: hidden; }
+  .example-visual { background: var(--white); border: 1px solid rgba(27, 28, 26, 0.1); }
+  .example-visual img { width: 100%; height: 100%; object-fit: cover; object-position: left top; }
+  .example h4 { font-family: var(--display); font-weight: 700; font-size: 21px; line-height: 1.2; letter-spacing: -0.01em; }
+  .example p { margin-top: 10px; font-size: 16px; line-height: 1.55; color: var(--ink-2); }
+  /* Les trois temps d'un atelier, à la place d'une image */
+  .aaa { list-style: none; background: var(--primary); color: var(--white); display: flex; flex-direction: column; justify-content: center; gap: 12px; padding: 0 clamp(20px, 3vw, 44px); font-family: var(--display); font-weight: 600; font-size: clamp(18px, 1.8vw, 24px); }
+  .aaa li { display: flex; align-items: center; gap: 16px; }
+  .aaa span { flex: none; width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; background: var(--white); color: var(--primary); font-weight: 700; font-size: 18px; }
 
   /* L'IA en cours : le propos à gauche, l'exercice en trois temps dans une carte à droite */
   .ai { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: clamp(36px, 6vw, 88px); align-items: center; }
@@ -758,7 +609,7 @@ const contactHref = `mailto:${contactMail}?subject=` + encodeURIComponent("Deman
   .kicker-label { font-family: var(--display); font-size: 12px; font-weight: 500; line-height: 1.65; letter-spacing: 0.2em; text-transform: uppercase; color: var(--label); margin: 0; max-width: none; }
 
   @media (max-width: 1000px) {
-    .hero-grid, .teach, .ai, .tracks, .community, .school-groups, .backstage-body { grid-template-columns: 1fr; }
+    .hero-grid, .teach, .ai, .tracks, .community, .school-groups, .method, .examples { grid-template-columns: 1fr; }
     .formats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .jump { flex-direction: column; align-items: stretch; padding: 18px 10px 10px; }
     .jump-label { padding-left: 14px; }
@@ -772,9 +623,6 @@ const contactHref = `mailto:${contactMail}?subject=` + encodeURIComponent("Deman
   @media (max-width: 520px) {
     .profil { font-size: 17px; }
     .btn { flex: 1 1 auto; text-align: center; }
-    .backstage-card { flex-wrap: wrap; }
-    .backstage-label { flex-basis: 100%; order: 2; }
-    .backstage-toggle { order: 3; }
     .formats { grid-template-columns: 1fr; }
   }
   @media (prefers-reduced-motion: reduce) {
