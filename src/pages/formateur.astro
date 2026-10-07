@@ -22,12 +22,17 @@ interface Track {
   // Dit si les participants lisent du code pendant les séances.
   level: string;
   withCode: boolean;
+  // Teinte de la carte et icône Material Symbols, reprises des cartes de la page d'accueil.
+  tint: "coral" | "amber" | "cyan";
+  icon: string;
   tools: Tool[];
 }
 
 const tracks: Track[] = [
   {
     title: "Assistants et outils IA du quotidien",
+    tint: "coral",
+    icon: "auto_awesome",
     audience: "Adultes en formation : salariés, indépendants, dirigeants, agents de collectivités.",
     skills: "Repérer les tâches où l’outil aide et les cas où il invente une réponse, lui écrire une consigne, vérifier sa réponse avant de s’en servir, automatiser une tâche répétitive.",
     level: "Accessible aux personnes qui découvrent l’IA, sans code",
@@ -52,7 +57,9 @@ const tracks: Track[] = [
   },
   {
     title: "Développement web",
-    audience: "Étudiants en informatique et en métiers du web, de la première année au master, et adultes en reconversion.",
+    tint: "amber",
+    icon: "code",
+    audience: "Étudiants en informatique et en métiers du web, de la première année au master. Adultes en reconversion.",
     skills: "Écrire des pages web, développer une application complète avec sa base de données et ses droits d’utilisateurs, décider de la structure d’une application avant de coder.",
     level: "Les participants écrivent du code",
     withCode: true,
@@ -77,6 +84,8 @@ const tracks: Track[] = [
   },
   {
     title: "IA pour les développeurs",
+    tint: "cyan",
+    icon: "smart_toy",
     audience: "Étudiants en informatique, développeurs et équipes techniques.",
     skills: "Confier une tâche à un agent de code, cadrer son travail, relire et évaluer le code produit. Construire un agent avec ses outils, ses skills et sa mémoire. Appeler un modèle de langage depuis une application et vérifier ses réponses.",
     level: "Les participants lisent du code",
@@ -131,10 +140,10 @@ const schoolGroups: { label: string; schools: School[] }[] = [
 
 // Les quatre façons d'intervenir dans un établissement.
 const formats = [
-  { title: "Un cours ou quelques séances", text: "Pour compléter un programme existant sur un sujet précis, approfondir un point technique ou apporter un regard de praticien." },
-  { title: "Un module complet", text: "Je construis la progression sur plusieurs séances, avec cours, démonstrations, exercices et travaux pratiques." },
-  { title: "Un programme existant", text: "Je pars du syllabus, des objectifs pédagogiques et du niveau attendu pour construire les séances et les supports adaptés au groupe." },
-  { title: "Un nouveau programme à construire", text: "Nous définissons les objectifs, la progression, les exercices et les livrables. Je propose un format et un volume horaire adaptés au public." },
+  { icon: "event", title: "Un cours ou quelques séances", text: "Pour compléter un programme existant sur un sujet précis, approfondir un point technique ou apporter un regard de praticien." },
+  { icon: "stacks", title: "Un module complet", text: "Je construis la progression sur plusieurs séances, avec cours, démonstrations, exercices et travaux pratiques." },
+  { icon: "description", title: "Un programme existant", text: "Je pars du syllabus, des objectifs pédagogiques et du niveau attendu pour construire les séances et les supports adaptés au groupe." },
+  { icon: "edit_note", title: "Un nouveau programme à construire", text: "Nous définissons les objectifs, la progression, les exercices et les livrables. Je propose un format et un volume horaire adaptés au public." },
 ];
 
 // Programmes de formation IA déjà conçus, repris du CV formateur IA.
@@ -158,7 +167,7 @@ const sections = [
   { id: "contact", label: "Contact" },
 ];
 
-const contactMail = "contact@koality.fr";
+const contactMail = "fabien@koality.fr";
 const contactHref = `mailto:${contactMail}?subject=` + encodeURIComponent("Demande de formation");
 ---
 
@@ -192,15 +201,15 @@ const contactHref = `mailto:${contactMail}?subject=` + encodeURIComponent("Deman
           <p class="role">Formateur en IA et en développement web</p>
           <div class="read">
             <p class="lead">Je développe des applications depuis vingt-cinq ans et j’enseigne depuis 2015, en école d’ingénieurs, à l’université et en formation professionnelle.</p>
-            <p>Je forme aux assistants et aux outils IA du quotidien, et j’enseigne le développement web. Je continue à concevoir et à développer des produits, donc j’enseigne les méthodes et les outils que j’utilise dans mes projets.</p>
+            <p>Je forme aux assistants et aux outils IA du quotidien. J’enseigne aussi le développement web. Je continue à concevoir et à développer des produits : j’enseigne les méthodes et les outils que j’utilise dans mes projets.</p>
           </div>
         </div>
 
-        <div class="offer">
+        <div class="offer grain-paper">
           <ul class="terms">
-            <li>En présentiel dans le Finistère, et à distance</li>
+            <li>En présentiel dans le Finistère et à distance</li>
             <li>Un cours, quelques séances ou un module complet</li>
-            <li>Avec votre programme, ou avec un contenu construit pour vous</li>
+            <li>Avec votre programme ou avec un contenu construit pour vous</li>
           </ul>
           <div class="btns">
             <a class="btn btn--primary" href={contactHref}>Me parler de votre programme</a>
@@ -225,10 +234,11 @@ const contactHref = `mailto:${contactMail}?subject=` + encodeURIComponent("Deman
     <div class="inner">
       <div class="kicker"><span class="kicker-dash"></span><span class="kicker-label">Formats</span></div>
       <h2>Ce que je peux prendre en charge</h2>
-      <p class="intro">Vous avez déjà un programme précis, ou seulement un sujet à couvrir. J’interviens sur une partie du parcours ou je prends en charge un module complet.</p>
+      <p class="intro">Vous avez déjà un programme précis ou seulement un sujet à couvrir. J’interviens sur une partie du parcours ou je prends en charge un module complet.</p>
       <ol class="formats">
         {formats.map((format) => (
           <li>
+            <span class="material-symbols-outlined format-icon" aria-hidden="true">{format.icon}</span>
             <h3>{format.title}</h3>
             <p>{format.text}</p>
           </li>
@@ -243,9 +253,10 @@ const contactHref = `mailto:${contactMail}?subject=` + encodeURIComponent("Deman
       <h2>Les sujets sur lesquels j’interviens</h2>
       <div class="tracks">
         {tracks.map((track) => (
-          <article class="track">
-            <p class:list={["track-level", { "track-level--open": !track.withCode }]}>{track.level}</p>
+          <article class:list={["track", `track--${track.tint}`, "grain-paper"]}>
+            <span class="material-symbols-outlined track-icon" aria-hidden="true">{track.icon}</span>
             <h3>{track.title}</h3>
+            <p class="track-level">{track.level}</p>
             <dl class="track-facts">
               <dt>Public</dt>
               <dd>{track.audience}</dd>
@@ -263,7 +274,7 @@ const contactHref = `mailto:${contactMail}?subject=` + encodeURIComponent("Deman
           </article>
         ))}
       </div>
-      <div class="custom">
+      <div class="custom grain-paper">
         <div class="custom-text">
           <h3>Une formation à la demande</h3>
           <p>Je prépare aussi une formation sur un outil ou un usage précis. Dites-moi l’outil, le public et le temps dont vous disposez.</p>
@@ -281,11 +292,11 @@ const contactHref = `mailto:${contactMail}?subject=` + encodeURIComponent("Deman
         <div class="read">
           <p class="lead">Ces formations s’adressent aux salariés, aux indépendants, aux dirigeants et aux agents de collectivités. Elles ne demandent aucune connaissance technique.</p>
           <p>Les séances se déroulent sur les documents et les cas des participants. Chacun apprend à repérer les tâches où l’outil aide, à reconnaître les cas où il invente une réponse, à écrire une consigne et à vérifier le résultat avant de s’en servir.</p>
-          <p>Je forme sur l’outil choisi par l’école, le centre de formation ou l’entreprise. Ce peut être par exemple un assistant comme Claude, ChatGPT ou Mistral, ou un outil plus spécialisé comme Gamma ou Canva. La liste reste ouverte : si vous utilisez un autre outil, je prépare la formation dessus.</p>
+          <p>Je forme sur l’outil choisi par l’école, le centre de formation ou l’entreprise. Ce peut être par exemple un assistant comme Claude, ChatGPT ou Mistral. Ce peut être aussi un outil plus spécialisé comme Gamma ou Canva. La liste reste ouverte : si vous utilisez un autre outil, je prépare la formation dessus.</p>
         </div>
       </div>
 
-      <div class="exercise">
+      <div class="exercise grain-paper">
         <h3 class="exercise-title">Des programmes déjà conçus</h3>
         <dl class="programs">
           {programs.map((program) => (
@@ -306,12 +317,12 @@ const contactHref = `mailto:${contactMail}?subject=` + encodeURIComponent("Deman
         <h2>Enseigner le développement à l’heure de l’IA</h2>
         <div class="read">
           <p class="lead">Avec l’IA, savoir lire, comprendre, structurer et évaluer le code compte encore plus.</p>
-          <p>L’IA sait produire du code rapidement. Un étudiant ou un développeur doit donc comprendre le code produit, repérer les mauvais choix, puis savoir les corriger ou mieux guider l’outil.</p>
+          <p>L’IA sait produire du code rapidement. Un étudiant ou un développeur doit donc comprendre le code produit et repérer les mauvais choix. Il doit ensuite savoir les corriger ou mieux guider l’outil.</p>
           <p>Je construis mes séances dans ce but. Il reste valable quand l’outil ou le modèle change.</p>
         </div>
       </div>
 
-      <div class="exercise">
+      <div class="exercise grain-paper">
         <h3 class="exercise-title">Un exercice en trois temps, par exemple</h3>
         <ol class="steps">
           <li>
@@ -346,7 +357,7 @@ const contactHref = `mailto:${contactMail}?subject=` + encodeURIComponent("Deman
         <div class="kicker"><span class="kicker-dash"></span><span class="kicker-label">En cours</span></div>
         <h2>Comment je fais cours</h2>
         <div class="read">
-          <p>J’aime partager ce que je sais, et préparer un cours me pousse souvent à approfondir le sujet, à le remettre à plat et à mieux l’expliquer.</p>
+          <p>J’aime partager ce que je sais. Préparer un cours me pousse souvent à approfondir le sujet, à le remettre à plat et à mieux l’expliquer.</p>
           <p>Dans un groupe, les niveaux sont rarement homogènes. J’adapte donc le rythme, les exercices et le niveau d’accompagnement. Je fais travailler les petits groupes à leur rythme, je laisse les plus avancés aller plus loin et j’écris des supports qui peuvent se lire à plusieurs niveaux.</p>
           <p>Le bon format dépend du groupe : son niveau de départ, le temps disponible et les savoir-faire attendus à la fin.</p>
           <p>Je privilégie les séances où l’on produit quelque chose : du code, un prototype, un diagnostic, une comparaison ou un petit projet que l’on peut relire et discuter.</p>
@@ -388,19 +399,19 @@ const contactHref = `mailto:${contactMail}?subject=` + encodeURIComponent("Deman
       <h2>Partager ce que j’apprends</h2>
       <p class="intro">J’explique aussi l’IA en dehors des cours, à des développeurs comme à des personnes qui la découvrent. Ces projets me servent à tester d’autres formats pédagogiques et à rester au contact des usages.</p>
       <div class="community">
-        <article class="community-card">
+        <article class="community-card grain-paper">
           <p class="community-tag">Brest · développeurs, ingénieurs, étudiants</p>
           <h3>Context Collective</h3>
-          <p>J’ai cofondé cette communauté d’ingénierie IA générative à Brest. Son principe est d’apprendre en public : chacun montre ses essais, y compris les échecs, et repart avec les essais des autres.</p>
+          <p>J’ai cofondé cette communauté d’ingénierie IA générative à Brest. Son principe est d’apprendre en public : chacun montre ses essais, y compris les échecs. Chacun repart avec les essais des autres.</p>
           <a class="more" href="https://www.context-collective.org/" target="_blank" rel="noopener">context-collective.org →</a>
         </article>
-        <article class="community-card community-card--heart">
+        <article class="community-card community-card--heart grain-paper">
           <p class="community-tag">Finistère · personnes qui découvrent l’IA</p>
           <h3>Les Kafé IA</h3>
-          <p>J’ai lancé les Kafé IA pour les personnes qui utilisent peu l’IA et qui se posent des questions sur elle. Chaque session part d’un sujet précis, expliqué sans jargon, puis on en discute ensemble. Les Kafé IA font partie des Cafés IA de France Num.</p>
+          <p>J’ai lancé les Kafé IA pour les personnes qui utilisent peu l’IA et qui se posent des questions sur elle. Chaque session part d’un sujet précis, expliqué sans jargon. On en discute ensuite ensemble. Les Kafé IA font partie des Cafés IA de France Num.</p>
           <a class="more" href="https://kafe-ia.fr/" target="_blank" rel="noopener">kafe-ia.fr →</a>
         </article>
-        <article class="community-card">
+        <article class="community-card grain-paper">
           <p class="community-tag">En ligne · un jeu pour la formation</p>
           <h3>Programme ton agent</h3>
           <p>J’ai conçu ce jeu pour faire comprendre le fonctionnement d’un agent IA. Le joueur compose son agent carte par carte, le lance sur une demande et voit les conséquences et le coût de chaque choix.</p>
@@ -508,7 +519,8 @@ const contactHref = `mailto:${contactMail}?subject=` + encodeURIComponent("Deman
   /* Premier écran : métier, modalités, suite donnée au contact */
   .role { margin-top: 22px; font-family: var(--display); font-weight: 600; font-size: clamp(22px, 2.6vw, 30px); line-height: 1.2; letter-spacing: -0.01em; color: var(--primary); }
   .hero .read { margin-top: 22px; }
-  .offer { min-width: 0; }
+  /* Carte du premier écran, avec le grain de papier de la page d'accueil */
+  .offer { min-width: 0; background: #f4f2ec; border: 1px solid rgba(27, 28, 26, 0.09); border-radius: 18px; padding: clamp(24px, 2.6vw, 34px); }
   .terms { list-style: none; display: grid; gap: 8px; font-size: 16px; line-height: 1.45; color: var(--ink-2); }
   .terms li { display: flex; gap: 12px; }
   .terms li::before { content: ""; flex: none; width: 14px; height: 2px; margin-top: 11px; background: var(--coral); }
@@ -532,25 +544,33 @@ const contactHref = `mailto:${contactMail}?subject=` + encodeURIComponent("Deman
   /* Formats d'intervention : quatre colonnes sans carte, chacune sous un trait */
   .formats-band { padding-top: clamp(16px, 2vw, 24px); }
   .formats { list-style: none; margin-top: 44px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(20px, 2.6vw, 36px); }
-  .formats li { min-width: 0; padding-top: 20px; box-shadow: inset 0 3px 0 var(--primary); }
+  .formats li { min-width: 0; }
+  .format-icon { display: block; margin-bottom: 14px; font-size: 38px; line-height: 1; color: var(--primary); }
   .formats h3 { font-size: 20px; line-height: 1.2; }
   .formats p { margin-top: 10px; font-size: 16px; line-height: 1.55; color: var(--ink-2); }
+
+  /* Le grain de papier est posé par-dessus la carte : on le coupe aux coins arrondis */
+  .offer, .track, .custom, .exercise, .community-card { overflow: hidden; }
 
   /* Interventions : trois familles, avec leur public et leurs outils */
   .intro { max-width: 660px; color: var(--ink-2); }
   .tracks { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 2vw, 24px); }
-  .track { display: flex; flex-direction: column; min-width: 0; background: var(--white); border-radius: 14px; padding: clamp(24px, 2.6vw, 34px); }
-  .track-level { align-self: flex-start; margin-bottom: 16px; font-family: var(--display); font-weight: 600; font-size: 13px; line-height: 1.3; color: var(--primary); background: #e6f0f4; border-radius: 6px; padding: 5px 10px; }
-  .track-level--open { color: #a83a24; background: #fff0ed; }
+  .track { display: flex; flex-direction: column; min-width: 0; border-radius: 20px; padding: clamp(26px, 2.8vw, 38px); transition: transform 0.25s ease, box-shadow 0.25s ease; }
+  .track:hover { transform: translateY(-4px); box-shadow: 0 26px 54px -32px rgba(27, 28, 26, 0.4); }
+  .track--coral { background-color: #fff0ed; --tint: #c9482f; }
+  .track--amber { background-color: #fff8e1; --tint: #9a6f00; }
+  .track--cyan { background-color: #e8fafe; --tint: #006386; }
+  .track-icon { display: block; margin-bottom: 20px; font-size: 44px; line-height: 1; color: var(--tint); }
+  .track-level { margin-top: 8px; font-family: var(--display); font-weight: 600; font-size: 14px; line-height: 1.35; color: var(--tint); }
   .track-facts { margin-top: 18px; }
   .track-facts dt { font-family: var(--display); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--label); }
   .track-facts dd { margin: 4px 0 16px; font-size: 16px; line-height: 1.5; color: var(--ink-2); }
-  .tools { list-style: none; margin-top: auto; padding-top: 8px; display: flex; flex-wrap: wrap; gap: 8px; }
-  .tool { display: inline-flex; align-items: center; gap: 8px; background: var(--low); border-radius: 8px; padding: 7px 11px; font-family: var(--display); font-weight: 600; font-size: 14px; line-height: 1.2; color: var(--ink); }
+  .tools { list-style: none; margin-top: auto; padding-top: 12px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tool { display: inline-flex; align-items: center; gap: 8px; background: rgba(255, 255, 255, 0.72); border-radius: 8px; padding: 7px 11px; font-family: var(--display); font-weight: 600; font-size: 14px; line-height: 1.2; color: var(--ink); }
   .tool-logo { display: block; width: 16px; height: 16px; flex: none; }
   .tool-logo :global(svg) { display: block; width: 100%; height: 100%; fill: currentColor; }
   /* Formation à la demande : un bandeau sous les trois cartes, avec son bouton */
-  .custom { margin-top: clamp(16px, 2vw, 24px); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px 40px; background: #e6f0f4; border-radius: 14px; padding: clamp(24px, 2.6vw, 34px); }
+  .custom { margin-top: clamp(16px, 2vw, 24px); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px 40px; background: #f4f2ec; border: 1px solid rgba(27, 28, 26, 0.09); border-radius: 18px; padding: clamp(24px, 2.6vw, 34px); }
   .custom-text { min-width: 0; flex: 1 1 420px; }
   .custom p { margin-top: 8px; max-width: 640px; font-size: 17px; line-height: 1.55; color: var(--ink-2); }
   .custom .btn { flex: none; }
@@ -566,7 +586,7 @@ const contactHref = `mailto:${contactMail}?subject=` + encodeURIComponent("Deman
   .more:hover { border-bottom-color: var(--primary); }
   .more:focus-visible { outline: 2px solid var(--coral); outline-offset: 3px; }
   .community { margin-top: 48px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 2.6vw, 32px); }
-  .community-card { display: flex; flex-direction: column; min-width: 0; background: var(--low); border-radius: 14px; padding: clamp(26px, 3vw, 40px); }
+  .community-card { display: flex; flex-direction: column; min-width: 0; background: #f4f2ec; border-radius: 18px; padding: clamp(26px, 3vw, 40px); }
   .community-card--heart { background: #fff0ed; }
   .community-card p { margin-top: 14px; color: var(--ink-2); font-size: 17px; line-height: 1.6; }
   .community-card h3 { margin-bottom: 4px; }
@@ -576,7 +596,7 @@ const contactHref = `mailto:${contactMail}?subject=` + encodeURIComponent("Deman
   /* L'IA en cours : le propos à gauche, l'exercice en trois temps dans une carte à droite */
   .ai { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: clamp(36px, 6vw, 88px); align-items: center; }
   .ai-text { min-width: 0; }
-  .exercise { min-width: 0; background: var(--white); border-radius: 14px; padding: clamp(26px, 3vw, 40px); box-shadow: 0 12px 32px rgba(42, 42, 42, 0.06); }
+  .exercise { min-width: 0; background: #f4f2ec; border: 1px solid rgba(27, 28, 26, 0.09); border-radius: 18px; padding: clamp(26px, 3vw, 40px); }
   .exercise-title { font-family: var(--display); font-weight: 500; font-size: 12px; line-height: 1.65; letter-spacing: 0.14em; text-transform: uppercase; color: var(--label); margin-bottom: 26px; }
   /* Programmes déjà conçus : un intitulé de famille, puis ses programmes */
   .programs { display: grid; gap: 18px; }
@@ -585,8 +605,8 @@ const contactHref = `mailto:${contactMail}?subject=` + encodeURIComponent("Deman
   .programs div + div { padding-top: 18px; box-shadow: inset 0 1px 0 rgba(27, 28, 26, 0.07); }
   .steps { list-style: none; display: grid; gap: 26px; }
   .steps li { position: relative; display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 18px; }
-  /* Trait qui relie une étape à la suivante */
-  .steps li + li::before { content: ""; position: absolute; left: 19px; top: -26px; width: 2px; height: 26px; background: #cfe0e7; }
+  /* Trait qui relie le bas d'un numéro au haut du numéro suivant */
+  .steps li:not(:last-child)::after { content: ""; position: absolute; left: 19px; top: 46px; bottom: -20px; width: 2px; border-radius: 2px; background: rgba(0, 99, 134, 0.35); }
   .step-n { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: var(--primary); color: var(--white); font-family: var(--display); font-weight: 700; font-size: 16px; }
   .steps h4 { font-family: var(--display); font-weight: 700; font-size: 19px; line-height: 1.25; letter-spacing: -0.01em; padding-top: 7px; }
   .steps p { margin-top: 6px; font-size: 16px; line-height: 1.55; color: var(--ink-2); }
@@ -652,5 +672,6 @@ const contactHref = `mailto:${contactMail}?subject=` + encodeURIComponent("Deman
   @media (prefers-reduced-motion: reduce) {
     :global(html) { scroll-behavior: auto; }
     * { transition: none !important; }
+    .track:hover { transform: none; }
   }
 </style>
