@@ -2,7 +2,8 @@
 import Layout from "../layouts/Layout.astro";
 
 // Page de candidature pour les postes de formateur et de vacataire, envoyée avec le CV et la lettre.
-// Fabien s'y présente comme formateur indépendant : aucune mention de Koality ni de Koality Academy.
+// Fabien s'y présente en son nom. Depuis le 7 octobre 2026, la page assume le lien avec Koality :
+// adresse Koality et renvoi vers Koality Academy en bas de page, pour la formation en entreprise.
 // Non indexée et absente du plan du site : Fabien en envoie le lien lui-même.
 
 // Logos en une seule teinte (Simple Icons), insérés dans la page pour prendre la couleur du texte.
@@ -25,6 +26,30 @@ interface Track {
 }
 
 const tracks: Track[] = [
+  {
+    title: "Assistants et outils IA du quotidien",
+    audience: "Adultes en formation : salariés, indépendants, dirigeants, agents de collectivités.",
+    skills: "Repérer les tâches où l’outil aide et les cas où il invente une réponse, lui écrire une consigne, vérifier sa réponse avant de s’en servir, automatiser une tâche répétitive.",
+    level: "Accessible aux personnes qui découvrent l’IA, sans code",
+    withCode: false,
+    tools: [
+      { name: "Claude", slug: "claude" },
+      { name: "ChatGPT", slug: "openai" },
+      { name: "Mistral", slug: "mistralai" },
+      { name: "Assistant sur mesure" },
+      { name: "Routines réutilisables" },
+      { name: "Écrire avec l’IA" },
+      { name: "Vérifier une réponse" },
+      { name: "Images générées" },
+      { name: "Dictée et transcription" },
+      { name: "Automatisation avec n8n", slug: "n8n" },
+      { name: "IA sur ses propres machines", slug: "ollama" },
+      { name: "RGPD et AI Act" },
+      { name: "Gamma" },
+      { name: "Canva", slug: "canva" },
+      { name: "Napkin" },
+    ],
+  },
   {
     title: "Développement web",
     audience: "Étudiants en informatique et en métiers du web, de la première année au master, et adultes en reconversion.",
@@ -78,47 +103,68 @@ const tracks: Track[] = [
       { name: "Onyx" },
     ],
   },
+];
+
+interface School {
+  name: string;
+  dates: string;
+  subject: string;
+}
+const schoolGroups: { label: string; schools: School[] }[] = [
   {
-    title: "Assistants et outils IA pour les professionnels",
-    audience: "Adultes en formation : salariés, indépendants, dirigeants, agents de collectivités.",
-    skills: "Repérer les tâches où l’outil aide et les cas où il invente une réponse, lui écrire une consigne, vérifier sa réponse avant de s’en servir, automatiser une tâche répétitive.",
-    level: "Accessible aux personnes qui découvrent l’IA, sans code",
-    withCode: false,
-    tools: [
-      { name: "Claude", slug: "claude" },
-      { name: "ChatGPT", slug: "openai" },
-      { name: "Mistral", slug: "mistralai" },
-      { name: "Assistant sur mesure" },
-      { name: "Routines réutilisables" },
-      { name: "Écrire avec l’IA" },
-      { name: "Vérifier une réponse" },
-      { name: "Images générées" },
-      { name: "Dictée et transcription" },
-      { name: "Automatisation avec n8n", slug: "n8n" },
-      { name: "IA sur ses propres machines", slug: "ollama" },
-      { name: "RGPD et AI Act" },
-      { name: "Gamma" },
-      { name: "Napkin" },
+    label: "Enseignement supérieur",
+    schools: [
+      { name: "ISEN Brest", dates: "depuis 2017", subject: "PHP, Symfony, React et Next.js en cycle ingénieur" },
+      { name: "UBO, Brest", dates: "depuis 2016", subject: "Symfony en DEUST T-MIC" },
+      { name: "IUT de Lannion", dates: "depuis 2024", subject: "Architecture des CMS en BUT MMI" },
+      { name: "CESI Brest", dates: "2015 à 2017", subject: "Développement full-stack et gestion de projet" },
+    ],
+  },
+  {
+    label: "Formation professionnelle",
+    schools: [
+      { name: "GRETA de Brest", dates: "2023 et 2024", subject: "WordPress et développement web, pour des adultes" },
+      { name: "Chez les clients", dates: "depuis vingt ans", subject: "Formation des utilisateurs aux applications développées pour eux" },
     ],
   },
 ];
 
-const schools = [
-  { name: "ISEN Brest", dates: "depuis 2017", subject: "PHP, Symfony, React et Next.js en cycle ingénieur" },
-  { name: "UBO, Brest", dates: "depuis 2016", subject: "Symfony en DEUST T-MIC" },
-  { name: "IUT de Lannion", dates: "depuis 2024", subject: "Architecture des CMS en BUT MMI" },
-  { name: "GRETA de Brest", dates: "2023 et 2024", subject: "WordPress et développement web, pour des adultes" },
-  { name: "CESI Brest", dates: "2015 à 2017", subject: "Développement full-stack et gestion de projet" },
-  // Formation des utilisateurs chez les clients, hors établissements d'enseignement.
-  { name: "Chez les clients", dates: "depuis vingt ans", subject: "Formation des utilisateurs aux applications développées pour eux" },
+// Les quatre façons d'intervenir dans un établissement.
+const formats = [
+  { title: "Un cours ou quelques séances", text: "Pour compléter un programme existant sur un sujet précis, approfondir un point technique ou apporter un regard de praticien." },
+  { title: "Un module complet", text: "Je construis la progression sur plusieurs séances, avec cours, démonstrations, exercices et travaux pratiques." },
+  { title: "Un programme existant", text: "Je pars du syllabus, des objectifs pédagogiques et du niveau attendu pour construire les séances et les supports adaptés au groupe." },
+  { title: "Un nouveau programme à construire", text: "Nous définissons les objectifs, la progression, les exercices et les livrables. Je propose un format et un volume horaire adaptés au public." },
 ];
 
-const contactHref = "mailto:fabien.canu@gmail.com?subject=" + encodeURIComponent("Demande de formation");
+// Programmes de formation IA déjà conçus, repris du CV formateur IA.
+const programs = [
+  { label: "Premiers usages", items: "Découvrir l’IA générative pour son activité, la littératie IA pour tous les collaborateurs, comprendre un agent IA par le jeu." },
+  { label: "Assistants et productivité", items: "Construire son assistant sur mesure, créer des routines réutilisables, écrire avec l’IA sans perdre sa voix, vérifier une réponse." },
+  { label: "IA par métier", items: "La fonction commerciale, la communication d’une petite structure, les images générées." },
+  { label: "Automatisation", items: "Automatiser sans coder avec n8n, cartographier et digitaliser ses process." },
+  { label: "Cadre légal", items: "Cadrer l’IA dans son entreprise, RGPD et AI Act, faire tourner une IA sur ses propres machines." },
+];
+
+// Menu du premier écran : un lien par partie de la page.
+const sections = [
+  { id: "formats", label: "Formats" },
+  { id: "sujets", label: "Sujets" },
+  { id: "quotidien", label: "IA au quotidien" },
+  { id: "ia", label: "IA et code" },
+  { id: "pedagogie", label: "Pédagogie" },
+  { id: "references", label: "Où j’enseigne" },
+  { id: "partage", label: "Hors des cours" },
+  { id: "contact", label: "Contact" },
+];
+
+const contactMail = "contact@koality.fr";
+const contactHref = `mailto:${contactMail}?subject=` + encodeURIComponent("Demande de formation");
 ---
 
 <Layout
-  title="Fabien Canu · Formateur en développement web et IA"
-  description="Fabien Canu, formateur en développement web et en IA dans le Finistère. Il enseigne depuis 2015 en école d’ingénieurs, à l’université et en formation d’adultes."
+  title="Fabien Canu · Formateur en IA et en développement web"
+  description="Fabien Canu, formateur en IA et en développement web dans le Finistère. Il enseigne depuis 2015 en école d’ingénieurs, à l’université et en formation professionnelle."
   robots="noindex, nofollow"
 >
 <div class="profil">
@@ -140,39 +186,55 @@ const contactHref = "mailto:fabien.canu@gmail.com?subject=" + encodeURIComponent
       <div class="hero-grid">
         <div class="hero-main">
           <h1>Fabien<br />Canu<span class="accent">.</span></h1>
-          <p class="role">Formateur en développement web et IA</p>
+          <p class="role">Formateur en IA et en développement web</p>
           <div class="read">
-            <p class="lead">Je développe des applications depuis vingt-cinq ans et j’enseigne depuis 2015, en école d’ingénieurs, à l’université et en formation d’adultes.</p>
+            <p class="lead">Je développe des applications depuis vingt-cinq ans et j’enseigne depuis 2015, en école d’ingénieurs, à l’université et en formation professionnelle.</p>
+            <p>Je forme aux assistants et aux outils IA du quotidien, et j’enseigne le développement web. Je continue à concevoir et à développer des produits, donc j’enseigne les méthodes et les outils que j’utilise dans mes projets.</p>
           </div>
-          <ul class="terms">
-            <li>En présentiel dans le Finistère, et à distance</li>
-            <li>Un module entier, quelques séances ou une journée</li>
-            <li>Avec votre programme, si vous en avez déjà un</li>
-          </ul>
-          <div class="btns">
-            <a class="btn btn--primary" href={contactHref}>Me parler de votre formation</a>
-            <a class="btn btn--secondary" href="/Fabien-Canu-CV-formateur.pdf" target="_blank" rel="noopener">Voir mon CV</a>
-          </div>
-          <p class="next">Envoyez-moi votre programme ou votre sujet. Je vous réponds avec une proposition de contenu et de durée.</p>
         </div>
 
-        <div class="schools">
-          <div class="kicker"><span class="kicker-dash"></span><h2 class="kicker-label">Où j’enseigne</h2></div>
-          <ul class="school-list">
-            {schools.map((school) => (
-              <li>
-                <span class="school-name">{school.name}</span>
-                <span class="school-dates">{school.dates}</span>
-                <span class="school-subject">{school.subject}</span>
-              </li>
-            ))}
+        <div class="offer">
+          <ul class="terms">
+            <li>En présentiel dans le Finistère, et à distance</li>
+            <li>Un cours, quelques séances ou un module complet</li>
+            <li>Avec votre programme, ou avec un contenu construit pour vous</li>
           </ul>
+          <div class="btns">
+            <a class="btn btn--primary" href={contactHref}>Me parler de votre programme</a>
+            <a class="btn btn--secondary" href="/Fabien-Canu-CV-formateur.pdf" target="_blank" rel="noopener">Voir mon CV</a>
+          </div>
+          <p class="next">Envoyez-moi votre programme, le niveau des participants et le volume horaire. Je vous réponds avec une proposition de contenu et de durée.</p>
         </div>
       </div>
+
+      <nav class="jump" aria-label="Sur cette page">
+        <p class="jump-label">Sur cette page</p>
+        <ul>
+          {sections.map((section) => (
+            <li><a href={`#${section.id}`}>{section.label}<span aria-hidden="true">↓</span></a></li>
+          ))}
+        </ul>
+      </nav>
     </div>
   </section>
 
-  <section class="band band--low">
+  <section id="formats" class="band formats-band">
+    <div class="inner">
+      <div class="kicker"><span class="kicker-dash"></span><span class="kicker-label">Formats</span></div>
+      <h2>Ce que je peux prendre en charge</h2>
+      <p class="intro">Vous avez déjà un programme précis, ou seulement un sujet à couvrir. J’interviens sur une partie du parcours ou je prends en charge un module complet.</p>
+      <ol class="formats">
+        {formats.map((format) => (
+          <li>
+            <h3>{format.title}</h3>
+            <p>{format.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section id="sujets" class="band band--low">
     <div class="inner">
       <div class="kicker"><span class="kicker-dash"></span><span class="kicker-label">Interventions</span></div>
       <h2>Les sujets sur lesquels j’interviens</h2>
@@ -198,20 +260,94 @@ const contactHref = "mailto:fabien.canu@gmail.com?subject=" + encodeURIComponent
           </article>
         ))}
       </div>
-      <p class="intro tracks-note">Je prépare aussi une formation à la demande sur un outil précis.</p>
+      <div class="custom">
+        <div class="custom-text">
+          <h3>Une formation à la demande</h3>
+          <p>Je prépare aussi une formation sur un outil ou un usage précis. Dites-moi l’outil, le public et le temps dont vous disposez.</p>
+        </div>
+        <a class="btn btn--primary" href={contactHref}>Me parler de votre besoin</a>
+      </div>
     </div>
   </section>
 
-  <section class="band">
+  <section id="quotidien" class="band">
+    <div class="inner ai">
+      <div class="ai-text">
+        <div class="kicker"><span class="kicker-dash"></span><span class="kicker-label">Pour tous les métiers</span></div>
+        <h2>Former aux outils IA du quotidien</h2>
+        <div class="read">
+          <p class="lead">Ces formations s’adressent aux salariés, aux indépendants, aux dirigeants et aux agents de collectivités. Elles ne demandent aucune connaissance technique.</p>
+          <p>Les séances se déroulent sur les documents et les cas des participants. Chacun apprend à repérer les tâches où l’outil aide, à reconnaître les cas où il invente une réponse, à écrire une consigne et à vérifier le résultat avant de s’en servir.</p>
+          <p>Je forme sur l’outil choisi par l’école, le centre de formation ou l’entreprise. Ce peut être par exemple un assistant comme Claude, ChatGPT ou Mistral, ou un outil plus spécialisé comme Gamma ou Canva. La liste reste ouverte : si vous utilisez un autre outil, je prépare la formation dessus.</p>
+        </div>
+      </div>
+
+      <div class="exercise">
+        <h3 class="exercise-title">Des programmes déjà conçus</h3>
+        <dl class="programs">
+          {programs.map((program) => (
+            <div>
+              <dt>{program.label}</dt>
+              <dd>{program.items}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section id="ia" class="band band--low">
+    <div class="inner ai">
+      <div class="ai-text">
+        <div class="kicker"><span class="kicker-dash"></span><span class="kicker-label">Pour les développeurs</span></div>
+        <h2>Enseigner le développement à l’heure de l’IA</h2>
+        <div class="read">
+          <p class="lead">Avec l’IA, savoir lire, comprendre, structurer et évaluer le code compte encore plus.</p>
+          <p>L’IA sait produire du code rapidement. Un étudiant ou un développeur doit donc comprendre le code produit, repérer les mauvais choix, puis savoir les corriger ou mieux guider l’outil.</p>
+          <p>Je construis mes séances dans ce but. Il reste valable quand l’outil ou le modèle change.</p>
+        </div>
+      </div>
+
+      <div class="exercise">
+        <h3 class="exercise-title">Un exercice en trois temps, par exemple</h3>
+        <ol class="steps">
+          <li>
+            <span class="step-n">1</span>
+            <div>
+              <h4>Construire avec l’IA</h4>
+              <p>Le groupe fait construire une petite application par l’IA, fonction après fonction, sans consigne particulière sur son architecture.</p>
+            </div>
+          </li>
+          <li>
+            <span class="step-n">2</span>
+            <div>
+              <h4>Lire le résultat</h4>
+              <p>On ouvre le code. On repère les parties répétées, les dépendances inutiles et les endroits où une modification devient difficile.</p>
+            </div>
+          </li>
+          <li>
+            <span class="step-n">3</span>
+            <div>
+              <h4>Recommencer avec une structure choisie</h4>
+              <p>Le groupe décide d’une structure, l’écrit dans la consigne et recommence. Il compare ensuite les deux versions et discute des choix obtenus.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section id="pedagogie" class="band">
     <div class="inner teach">
       <div class="teach-text">
         <div class="kicker"><span class="kicker-dash"></span><span class="kicker-label">En cours</span></div>
         <h2>Comment je fais cours</h2>
         <div class="read">
-          <p>J’aime partager ce que je sais, et préparer un cours me fait apprendre ou réapprendre le sujet.</p>
-          <p>Dans un groupe, les niveaux sont toujours inégaux, et j’adapte la séance au groupe. Je fais travailler un petit groupe à son rythme. Je laisse les plus avancés prendre de l’avance sur le programme. J’écris des cours avec plusieurs niveaux de lecture.</p>
-          <p>Aucune de ces solutions ne convient à tous les groupes, donc je continue à chercher la bonne façon de faire.</p>
-          <p>Le cours donne à l’étudiant le temps d’apprendre. Mon travail est de le guider.</p>
+          <p>J’aime partager ce que je sais, et préparer un cours me pousse souvent à approfondir le sujet, à le remettre à plat et à mieux l’expliquer.</p>
+          <p>Dans un groupe, les niveaux sont rarement homogènes. J’adapte donc le rythme, les exercices et le niveau d’accompagnement. Je fais travailler les petits groupes à leur rythme, je laisse les plus avancés aller plus loin et j’écris des supports qui peuvent se lire à plusieurs niveaux.</p>
+          <p>Le bon format dépend du groupe : son niveau de départ, le temps disponible et les savoir-faire attendus à la fin.</p>
+          <p>Je privilégie les séances où l’on produit quelque chose : du code, un prototype, un diagnostic, une comparaison ou un petit projet que l’on peut relire et discuter.</p>
+          <p class="signature">Le cours donne à chacun le temps d’apprendre. Mon travail est de le guider.</p>
         </div>
       </div>
       <div class="teach-photo">
@@ -220,39 +356,34 @@ const contactHref = "mailto:fabien.canu@gmail.com?subject=" + encodeURIComponent
     </div>
   </section>
 
-  <section class="band band--low">
+  <section id="references" class="band band--low">
     <div class="inner">
-      <div class="kicker"><span class="kicker-dash"></span><span class="kicker-label">L’IA en cours</span></div>
-      <h2>Comprendre ce qu’on produit</h2>
-      <div class="read">
-        <p>Je construis mes séances pour que les étudiants comprennent le code produit par l’IA et sachent ensuite mieux le demander. Cet objectif reste valable quand l’outil ou le modèle change.</p>
-        <p>Un exercice se déroule en trois temps.</p>
+      <div class="kicker"><span class="kicker-dash"></span><span class="kicker-label">Références</span></div>
+      <h2>Où j’enseigne</h2>
+      <div class="school-groups">
+        {schoolGroups.map((group) => (
+          <div class="school-group">
+            <h3 class="school-group-label">{group.label}</h3>
+            <ul class="school-list">
+              {group.schools.map((school) => (
+                <li>
+                  <span class="school-name">{school.name}</span>
+                  <span class="school-dates">{school.dates}</span>
+                  <span class="school-subject">{school.subject}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </div>
-      <ol class="steps">
-        <li>
-          <span class="step-n">1</span>
-          <h3>Construire avec l’IA</h3>
-          <p>Le groupe fait construire une petite application par l’IA, fonction après fonction, sans consigne particulière.</p>
-        </li>
-        <li>
-          <span class="step-n">2</span>
-          <h3>Lire le résultat</h3>
-          <p>On ouvre le code. On repère les parties copiées d’une fonction à l’autre et les endroits où une modification devient difficile.</p>
-        </li>
-        <li>
-          <span class="step-n">3</span>
-          <h3>Recommencer avec une structure choisie</h3>
-          <p>Le groupe décide de la structure, l’écrit dans la consigne et recommence. Il compare ensuite les deux versions.</p>
-        </li>
-      </ol>
     </div>
   </section>
 
-  <section class="band">
+  <section id="partage" class="band">
     <div class="inner">
-      <div class="kicker"><span class="kicker-dash"></span><span class="kicker-label">Hors des écoles</span></div>
+      <div class="kicker"><span class="kicker-dash"></span><span class="kicker-label">Hors des cours</span></div>
       <h2>Partager ce que j’apprends</h2>
-      <p class="intro">J’explique aussi l’IA en dehors des écoles, à des développeurs comme à des personnes qui la découvrent.</p>
+      <p class="intro">J’explique aussi l’IA en dehors des cours, à des développeurs comme à des personnes qui la découvrent. Ces projets me servent à tester d’autres formats pédagogiques et à rester au contact des usages.</p>
       <div class="community">
         <article class="community-card">
           <p class="community-tag">Brest · développeurs, ingénieurs, étudiants</p>
@@ -263,27 +394,31 @@ const contactHref = "mailto:fabien.canu@gmail.com?subject=" + encodeURIComponent
         <article class="community-card community-card--heart">
           <p class="community-tag">Finistère · personnes qui découvrent l’IA</p>
           <h3>Les Kafé IA</h3>
-          <p>J’ai lancé les Kafé IA pour les personnes qui utilisent peu l’IA et qui se posent des questions sur elle. Chaque session part d’un sujet précis, expliqué sans jargon, puis on en discute ensemble.</p>
+          <p>J’ai lancé les Kafé IA pour les personnes qui utilisent peu l’IA et qui se posent des questions sur elle. Chaque session part d’un sujet précis, expliqué sans jargon, puis on en discute ensemble. Les Kafé IA font partie des Cafés IA de France Num.</p>
+          <a class="more" href="https://kafe-ia.fr/" target="_blank" rel="noopener">kafe-ia.fr →</a>
         </article>
         <article class="community-card">
           <p class="community-tag">En ligne · un jeu pour la formation</p>
           <h3>Programme ton agent</h3>
-          <p>J’ai conçu ce jeu pour faire comprendre le fonctionnement d’un agent IA. Le joueur compose son agent carte par carte, le lance sur une demande et voit le coût de chaque choix.</p>
+          <p>J’ai conçu ce jeu pour faire comprendre le fonctionnement d’un agent IA. Le joueur compose son agent carte par carte, le lance sur une demande et voit les conséquences et le coût de chaque choix.</p>
           <a class="more" href="/programme-ton-agent">Voir le projet →</a>
         </article>
       </div>
     </div>
   </section>
 
-  <section class="band band--dark">
+  <section id="contact" class="band band--dark">
     <div class="inner contact">
       <div class="eyebrow eyebrow--dark"><span class="eyebrow-dash"></span><span class="eyebrow-txt">Travailler ensemble</span></div>
       <h2 class="ask">Vous cherchez un formateur ou un vacataire&nbsp;?</h2>
       <div class="read read--dark">
-        <p>Envoyez-moi votre programme ou le sujet que vous cherchez à couvrir. Je vous réponds avec une proposition de contenu et de durée.</p>
+        <p>Envoyez-moi votre programme ou le sujet que vous cherchez à couvrir, le niveau des participants et le volume horaire envisagé. Je vous réponds avec une proposition de contenu et de durée.</p>
+      </div>
+      <div class="btns">
+        <a class="btn btn--light" href={contactHref}>Me parler de votre programme</a>
       </div>
       <div class="contact-lines">
-        <a class="mail" href={contactHref}>fabien.canu@gmail.com</a>
+        <a class="mail" href={contactHref}>{contactMail}</a>
         <a class="tel" href="tel:+33648745829">06 48 74 58 29</a>
       </div>
       <p class="contact-foot">
@@ -291,6 +426,11 @@ const contactHref = "mailto:fabien.canu@gmail.com?subject=" + encodeURIComponent
         <a href="/lab">Mes projets</a>
         <a href="https://www.linkedin.com/in/fabien-canu/" target="_blank" rel="noopener">LinkedIn</a>
       </p>
+      <div class="academy">
+        <h3>Pour les entreprises</h3>
+        <p>Pour une formation professionnelle en entreprise, mes interventions passent par Koality Academy, mon organisme de formation certifié Qualiopi.</p>
+        <a class="academy-link" href="https://academy.koality.fr/" target="_blank" rel="noopener">academy.koality.fr →</a>
+      </div>
     </div>
   </section>
 
@@ -338,7 +478,7 @@ const contactHref = "mailto:fabien.canu@gmail.com?subject=" + encodeURIComponent
 
   /* Hero */
   .hero { padding-top: clamp(56px, 7vw, 88px); padding-bottom: clamp(64px, 8vw, 104px); }
-  .hero-grid { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: clamp(36px, 6vw, 96px); align-items: center; }
+  .hero-grid { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: clamp(36px, 6vw, 96px); align-items: end; }
   .hero-main { min-width: 0; }
   .hero .read { margin-top: 34px; }
   .lead { font-size: clamp(19px, 2.4vw, 23px); line-height: 1.5; color: var(--ink) !important; }
@@ -351,10 +491,12 @@ const contactHref = "mailto:fabien.canu@gmail.com?subject=" + encodeURIComponent
   .btn--secondary:hover { background: #dad8d3; }
   .btn:focus-visible { outline: 2px solid var(--coral); outline-offset: 3px; }
 
-  /* Établissements */
-  .schools { min-width: 0; }
+  /* Établissements, en deux groupes */
+  .school-groups { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(24px, 4vw, 56px); align-items: start; }
+  .school-group { min-width: 0; }
+  .school-group-label { font-family: var(--display); font-weight: 500; font-size: 12px; line-height: 1.65; letter-spacing: 0.14em; text-transform: uppercase; color: var(--label); margin-bottom: 12px; }
   .school-list { list-style: none; background: var(--white); border-radius: 14px; padding: 8px clamp(20px, 2.2vw, 28px); box-shadow: 0 12px 32px rgba(42, 42, 42, 0.06); }
-  .school-list li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0 16px; padding: 11px 0; }
+  .school-list li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0 16px; padding: 12px 0; }
   .school-list li + li { box-shadow: inset 0 1px 0 rgba(27, 28, 26, 0.07); }
   .school-name { font-family: var(--display); font-weight: 700; font-size: 17px; line-height: 1.35; }
   .school-dates { font-family: var(--display); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--label); align-self: center; }
@@ -363,10 +505,33 @@ const contactHref = "mailto:fabien.canu@gmail.com?subject=" + encodeURIComponent
   /* Premier écran : métier, modalités, suite donnée au contact */
   .role { margin-top: 22px; font-family: var(--display); font-weight: 600; font-size: clamp(22px, 2.6vw, 30px); line-height: 1.2; letter-spacing: -0.01em; color: var(--primary); }
   .hero .read { margin-top: 22px; }
-  .terms { list-style: none; margin-top: 22px; display: grid; gap: 8px; font-size: 16px; line-height: 1.45; color: var(--ink-2); }
+  .offer { min-width: 0; }
+  .terms { list-style: none; display: grid; gap: 8px; font-size: 16px; line-height: 1.45; color: var(--ink-2); }
   .terms li { display: flex; gap: 12px; }
   .terms li::before { content: ""; flex: none; width: 14px; height: 2px; margin-top: 11px; background: var(--coral); }
   .next { margin-top: 18px; max-width: 520px; font-size: 15px; line-height: 1.5; color: var(--label); }
+
+  /* Menu du premier écran : une barre blanche avec un lien par partie de la page */
+  .jump { margin-top: clamp(44px, 6vw, 72px); display: flex; align-items: center; gap: 8px 20px; background: var(--white); border-radius: 14px; padding: 8px 10px 8px 26px; box-shadow: 0 12px 32px rgba(42, 42, 42, 0.06); }
+  .jump-label { flex: none; font-family: var(--display); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--label); }
+  .jump ul { list-style: none; flex: 1; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px; }
+  .jump li { display: flex; }
+  .jump a { display: flex; align-items: center; gap: 7px; padding: 12px 12px; white-space: nowrap; border-radius: 10px; font-family: var(--display); font-weight: 600; font-size: 15px; line-height: 1.2; color: var(--ink); text-decoration: none; transition: background 0.2s ease, color 0.2s ease; }
+  .jump a span { color: var(--coral); font-size: 14px; transition: transform 0.2s ease; }
+  .jump a:hover { background: var(--low); color: var(--primary); }
+  .jump a:hover span { transform: translateY(2px); }
+  .jump a:focus-visible { outline: 2px solid var(--coral); outline-offset: 2px; }
+  /* Défilement doux vers la partie choisie dans le menu */
+  :global(html) { scroll-behavior: smooth; }
+  /* La barre du haut reste collée : la partie visée s'arrête juste dessous */
+  section[id] { scroll-margin-top: 72px; }
+
+  /* Formats d'intervention : quatre colonnes sans carte, chacune sous un trait */
+  .formats-band { padding-top: clamp(16px, 2vw, 24px); }
+  .formats { list-style: none; margin-top: 44px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(20px, 2.6vw, 36px); }
+  .formats li { min-width: 0; padding-top: 20px; box-shadow: inset 0 3px 0 var(--primary); }
+  .formats h3 { font-size: 20px; line-height: 1.2; }
+  .formats p { margin-top: 10px; font-size: 16px; line-height: 1.55; color: var(--ink-2); }
 
   /* Interventions : trois familles, avec leur public et leurs outils */
   .intro { max-width: 660px; color: var(--ink-2); }
@@ -381,11 +546,16 @@ const contactHref = "mailto:fabien.canu@gmail.com?subject=" + encodeURIComponent
   .tool { display: inline-flex; align-items: center; gap: 8px; background: var(--low); border-radius: 8px; padding: 7px 11px; font-family: var(--display); font-weight: 600; font-size: 14px; line-height: 1.2; color: var(--ink); }
   .tool-logo { display: block; width: 16px; height: 16px; flex: none; }
   .tool-logo :global(svg) { display: block; width: 100%; height: 100%; fill: currentColor; }
-  .tracks-note { margin-top: clamp(28px, 3.4vw, 40px); }
+  /* Formation à la demande : un bandeau sous les trois cartes, avec son bouton */
+  .custom { margin-top: clamp(16px, 2vw, 24px); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px 40px; background: #e6f0f4; border-radius: 14px; padding: clamp(24px, 2.6vw, 34px); }
+  .custom-text { min-width: 0; flex: 1 1 420px; }
+  .custom p { margin-top: 8px; max-width: 640px; font-size: 17px; line-height: 1.55; color: var(--ink-2); }
+  .custom .btn { flex: none; }
 
   /* Façon de faire cours : le texte et la photo en situation */
   .teach { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: clamp(36px, 6vw, 88px); align-items: center; }
   .teach-text { min-width: 0; }
+  .signature { margin-top: 28px !important; padding-left: 20px; box-shadow: inset 3px 0 0 var(--coral); font-family: var(--display); font-weight: 600; font-size: clamp(19px, 2vw, 23px); line-height: 1.35; letter-spacing: -0.01em; color: var(--ink) !important; }
   .teach-photo img { width: 100%; height: auto; border-radius: 14px; }
 
   /* Communautés, comme sur /profil */
@@ -400,11 +570,23 @@ const contactHref = "mailto:fabien.canu@gmail.com?subject=" + encodeURIComponent
   .community-tag { margin: 0 0 10px !important; font-family: var(--display); font-size: 12px !important; line-height: 1.4 !important; letter-spacing: 0.12em; text-transform: uppercase; color: var(--label) !important; }
   .community-card--heart .community-tag { color: #a83a24 !important; }
 
-  /* Pédagogie */
-  .steps { list-style: none; margin-top: 48px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 2.6vw, 32px); }
-  .steps li { min-width: 0; }
-  .step-n { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: var(--primary); color: var(--white); font-family: var(--display); font-weight: 700; font-size: 16px; margin-bottom: 18px; }
-  .steps p { margin-top: 10px; font-size: 17px; line-height: 1.55; color: var(--ink-2); }
+  /* L'IA en cours : le propos à gauche, l'exercice en trois temps dans une carte à droite */
+  .ai { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: clamp(36px, 6vw, 88px); align-items: center; }
+  .ai-text { min-width: 0; }
+  .exercise { min-width: 0; background: var(--white); border-radius: 14px; padding: clamp(26px, 3vw, 40px); box-shadow: 0 12px 32px rgba(42, 42, 42, 0.06); }
+  .exercise-title { font-family: var(--display); font-weight: 500; font-size: 12px; line-height: 1.65; letter-spacing: 0.14em; text-transform: uppercase; color: var(--label); margin-bottom: 26px; }
+  /* Programmes déjà conçus : un intitulé de famille, puis ses programmes */
+  .programs { display: grid; gap: 18px; }
+  .programs dt { font-family: var(--display); font-weight: 700; font-size: 17px; line-height: 1.3; color: var(--ink); }
+  .programs dd { margin: 4px 0 0; font-size: 16px; line-height: 1.5; color: var(--ink-2); }
+  .programs div + div { padding-top: 18px; box-shadow: inset 0 1px 0 rgba(27, 28, 26, 0.07); }
+  .steps { list-style: none; display: grid; gap: 26px; }
+  .steps li { position: relative; display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 18px; }
+  /* Trait qui relie une étape à la suivante */
+  .steps li + li::before { content: ""; position: absolute; left: 19px; top: -26px; width: 2px; height: 26px; background: #cfe0e7; }
+  .step-n { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: var(--primary); color: var(--white); font-family: var(--display); font-weight: 700; font-size: 16px; }
+  .steps h4 { font-family: var(--display); font-weight: 700; font-size: 19px; line-height: 1.25; letter-spacing: -0.01em; padding-top: 7px; }
+  .steps p { margin-top: 6px; font-size: 16px; line-height: 1.55; color: var(--ink-2); }
 
   /* Contact */
   .read--dark p { color: var(--dark-2) !important; }
@@ -413,6 +595,15 @@ const contactHref = "mailto:fabien.canu@gmail.com?subject=" + encodeURIComponent
   .mail:hover { color: var(--coral); }
   .tel { font-family: var(--display); font-size: 20px; color: var(--dark-2); text-decoration: none; letter-spacing: 0.02em; }
   .contact-lines { margin-top: 30px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 14px 32px; }
+  .btn--light { background: var(--surface); color: var(--ink); }
+  .btn--light:hover { background: #e4e2de; }
+  .contact .btns { margin-top: 30px; }
+  /* Renvoi vers Koality Academy, pour la formation en entreprise */
+  .academy { margin-top: clamp(40px, 5vw, 60px); padding-top: 28px; max-width: 660px; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12); }
+  .academy h3 { font-size: 18px; color: var(--surface); }
+  .academy p { margin-top: 8px; font-size: 16px; line-height: 1.55; color: var(--dark-2); }
+  .academy-link { display: inline-block; margin-top: 6px; padding: 8px 0 4px; font-family: var(--display); font-weight: 600; font-size: 16px; color: var(--surface); text-decoration: none; border-bottom: 2px solid var(--coral); }
+  .academy-link:hover { color: var(--coral); }
   .contact-foot { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 4px 22px; font-size: 15px; }
   .contact-foot a { display: inline-block; padding: 10px 0 4px; color: var(--dark-2); text-decoration: none; border-bottom: 1px solid rgba(201, 196, 187, 0.35); }
 
@@ -439,18 +630,24 @@ const contactHref = "mailto:fabien.canu@gmail.com?subject=" + encodeURIComponent
   .kicker-label { font-family: var(--display); font-size: 12px; font-weight: 500; line-height: 1.65; letter-spacing: 0.2em; text-transform: uppercase; color: var(--label); margin: 0; max-width: none; }
 
   @media (max-width: 1000px) {
-    .hero-grid, .teach, .tracks, .community { grid-template-columns: 1fr; }
+    .hero-grid, .teach, .ai, .tracks, .community, .school-groups { grid-template-columns: 1fr; }
+    .formats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .jump { flex-direction: column; align-items: stretch; padding: 18px 10px 10px; }
+    .jump-label { padding-left: 14px; }
+    .jump ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .jump a { justify-content: space-between; }
     .teach-photo { max-width: 560px; }
   }
   @media (max-width: 860px) {
     .band { padding-block: 64px; }
-    .steps { grid-template-columns: 1fr; }
   }
   @media (max-width: 520px) {
     .profil { font-size: 17px; }
     .btn { flex: 1 1 auto; text-align: center; }
+    .formats { grid-template-columns: 1fr; }
   }
   @media (prefers-reduced-motion: reduce) {
+    :global(html) { scroll-behavior: auto; }
     * { transition: none !important; }
   }
 </style>
