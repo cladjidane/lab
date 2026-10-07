@@ -1,0 +1,456 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+// Page de candidature pour les postes de formateur et de vacataire, envoyée avec le CV et la lettre.
+// Fabien s'y présente comme formateur indépendant : aucune mention de Koality ni de Koality Academy.
+// Non indexée et absente du plan du site : Fabien en envoie le lien lui-même.
+
+// Logos en une seule teinte (Simple Icons), insérés dans la page pour prendre la couleur du texte.
+const logoFiles = import.meta.glob<string>("../assets/logos/*.svg", { query: "?raw", import: "default", eager: true });
+const logo = (slug: string) => logoFiles[`../assets/logos/${slug}.svg`];
+
+interface Tool {
+  name: string;
+  // Nom du fichier dans src/assets/logos. Sans logo, l'étiquette affiche seulement le nom.
+  slug?: string;
+}
+interface Track {
+  title: string;
+  audience: string;
+  skills: string;
+  // Dit si les participants lisent du code pendant les séances.
+  level: string;
+  withCode: boolean;
+  tools: Tool[];
+}
+
+const tracks: Track[] = [
+  {
+    title: "Développement web",
+    audience: "Étudiants en informatique et en métiers du web, de la première année au master, et adultes en reconversion.",
+    skills: "Écrire des pages web, développer une application complète avec sa base de données et ses droits d’utilisateurs, décider de la structure d’une application avant de coder.",
+    level: "Les participants écrivent du code",
+    withCode: true,
+    tools: [
+      { name: "HTML", slug: "html5" },
+      { name: "CSS", slug: "css" },
+      { name: "JavaScript", slug: "javascript" },
+      { name: "TypeScript", slug: "typescript" },
+      { name: "PHP", slug: "php" },
+      { name: "Symfony", slug: "symfony" },
+      { name: "WordPress", slug: "wordpress" },
+      { name: "React", slug: "react" },
+      { name: "Next.js", slug: "nextdotjs" },
+      { name: "Node.js", slug: "nodedotjs" },
+      { name: "Astro", slug: "astro" },
+      { name: "Tailwind", slug: "tailwindcss" },
+      { name: "React Native et Expo", slug: "expo" },
+      { name: "PostgreSQL", slug: "postgresql" },
+      { name: "MySQL", slug: "mysql" },
+      { name: "Prisma", slug: "prisma" },
+    ],
+  },
+  {
+    title: "IA pour les développeurs",
+    audience: "Étudiants en informatique, développeurs et équipes techniques.",
+    skills: "Confier une tâche à un agent de code, cadrer son travail, relire et évaluer le code produit. Construire un agent avec ses outils, ses skills et sa mémoire. Appeler un modèle de langage depuis une application et vérifier ses réponses.",
+    level: "Les participants lisent du code",
+    withCode: true,
+    tools: [
+      { name: "Claude Code", slug: "claudecode" },
+      { name: "Codex", slug: "openai" },
+      { name: "GitHub Copilot", slug: "githubcopilot" },
+      { name: "Cursor", slug: "cursor" },
+      { name: "Windsurf", slug: "windsurf" },
+      { name: "Gemini CLI", slug: "googlegemini" },
+      { name: "Agents" },
+      { name: "Skills" },
+      { name: "MCP", slug: "modelcontextprotocol" },
+      { name: "RAG" },
+      { name: "Embeddings et bases vectorielles" },
+      { name: "Mémoire d’agent" },
+      { name: "Wiki LLM" },
+      { name: "Function calling" },
+      { name: "Choix du modèle et coût" },
+      { name: "Vercel AI SDK", slug: "vercel" },
+      { name: "Ollama", slug: "ollama" },
+      { name: "Open WebUI" },
+      { name: "Onyx" },
+    ],
+  },
+  {
+    title: "Assistants et outils IA pour les professionnels",
+    audience: "Adultes en formation : salariés, indépendants, dirigeants, agents de collectivités.",
+    skills: "Repérer les tâches où l’outil aide et les cas où il invente une réponse, lui écrire une consigne, vérifier sa réponse avant de s’en servir, automatiser une tâche répétitive.",
+    level: "Accessible aux personnes qui découvrent l’IA, sans code",
+    withCode: false,
+    tools: [
+      { name: "Claude", slug: "claude" },
+      { name: "ChatGPT", slug: "openai" },
+      { name: "Mistral", slug: "mistralai" },
+      { name: "Assistant sur mesure" },
+      { name: "Routines réutilisables" },
+      { name: "Écrire avec l’IA" },
+      { name: "Vérifier une réponse" },
+      { name: "Images générées" },
+      { name: "Dictée et transcription" },
+      { name: "Automatisation avec n8n", slug: "n8n" },
+      { name: "IA sur ses propres machines", slug: "ollama" },
+      { name: "RGPD et AI Act" },
+      { name: "Gamma" },
+      { name: "Napkin" },
+    ],
+  },
+];
+
+const schools = [
+  { name: "ISEN Brest", dates: "depuis 2017", subject: "PHP, Symfony, React et Next.js en cycle ingénieur" },
+  { name: "UBO, Brest", dates: "depuis 2016", subject: "Symfony en DEUST T-MIC" },
+  { name: "IUT de Lannion", dates: "depuis 2024", subject: "Architecture des CMS en BUT MMI" },
+  { name: "GRETA de Brest", dates: "2023 et 2024", subject: "WordPress et développement web, pour des adultes" },
+  { name: "CESI Brest", dates: "2015 à 2017", subject: "Développement full-stack et gestion de projet" },
+  // Formation des utilisateurs chez les clients, hors établissements d'enseignement.
+  { name: "Chez les clients", dates: "depuis vingt ans", subject: "Formation des utilisateurs aux applications développées pour eux" },
+];
+
+const contactHref = "mailto:fabien.canu@gmail.com?subject=" + encodeURIComponent("Demande de formation");
+---
+
+<Layout
+  title="Fabien Canu · Formateur en développement web et IA"
+  description="Fabien Canu, formateur en développement web et en IA dans le Finistère. Il enseigne depuis 2015 en école d’ingénieurs, à l’université et en formation d’adultes."
+  robots="noindex, nofollow"
+>
+<div class="profil">
+
+<nav class="pnav">
+  <div class="pnav-inner">
+    <a href="/" class="pnav-brand">Fabien Canu</a>
+    <div class="pnav-links">
+      <a href="/lab" class="pnav-link">Le lab</a>
+      <a href={contactHref} class="pnav-cta">Écrire</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+  <section class="band hero">
+    <div class="inner">
+      <div class="hero-grid">
+        <div class="hero-main">
+          <h1>Fabien<br />Canu<span class="accent">.</span></h1>
+          <p class="role">Formateur en développement web et IA</p>
+          <div class="read">
+            <p class="lead">Je développe des applications depuis vingt-cinq ans et j’enseigne depuis 2015, en école d’ingénieurs, à l’université et en formation d’adultes.</p>
+          </div>
+          <ul class="terms">
+            <li>En présentiel dans le Finistère, et à distance</li>
+            <li>Un module entier, quelques séances ou une journée</li>
+            <li>Avec votre programme, si vous en avez déjà un</li>
+          </ul>
+          <div class="btns">
+            <a class="btn btn--primary" href={contactHref}>Me parler de votre formation</a>
+            <a class="btn btn--secondary" href="/Fabien-Canu-CV-formateur.pdf" target="_blank" rel="noopener">Voir mon CV</a>
+          </div>
+          <p class="next">Envoyez-moi votre programme ou votre sujet. Je vous réponds avec une proposition de contenu et de durée.</p>
+        </div>
+
+        <div class="schools">
+          <div class="kicker"><span class="kicker-dash"></span><h2 class="kicker-label">Où j’enseigne</h2></div>
+          <ul class="school-list">
+            {schools.map((school) => (
+              <li>
+                <span class="school-name">{school.name}</span>
+                <span class="school-dates">{school.dates}</span>
+                <span class="school-subject">{school.subject}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--low">
+    <div class="inner">
+      <div class="kicker"><span class="kicker-dash"></span><span class="kicker-label">Interventions</span></div>
+      <h2>Les sujets sur lesquels j’interviens</h2>
+      <div class="tracks">
+        {tracks.map((track) => (
+          <article class="track">
+            <p class:list={["track-level", { "track-level--open": !track.withCode }]}>{track.level}</p>
+            <h3>{track.title}</h3>
+            <dl class="track-facts">
+              <dt>Public</dt>
+              <dd>{track.audience}</dd>
+              <dt>Compétences travaillées</dt>
+              <dd>{track.skills}</dd>
+            </dl>
+            <ul class="tools" aria-label={`Outils et technologies : ${track.title}`}>
+              {track.tools.map((tool) => (
+                <li class="tool">
+                  {tool.slug && <span class="tool-logo" aria-hidden="true" set:html={logo(tool.slug)} />}
+                  <span>{tool.name}</span>
+                </li>
+              ))}
+            </ul>
+          </article>
+        ))}
+      </div>
+      <p class="intro tracks-note">Je prépare aussi une formation à la demande sur un outil précis.</p>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="inner teach">
+      <div class="teach-text">
+        <div class="kicker"><span class="kicker-dash"></span><span class="kicker-label">En cours</span></div>
+        <h2>Comment je fais cours</h2>
+        <div class="read">
+          <p>J’aime partager ce que je sais, et préparer un cours me fait apprendre ou réapprendre le sujet.</p>
+          <p>Dans un groupe, les niveaux sont toujours inégaux, et j’adapte la séance au groupe. Je fais travailler un petit groupe à son rythme. Je laisse les plus avancés prendre de l’avance sur le programme. J’écris des cours avec plusieurs niveaux de lecture.</p>
+          <p>Aucune de ces solutions ne convient à tous les groupes, donc je continue à chercher la bonne façon de faire.</p>
+          <p>Le cours donne à l’étudiant le temps d’apprendre. Mon travail est de le guider.</p>
+        </div>
+      </div>
+      <div class="teach-photo">
+        <img src="/photo-fabien.jpg" alt="Fabien Canu devant une salle, pendant une présentation" width="1300" height="804" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--low">
+    <div class="inner">
+      <div class="kicker"><span class="kicker-dash"></span><span class="kicker-label">L’IA en cours</span></div>
+      <h2>Comprendre ce qu’on produit</h2>
+      <div class="read">
+        <p>Je construis mes séances pour que les étudiants comprennent le code produit par l’IA et sachent ensuite mieux le demander. Cet objectif reste valable quand l’outil ou le modèle change.</p>
+        <p>Un exercice se déroule en trois temps.</p>
+      </div>
+      <ol class="steps">
+        <li>
+          <span class="step-n">1</span>
+          <h3>Construire avec l’IA</h3>
+          <p>Le groupe fait construire une petite application par l’IA, fonction après fonction, sans consigne particulière.</p>
+        </li>
+        <li>
+          <span class="step-n">2</span>
+          <h3>Lire le résultat</h3>
+          <p>On ouvre le code. On repère les parties copiées d’une fonction à l’autre et les endroits où une modification devient difficile.</p>
+        </li>
+        <li>
+          <span class="step-n">3</span>
+          <h3>Recommencer avec une structure choisie</h3>
+          <p>Le groupe décide de la structure, l’écrit dans la consigne et recommence. Il compare ensuite les deux versions.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="inner">
+      <div class="kicker"><span class="kicker-dash"></span><span class="kicker-label">Hors des écoles</span></div>
+      <h2>Partager ce que j’apprends</h2>
+      <p class="intro">J’explique aussi l’IA en dehors des écoles, à des développeurs comme à des personnes qui la découvrent.</p>
+      <div class="community">
+        <article class="community-card">
+          <p class="community-tag">Brest · développeurs, ingénieurs, étudiants</p>
+          <h3>Context Collective</h3>
+          <p>J’ai cofondé cette communauté d’ingénierie IA générative à Brest. Son principe est d’apprendre en public : chacun montre ses essais, y compris les échecs, et repart avec les essais des autres.</p>
+          <a class="more" href="https://www.context-collective.org/" target="_blank" rel="noopener">context-collective.org →</a>
+        </article>
+        <article class="community-card community-card--heart">
+          <p class="community-tag">Finistère · personnes qui découvrent l’IA</p>
+          <h3>Les Kafé IA</h3>
+          <p>J’ai lancé les Kafé IA pour les personnes qui utilisent peu l’IA et qui se posent des questions sur elle. Chaque session part d’un sujet précis, expliqué sans jargon, puis on en discute ensemble.</p>
+        </article>
+        <article class="community-card">
+          <p class="community-tag">En ligne · un jeu pour la formation</p>
+          <h3>Programme ton agent</h3>
+          <p>J’ai conçu ce jeu pour faire comprendre le fonctionnement d’un agent IA. Le joueur compose son agent carte par carte, le lance sur une demande et voit le coût de chaque choix.</p>
+          <a class="more" href="/programme-ton-agent">Voir le projet →</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--dark">
+    <div class="inner contact">
+      <div class="eyebrow eyebrow--dark"><span class="eyebrow-dash"></span><span class="eyebrow-txt">Travailler ensemble</span></div>
+      <h2 class="ask">Vous cherchez un formateur ou un vacataire&nbsp;?</h2>
+      <div class="read read--dark">
+        <p>Envoyez-moi votre programme ou le sujet que vous cherchez à couvrir. Je vous réponds avec une proposition de contenu et de durée.</p>
+      </div>
+      <div class="contact-lines">
+        <a class="mail" href={contactHref}>fabien.canu@gmail.com</a>
+        <a class="tel" href="tel:+33648745829">06 48 74 58 29</a>
+      </div>
+      <p class="contact-foot">
+        <a href="/Fabien-Canu-CV-formateur.pdf" target="_blank" rel="noopener">CV</a>
+        <a href="/lab">Mes projets</a>
+        <a href="https://www.linkedin.com/in/fabien-canu/" target="_blank" rel="noopener">LinkedIn</a>
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<footer><div class="inner"><a href="/mentions-legales">Mentions légales</a><a href="/confidentialite">Confidentialité</a></div></footer>
+
+</div>
+</Layout>
+
+<style>
+  /* Mêmes couleurs, polices et blocs que la page /profil */
+  .profil {
+    --surface: #fbf9f5;
+    --low: #f5f3ef;
+    --white: #ffffff;
+    --ink: #1b1c1a;
+    --ink-2: #4a4845;
+    --mute: #7d7a74;
+    /* Gris des petites étiquettes, assez foncé pour rester lisible sur fond clair */
+    --label: #65625c;
+    --primary: #006386;
+    --coral: #ff7e67;
+    --dark-2: #c9c4bb;
+    --dark-3: #9a968f;
+    --display: "Space Grotesk", "Helvetica Neue", Arial, sans-serif;
+    --body: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  .profil { background: var(--surface); color: var(--ink); font-family: var(--body); font-size: 18px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  img { display: block; max-width: 100%; }
+
+  .band { padding-block: clamp(80px, 11vw, 116px); padding-inline: clamp(24px, 8vw, 130px); }
+  .band--low { background: var(--low); }
+  .band--dark { background: var(--ink); color: var(--surface); }
+  .inner { max-width: 1400px; margin: 0 auto; }
+  .read { max-width: 660px; }
+  .read p + p { margin-top: 18px; }
+  .read p { color: var(--ink-2); }
+
+  h1, h2, h3 { font-family: var(--display); font-weight: 700; letter-spacing: -0.02em; text-wrap: balance; }
+  h1 { font-size: clamp(3.2rem, 9vw, 88px); line-height: 0.9; letter-spacing: -0.04em; }
+  h2 { font-size: clamp(34px, 5vw, 48px); line-height: 1.04; letter-spacing: -0.03em; margin-bottom: 28px; max-width: 900px; }
+  h3 { font-size: clamp(20px, 1.8vw, 24px); line-height: 1.2; }
+
+  /* Hero */
+  .hero { padding-top: clamp(56px, 7vw, 88px); padding-bottom: clamp(64px, 8vw, 104px); }
+  .hero-grid { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: clamp(36px, 6vw, 96px); align-items: center; }
+  .hero-main { min-width: 0; }
+  .hero .read { margin-top: 34px; }
+  .lead { font-size: clamp(19px, 2.4vw, 23px); line-height: 1.5; color: var(--ink) !important; }
+
+  .btns { margin-top: 36px; display: flex; flex-wrap: wrap; gap: 12px; }
+  .btn { font-family: var(--display); font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; padding: 12px 20px; border-radius: 100px; transition: background 0.2s ease; }
+  .btn--primary { background: var(--ink); color: var(--surface); }
+  .btn--primary:hover { background: #35322d; }
+  .btn--secondary { background: #e4e2de; color: var(--ink); }
+  .btn--secondary:hover { background: #dad8d3; }
+  .btn:focus-visible { outline: 2px solid var(--coral); outline-offset: 3px; }
+
+  /* Établissements */
+  .schools { min-width: 0; }
+  .school-list { list-style: none; background: var(--white); border-radius: 14px; padding: 8px clamp(20px, 2.2vw, 28px); box-shadow: 0 12px 32px rgba(42, 42, 42, 0.06); }
+  .school-list li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0 16px; padding: 11px 0; }
+  .school-list li + li { box-shadow: inset 0 1px 0 rgba(27, 28, 26, 0.07); }
+  .school-name { font-family: var(--display); font-weight: 700; font-size: 17px; line-height: 1.35; }
+  .school-dates { font-family: var(--display); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--label); align-self: center; }
+  .school-subject { grid-column: 1 / -1; font-size: 15px; line-height: 1.4; color: var(--ink-2); }
+
+  /* Premier écran : métier, modalités, suite donnée au contact */
+  .role { margin-top: 22px; font-family: var(--display); font-weight: 600; font-size: clamp(22px, 2.6vw, 30px); line-height: 1.2; letter-spacing: -0.01em; color: var(--primary); }
+  .hero .read { margin-top: 22px; }
+  .terms { list-style: none; margin-top: 22px; display: grid; gap: 8px; font-size: 16px; line-height: 1.45; color: var(--ink-2); }
+  .terms li { display: flex; gap: 12px; }
+  .terms li::before { content: ""; flex: none; width: 14px; height: 2px; margin-top: 11px; background: var(--coral); }
+  .next { margin-top: 18px; max-width: 520px; font-size: 15px; line-height: 1.5; color: var(--label); }
+
+  /* Interventions : trois familles, avec leur public et leurs outils */
+  .intro { max-width: 660px; color: var(--ink-2); }
+  .tracks { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 2vw, 24px); }
+  .track { display: flex; flex-direction: column; min-width: 0; background: var(--white); border-radius: 14px; padding: clamp(24px, 2.6vw, 34px); }
+  .track-level { align-self: flex-start; margin-bottom: 16px; font-family: var(--display); font-weight: 600; font-size: 13px; line-height: 1.3; color: var(--primary); background: #e6f0f4; border-radius: 6px; padding: 5px 10px; }
+  .track-level--open { color: #a83a24; background: #fff0ed; }
+  .track-facts { margin-top: 18px; }
+  .track-facts dt { font-family: var(--display); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--label); }
+  .track-facts dd { margin: 4px 0 16px; font-size: 16px; line-height: 1.5; color: var(--ink-2); }
+  .tools { list-style: none; margin-top: auto; padding-top: 8px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tool { display: inline-flex; align-items: center; gap: 8px; background: var(--low); border-radius: 8px; padding: 7px 11px; font-family: var(--display); font-weight: 600; font-size: 14px; line-height: 1.2; color: var(--ink); }
+  .tool-logo { display: block; width: 16px; height: 16px; flex: none; }
+  .tool-logo :global(svg) { display: block; width: 100%; height: 100%; fill: currentColor; }
+  .tracks-note { margin-top: clamp(28px, 3.4vw, 40px); }
+
+  /* Façon de faire cours : le texte et la photo en situation */
+  .teach { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: clamp(36px, 6vw, 88px); align-items: center; }
+  .teach-text { min-width: 0; }
+  .teach-photo img { width: 100%; height: auto; border-radius: 14px; }
+
+  /* Communautés, comme sur /profil */
+  .more { display: inline-block; margin-top: auto; padding-top: 18px; font-family: var(--display); font-weight: 600; font-size: 16px; color: var(--primary); text-decoration: none; border-bottom: 2px solid transparent; align-self: flex-start; }
+  .more:hover { border-bottom-color: var(--primary); }
+  .more:focus-visible { outline: 2px solid var(--coral); outline-offset: 3px; }
+  .community { margin-top: 48px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 2.6vw, 32px); }
+  .community-card { display: flex; flex-direction: column; min-width: 0; background: var(--low); border-radius: 14px; padding: clamp(26px, 3vw, 40px); }
+  .community-card--heart { background: #fff0ed; }
+  .community-card p { margin-top: 14px; color: var(--ink-2); font-size: 17px; line-height: 1.6; }
+  .community-card h3 { margin-bottom: 4px; }
+  .community-tag { margin: 0 0 10px !important; font-family: var(--display); font-size: 12px !important; line-height: 1.4 !important; letter-spacing: 0.12em; text-transform: uppercase; color: var(--label) !important; }
+  .community-card--heart .community-tag { color: #a83a24 !important; }
+
+  /* Pédagogie */
+  .steps { list-style: none; margin-top: 48px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(20px, 2.6vw, 32px); }
+  .steps li { min-width: 0; }
+  .step-n { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: var(--primary); color: var(--white); font-family: var(--display); font-weight: 700; font-size: 16px; margin-bottom: 18px; }
+  .steps p { margin-top: 10px; font-size: 17px; line-height: 1.55; color: var(--ink-2); }
+
+  /* Contact */
+  .read--dark p { color: var(--dark-2) !important; }
+  .ask { margin: 0 0 28px; font-family: var(--display); font-weight: 600; font-size: clamp(30px, 4.6vw, 40px); line-height: 1.1; letter-spacing: -0.02em; color: var(--surface); max-width: 640px; }
+  .mail { display: inline-block; font-family: var(--display); font-size: 22px; color: var(--surface); text-decoration: none; border-bottom: 2px solid var(--coral); padding-bottom: 4px; transition: color 0.2s ease; }
+  .mail:hover { color: var(--coral); }
+  .tel { font-family: var(--display); font-size: 20px; color: var(--dark-2); text-decoration: none; letter-spacing: 0.02em; }
+  .contact-lines { margin-top: 30px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 14px 32px; }
+  .contact-foot { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 4px 22px; font-size: 15px; }
+  .contact-foot a { display: inline-block; padding: 10px 0 4px; color: var(--dark-2); text-decoration: none; border-bottom: 1px solid rgba(201, 196, 187, 0.35); }
+
+  footer { background: var(--ink); color: #7a756c; font-size: 12px; padding-inline: clamp(20px, 8vw, 130px); padding-block: 0 28px; }
+  footer .inner { padding-top: 8px; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08); }
+  footer a { display: inline-block; padding: 10px 0; color: var(--dark-3); text-decoration: none; margin-right: 18px; }
+
+  /* Barre du haut, repères et accents */
+  .pnav { position: sticky; top: 0; z-index: 50; background: rgba(251, 249, 245, 0.82); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(27, 28, 26, 0.07); padding: 0 clamp(24px, 8vw, 130px); }
+  .pnav-inner { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 18px 0; }
+  .pnav-brand { font-family: var(--display); font-weight: 700; font-size: 16px; color: var(--ink); text-decoration: none; }
+  .pnav-links { display: flex; align-items: center; gap: 26px; }
+  .pnav-link { font-family: var(--display); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--label); text-decoration: none; padding: 12px 6px; }
+  .pnav-link:hover { color: var(--ink); }
+  .pnav-cta { font-family: var(--display); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--surface); background: var(--ink); padding: 9px 16px; border-radius: 100px; text-decoration: none; }
+  .pnav-cta:hover { background: #35322d; }
+  .eyebrow { display: flex; align-items: center; gap: 12px; margin-bottom: 34px; }
+  .eyebrow-dash { width: 28px; height: 3px; background: var(--coral); display: inline-block; flex: none; }
+  .eyebrow-txt { font-family: var(--display); font-size: 12px; letter-spacing: 0.24em; text-transform: uppercase; color: #8f918c; }
+  .eyebrow--dark .eyebrow-txt { color: var(--dark-3); }
+  .accent { color: var(--coral); }
+  .kicker { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+  .kicker-dash { width: 24px; height: 2px; background: var(--coral); display: inline-block; }
+  .kicker-label { font-family: var(--display); font-size: 12px; font-weight: 500; line-height: 1.65; letter-spacing: 0.2em; text-transform: uppercase; color: var(--label); margin: 0; max-width: none; }
+
+  @media (max-width: 1000px) {
+    .hero-grid, .teach, .tracks, .community { grid-template-columns: 1fr; }
+    .teach-photo { max-width: 560px; }
+  }
+  @media (max-width: 860px) {
+    .band { padding-block: 64px; }
+    .steps { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 520px) {
+    .profil { font-size: 17px; }
+    .btn { flex: 1 1 auto; text-align: center; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>

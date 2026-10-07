@@ -11,8 +11,8 @@ export default defineConfig({
   // Toutes les pages restent générées à l'avance. Seule /api/newsletter
   // s'exécute à la demande (prerender = false), d'où l'adaptateur Vercel.
   adapter: vercel(),
-  // /profil sert aux candidatures spontanées, envoyée en lien direct : hors plan du site.
-  integrations: [sitemap({ filter: (page) => !page.includes('/profil') })],
+  // /profil, /formateur et /formations servent aux candidatures, envoyées en lien direct : hors plan du site.
+  integrations: [sitemap({ filter: (page) => !['/profil', '/formateur', '/formations'].some((path) => page.includes(path)) })],
   vite: {
     plugins: [tailwindcss()],
     // nodemailer reste un module Node, il ne doit pas être empaqueté par Vite.
