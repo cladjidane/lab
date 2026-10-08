@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<style>
+  @page {
+    size: A4;
+    margin: 15mm 16mm 14mm 16mm;
+  }
+  * { box-sizing: border-box; }
+  html { -weasy-hyphens: none; }
+  body {
+    font-family: "Liberation Sans", Arial, "DejaVu Sans", sans-serif;
+    color: #333;
+    font-size: 9.3pt;
+    line-height: 1.42;
+    margin: 0;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  /* Header */
+  .top { display: flex; justify-content: space-between; align-items: flex-start; }
+  .name { font-size: 27pt; font-weight: 700; letter-spacing: 5px; color: #1f2d4d; line-height: 1.02; }
+  .contact { text-align: right; font-size: 8.3pt; color: #555; line-height: 1.6; padding-top: 4px; }
+  .title { color: #1f6f8b; color: #2a5b8c; font-weight: 700; font-size: 11.5pt; letter-spacing: .5px; margin-top: 6px; }
+  .intro { color: #444; margin-top: 10px; max-width: 100%; }
+  .para { color: #444; margin: 2px 0 9px 0; }
+  .rule { border: 0; border-top: 1.5px solid #1f2d4d; margin: 12px 0 0 0; }
+
+  /* Section headers */
+  h2 {
+    font-size: 9pt; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase;
+    color: #1f2d4d; margin: 16px 0 8px 0; padding-bottom: 4px; border-bottom: 1px solid #d7dbe3;
+  }
+
+  /* Entry block (teaching, missions, parcours) */
+  .entry { margin-bottom: 9px; page-break-inside: avoid; }
+  .entry .hd { display: flex; justify-content: space-between; align-items: baseline; }
+  .entry .role { font-weight: 700; color: #1f2d4d; font-size: 9.8pt; }
+  .entry .tag { display: inline-block; font-size: 7pt; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; color: #2a5b8c; border: 1px solid #b9c6d8; border-radius: 3px; padding: 1px 5px; margin-left: 8px; vertical-align: middle; }
+  .entry .date { color: #8a8a8a; font-size: 8.3pt; white-space: nowrap; padding-left: 12px; }
+  .entry .org { color: #2a5b8c; font-weight: 700; font-size: 9pt; margin-top: 1px; }
+  .entry .desc { color: #444; margin-top: 3px; }
+  .entry .stack { color: #9195a0; font-size: 8pt; margin-top: 3px; }
+  .entry .stack b { color: #6b7280; font-weight: 700; }
+
+  /* Skills multi-column */
+  .skills { column-count: 4; column-gap: 16px; }
+  .skillgroup { break-inside: avoid; margin-bottom: 9px; }
+  .skillgroup .gt { font-size: 8pt; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #1f2d4d; margin-bottom: 3px; }
+  .skillgroup ul { list-style: none; margin: 0; padding: 0; }
+  .skillgroup li { color: #4a4a4a; font-size: 8.4pt; line-height: 1.35; padding-left: 8px; position: relative; margin-bottom: 1px; }
+  .skillgroup li::before { content: "\2022"; color: #9aa6b8; position: absolute; left: 0; }
+
+  .twocol { column-count: 2; column-gap: 22px; }
+  .twocol .entry { break-inside: avoid; }
+
+  .avoid { page-break-inside: avoid; }
+</style>
+</head>
+<body>
+
+  <div class="top">
+    <div>
+      <div class="name">FABIEN<br>CANU</div>
+    </div>
+    <div class="contact">
+      06 48 74 58 29<br>
+      19 Place Foch, 29260 Lesneven<br>
+      contact@koality.fr<br>
+      linkedin.com/in/fabien-canu<br>
+      fabiencanu.fr
+    </div>
+  </div>
+
+  <div class="title">Formateur &middot; Architecte logiciel &amp; IA</div>
+  <p class="intro">
+    Formateur en développement web, architecture logicielle et intelligence artificielle, vacataire depuis 2015 auprès d'écoles d'ingénieurs, d'universités et de centres de formation. 25 ans de conception et de développement d'applications métier, de l'architecture à la mise en production. Je conçois, j'anime et je transmets à partir de projets réels : SaaS multi-tenant, applications mobiles, intégration d'IA générative en production (RAG, agents, MCP). Gérant de Koality, agence de développement sur mesure à Lesneven.
+  </p>
+  <hr class="rule">
+
+  <h2>Enseignement et formation</h2>
+  <div class="twocol">
+    <div class="entry">
+      <div class="hd"><span class="role">ISEN, Brest</span><span class="date">depuis 2017</span></div>
+      <div class="desc">Cycles ingénieurs : enseignement de PHP et Symfony, accompagnement de projets de fin d'études (web, Big Data et IA). Formation CODE BZH : DevOps, UX, WordPress, design graphique.</div>
+    </div>
+    <div class="entry">
+      <div class="hd"><span class="role">UBO, Brest</span><span class="date">depuis 2016</span></div>
+      <div class="desc">DEUST T-MIC : Symfony et développement d'applications web.</div>
+    </div>
+    <div class="entry">
+      <div class="hd"><span class="role">IUT de Lannion</span><span class="date">depuis 2024</span></div>
+      <div class="desc">BUT MMI : architecture CMS, structuration de données et taxonomies.</div>
+    </div>
+    <div class="entry">
+      <div class="hd"><span class="role">CESI, Brest</span><span class="date">2015 &rarr; 2017</span></div>
+      <div class="desc">Responsable ingénierie logicielle : développement full-stack et gestion de projets.</div>
+    </div>
+    <div class="entry">
+      <div class="hd"><span class="role">GRETA, Brest</span><span class="date">2023 &rarr; 2024</span></div>
+      <div class="desc">Concepteur / designer UI : WordPress et développement web.</div>
+    </div>
+    <div class="entry">
+      <div class="hd"><span class="role">Formation en entreprise</span></div>
+      <div class="desc">Formation des équipes à l'outil livré à chaque projet, et formations sur l'IA générative et les nouvelles pratiques de développement pour freelances et PME.</div>
+    </div>
+    <div class="entry">
+      <div class="hd"><span class="role">Conseil et accompagnement</span></div>
+      <div class="desc">Cadrage et analyse de besoin en amont de projet, choix technologiques, audit d'architecture, feuille de route, appui aux équipes internes.</div>
+    </div>
+  </div>
+
+  <h2>Compétences techniques</h2>
+  <div class="skills">
+    <div class="skillgroup">
+      <div class="gt">IA appliquée</div>
+      <ul>
+        <li>Claude, Mistral, OpenAI, DeepSeek, Ollama</li>
+        <li>Prompt engineering, function calling</li>
+        <li>Agents LLM, tool use, streaming</li>
+        <li>RAG, embeddings, bases vectorielles</li>
+        <li>MCP, serveurs et clients</li>
+        <li>Vercel AI SDK, multi-provider</li>
+        <li>Arbitrage coût / modèle / déterminisme</li>
+      </ul>
+    </div>
+    <div class="skillgroup">
+      <div class="gt">Node &amp; back</div>
+      <ul>
+        <li>Node.js, Express, Python</li>
+        <li>REST, OpenAPI, GraphQL, SSE</li>
+        <li>Prisma, Drizzle, SQL</li>
+        <li>PostgreSQL, MySQL / MariaDB, SQLite</li>
+        <li>Auth JWT, OAuth2, RBAC</li>
+        <li>PHP 7.4 / 8, WordPress REST, Symfony</li>
+      </ul>
+    </div>
+    <div class="skillgroup">
+      <div class="gt">Front-end</div>
+      <ul>
+        <li>React 17 à 19, depuis 2016</li>
+        <li>Next.js 13 à 16, App Router, SSR, ISR</li>
+        <li>Astro, Svelte</li>
+        <li>TypeScript strict</li>
+        <li>Vite, Tailwind, shadcn/ui, Radix</li>
+        <li>Zustand, Redux Toolkit, TanStack Query</li>
+        <li>Zod, React Hook Form</li>
+      </ul>
+    </div>
+    <div class="skillgroup">
+      <div class="gt">Mobile</div>
+      <ul>
+        <li>React Native depuis 2016</li>
+        <li>Expo (SDK 53), EAS Build</li>
+        <li>Tamagui, Solito, NativeWind</li>
+        <li>Expo Router, React Navigation</li>
+        <li>Offline-first, PWA, Workbox</li>
+      </ul>
+    </div>
+    <div class="skillgroup">
+      <div class="gt">Exploitation &amp; CI/CD</div>
+      <ul>
+        <li>Debian, Nginx, Apache, PM2</li>
+        <li>Docker, Docker Compose</li>
+        <li>GitHub Actions, runners self-hosted</li>
+        <li>Déploiement continu, TLS / Let's Encrypt</li>
+      </ul>
+    </div>
+    <div class="skillgroup">
+      <div class="gt">Tests &amp; qualité</div>
+      <ul>
+        <li>Vitest, Jest, Playwright</li>
+        <li>Tests unitaires et end-to-end</li>
+        <li>TypeScript strict, validation Zod</li>
+      </ul>
+    </div>
+    <div class="skillgroup">
+      <div class="gt">Cartographie</div>
+      <ul>
+        <li>MapLibre GL (web et natif)</li>
+        <li>Mapbox GL, Leaflet</li>
+        <li>Turf.js, rbush, GeoJSON, PMTiles</li>
+        <li>Cadastre IGN / Etalab, WFS, RPG</li>
+        <li>Tuiles vectorielles, styles, sprites</li>
+      </ul>
+    </div>
+    <div class="skillgroup">
+      <div class="gt">Design system &amp; UI</div>
+      <ul>
+        <li>Design system, tokens, thèmes</li>
+        <li>Storybook, composants documentés</li>
+        <li>Maquettage site et application</li>
+        <li>Identité visuelle, logo</li>
+        <li>Photoshop, Illustrator</li>
+      </ul>
+    </div>
+    <div class="skillgroup">
+      <div class="gt">Domaines</div>
+      <ul>
+        <li>Filières agricoles, AOP / IGP, INAO</li>
+        <li>Santé publique, RGPD art. 9, HDS, HL7</li>
+        <li>Collectivités, patrimoine, tourisme</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Missions récentes</h2>
+  <div class="twocol">
+    <div class="entry">
+      <div class="hd"><span class="role">Déclarations AOP, de la parcelle à la commercialisation</span></div>
+      <div class="org">Syndicat de l'Oignon de Roscoff (AOP) &middot; depuis nov. 2023</div>
+      <div class="desc">Digitalisation du cycle déclaratif d'une AOP de 150 producteurs sur 27 communes. Six types de déclarations, identification des parcelles sur carte cadastrale, exports INAO. Assistant de saisie à base de LLM. Développement seul, 29 mois. En production. 286 tests unitaires, 18 parcours end-to-end.</div>
+      <div class="stack"><b>Stack :</b> React 18, TypeScript, Vite, Tailwind, MapLibre GL, Turf.js, Node, Express, Mistral, WordPress PHP 8 + plugin REST, MySQL, Vitest, Playwright</div>
+    </div>
+    <div class="entry">
+      <div class="hd"><span class="role">Socle applicatif cross-platform</span><span class="tag">Amorçage</span></div>
+      <div class="org">Constructeur de maisons individuelles &middot; sept. 2025</div>
+      <div class="desc">Amorçage d'un socle web, iOS et Android depuis une base de code unique pour deux développeurs internes. Monorepo, design system de 74 composants, auth Azure B2C, thème multi-marque, 5 ADR documentant les arbitrages. Reprise par l'équipe interne.</div>
+      <div class="stack"><b>Stack :</b> React 19, TypeScript, Next.js 14, Expo 53, Tamagui, Solito, Zustand, TanStack Query, Azure B2C, Turborepo, Biome, Storybook</div>
+    </div>
+    <div class="entry">
+      <div class="hd"><span class="role">Extranet producteurs, livraisons et planification</span></div>
+      <div class="org">BioBreizh, coopérative de légumes bio &middot; depuis 2016</div>
+      <div class="desc">Extranet de gestion pour les producteurs : bons de livraison, stocks, planification, annonces hebdomadaires, certificats, aides européennes. Treize modules. Dix ans d'accompagnement, plusieurs refontes web et mobile.</div>
+      <div class="stack"><b>Stack :</b> React, Tailwind, Dexie, Node 20, Express, TypeScript strict, Zod, OpenAPI, SQLite, Next.js 14, Anthropic SDK + SSE, WordPress REST, PM2, Nginx</div>
+    </div>
+    <div class="entry">
+      <div class="hd"><span class="role">Plateforme SaaS communautaire, loisirs sportifs</span></div>
+      <div class="org">Client sous réserve de confidentialité &middot; févr. &rarr; août 2025</div>
+      <div class="desc">Plateforme à profils multiples : certifications, sites géolocalisés, tarification, événements, filtrage multi-critères. 17 modules backend en architecture par couches, 33 modèles de données, taxonomie polymorphe centralisée.</div>
+      <div class="stack"><b>Stack :</b> Next.js 14, React 18, TypeScript, Tailwind, shadcn/ui, TanStack Query, NextAuth, Node, Express, Prisma 6, MySQL 8, MapLibre GL, Jest</div>
+    </div>
+    <div class="entry">
+      <div class="hd"><span class="role">Modernisation du module de planning</span><span class="tag">Renfort</span></div>
+      <div class="org">Éditeur de logiciels de santé publique &middot; oct. &rarr; déc. 2025</div>
+      <div class="desc">Renfort d'une équipe de 5 développeurs sur une application de santé publique de 9 ans. Module de recherche de créneaux en ES6 moderne au sein d'une base legacy. Audit d'architecture, 8 problèmes majeurs identifiés, roadmap de refonte en 3 phases.</div>
+      <div class="stack"><b>Stack :</b> JavaScript ES6, YUI 2, dhtmlxScheduler, PHP 7.4, ZendFramework, Smarty, MariaDB 10.6, Docker, HL7 v2, hébergement HDS</div>
+    </div>
+    <div class="entry">
+      <div class="hd"><span class="role">Applications mobiles patrimoine et tourisme</span></div>
+      <div class="org">Dépt. du Morbihan, Mairies de Lesneven et Lanildut &middot; 2019 &rarr; 2025</div>
+      <div class="desc">Trois guides mobiles pour des collectivités : parcours à points d'intérêt enrichis, carte native, géolocalisation, contenu embarqué, fonctionnement hors réseau.</div>
+      <div class="stack"><b>Stack :</b> React Native, MobX State Tree, Mapbox natif, Apollo GraphQL, Redux, Expo 53, React 19, Redux Toolkit, NativeWind, MapLibre natif, EAS Build</div>
+    </div>
+  </div>
+
+  <h2>Produits Koality</h2>
+  <div class="twocol">
+    <div class="entry">
+      <div class="hd"><span class="role">Oligae, SaaS multi-tenant pour la défense agricole</span></div>
+      <div class="org">Koality &middot; depuis mars 2026</div>
+      <div class="desc">Gestion des déclarations et registres réglementaires pour les organismes de défense et de gestion agricoles, sur fond d'obligation de registre phytosanitaire numérique. Moteur de formulaires piloté par les cahiers des charges INAO, exports EDI, base PostgreSQL par tenant. Deux clients en production.</div>
+      <div class="stack"><b>Stack :</b> React 19, Vite 6, Hono 4, PostgreSQL 16, Drizzle, MapLibre GL, Turf.js, API IGN, Docker, PM2, Vitest, Playwright, Astro 6</div>
+    </div>
+    <div class="entry">
+      <div class="hd"><span class="role">JeoFun, plateforme de parcours géolocalisés</span></div>
+      <div class="org">Koality &middot; depuis 2018</div>
+      <div class="desc">Création de parcours géolocalisés : balades narratives, jeux de piste, guides touristiques. Points d'intérêt posés sur carte, génération du contenu narratif par LLM en deux passes, abstraction multi-provider pour la redondance et l'arbitrage de coût.</div>
+      <div class="stack"><b>Stack :</b> Next.js 15, React 19, Prisma 6, PostgreSQL, MapLibre GL, OpenRouteService, Vercel AI SDK, OpenAI, DeepSeek, Google GenAI, NextAuth 5, Vitest</div>
+    </div>
+  </div>
+
+  <h2>Parcours</h2>
+  <div class="twocol">
+    <div class="entry">
+      <div class="hd"><span class="role">Architecte produit &amp; IA, gérant</span><span class="date">depuis 2012</span></div>
+      <div class="org">Koality, Lesneven</div>
+      <div class="desc">Agence de développement sur mesure : web, mobile et SaaS. Cadrage, architecture, identité visuelle, conception et exploitation. Depuis 2024, intégration de l'IA générative dans les applications métier et conception de formations professionnelles. Références : Brest Métropole, Département du Morbihan, IPEV, Les P'tits Doudous, Ville de Plouzané.</div>
+    </div>
+    <div class="entry">
+      <div class="hd"><span class="role">Développeur, chef de projet web</span><span class="date">2007 &rarr; 2011</span></div>
+      <div class="org">Roulez Malin / Evernet, Brest</div>
+      <div class="desc">Plateformes web de covoiturage et de gestion de flottes automobiles. R&amp;D sur les données géographiques et les objets spatiaux, PostgreSQL / PostGIS. Sites à forte audience. Références : Les Vieilles Charrues, Brest 2012.</div>
+    </div>
+    <div class="entry">
+      <div class="hd"><span class="role">Développeur, designer web</span><span class="date">2006 &rarr; 2007</span></div>
+      <div class="org">Pointcom Graphic, Cléder</div>
+      <div class="desc">Sites et outils métier sur mesure. Création du concept KitWeb et développement du CMS propriétaire ZADMIN.</div>
+    </div>
+    <div class="entry">
+      <div class="hd"><span class="role">Développeur, designer web</span><span class="date">2005 &rarr; 2006</span></div>
+      <div class="org">Yellow Cake, Brest</div>
+      <div class="desc">Refonte d'un CMS propriétaire, premières solutions AJAX, optimisation des performances.</div>
+    </div>
+    <div class="entry">
+      <div class="hd"><span class="role">Développeur, designer web, freelance</span><span class="date">2004 &rarr; 2005</span></div>
+      <div class="org">LI-D, Lesneven</div>
+      <div class="desc">Sites et applications sur mesure. Références : Auberge de Kerraloret, Atrium Technologies.</div>
+    </div>
+    <div class="entry">
+      <div class="hd"><span class="role">Développeur, designer web &middot; Webdesigner</span><span class="date">2002 &rarr; 2004</span></div>
+      <div class="org">Hippocampe, Brest &middot; Open Mac, Saint-Avold</div>
+      <div class="desc">Sites et applications spécifiques, référencement. Chartes graphiques, intégration HTML/CSS. Références : Sicagri, Thierry Lannon, Hôtel de la Mer.</div>
+    </div>
+  </div>
+
+  <h2>Formation, engagements et divers</h2>
+  <div class="twocol">
+    <div class="entry">
+      <div class="role">Formation</div>
+      <div class="desc">Concepteur, réalisateur de produits multimédia : GRETA, Lannion, 2003 &rarr; 2004, CQP niveau 5. Webdesigner / PAO : CRECI, Metz, 2001.</div>
+    </div>
+    <div class="entry">
+      <div class="role">Engagements</div>
+      <div class="desc">Communautés IA : cofondateur de Context Collective, initiateur des Kafé IA, rencontres de partage des usages de l'IA en Finistère. Conférences : AI Days, Finist'AI Club, BrestJS, Salon Tourisme &amp; Numérique. Open source : projets IA, serveurs MCP et agents sur GitHub, plugin MapLibre / Mapbox multi-étages.</div>
+    </div>
+    <div class="entry">
+      <div class="role">Divers</div>
+      <div class="desc">Cartographie ancienne. Course à pied sur route et en forêt. Guitare.</div>
+    </div>
+  </div>
+
+</body>
+</html>

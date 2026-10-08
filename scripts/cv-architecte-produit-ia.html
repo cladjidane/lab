@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Fabien Canu, architecte produit et IA</title>
+<style>
+  @page { size: A4; margin: 13mm 15mm 12mm 15mm; }
+  * { box-sizing: border-box; }
+  html { hyphens: none; }
+  body { font-family: "Liberation Sans","DejaVu Sans",sans-serif; color:#333; font-size:9.5pt; line-height:1.42; margin:0; }
+  a { color: inherit; text-decoration: none; }
+  .top { display:flex; justify-content:space-between; align-items:flex-start; }
+  .name { font-size:27pt; font-weight:700; letter-spacing:5px; color:#1f2d4d; line-height:1.02; }
+  .contact { text-align:right; font-size:8.9pt; color:#555; line-height:1.6; padding-top:4px; }
+  .title { color:#2a5b8c; font-weight:700; font-size:11.5pt; letter-spacing:.5px; margin-top:6px; }
+  .intro { color:#333; margin-top:11px; font-size:9.9pt; }
+  .rule { border:0; border-top:1.5px solid #1f2d4d; margin:12px 0 0 0; }
+  h2 { font-size:9.3pt; font-weight:700; letter-spacing:1.6px; text-transform:uppercase; color:#1f2d4d;
+       margin:11px 0 6px 0; padding-bottom:3px; border-bottom:1px solid #d7dbe3; }
+  h2 { break-after: avoid; page-break-after: avoid; }
+  .entry { margin-bottom:8px; page-break-inside:avoid; }
+  .entry .hd { display:flex; justify-content:space-between; align-items:baseline; }
+  .entry .role { font-weight:700; color:#1f2d4d; font-size:10.4pt; }
+  .entry .date { color:#8a8a8a; font-size:8.9pt; white-space:nowrap; padding-left:12px; }
+  .entry .org { color:#2a5b8c; font-weight:700; font-size:9.6pt; margin-top:1px; }
+  .entry .desc { color:#444; margin-top:3px; }
+  .entry .stack { color:#777; font-size:8.5pt; margin-top:2px; }
+  .apport { margin:0 0 6px 0; color:#444; page-break-inside:avoid; }
+  .apport b { color:#1f2d4d; }
+  ul.tasks { margin:3px 0 0 0; padding-left:15px; color:#444; }
+  ul.tasks li { margin-bottom:2px; }
+  .flat { color:#444; margin:3px 0 7px 0; }
+  .flat b { color:#1f2d4d; }
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div>
+    <div class="name">FABIEN CANU</div>
+    <div class="title">Architecte produit &amp; IA</div>
+  </div>
+  <div class="contact">
+    06 48 74 58 29<br>
+    Lesneven, Finistère<br>
+    fabien.canu@gmail.com<br>
+    fabiencanu.fr/profil · linkedin.com/in/fabien-canu
+  </div>
+</div>
+<hr class="rule">
+
+<p class="intro">Je conçois et développe des produits numériques depuis vingt-cinq ans, entre produit, architecture et développement. Je souhaite porter des projets IA ou apporter mon expertise en architecture et en développement produit au sein d'une équipe, des premières réflexions à la mise en service.</p>
+
+<h2>Projets et missions</h2>
+
+<div class="entry">
+  <div class="hd"><div><span class="role">Déclarations réglementaires d'une AOP</span></div><div class="date">depuis nov. 2023</div></div>
+  <div class="org">Syndicat de l'Oignon de Roscoff, 100 à 150 producteurs sur 27 communes</div>
+  <div class="desc">Le travail a commencé par l'analyse de 184 déclarations existantes : 90 % des informations se répétaient d'une campagne à l'autre, et ce constat a défini les contours de l'outil. Six déclarations réglementaires, parcelles identifiées sur le cadastre, contrôle du cahier des charges, export vers l'organisme certificateur. Le temps de déclaration est passé de trois à quatre heures à trente minutes. L'application est en production depuis la campagne 2024. Un assistant de saisie IA a été ajouté en janvier 2026, sur un modèle Mistral. Une interface plus naturelle simplifie certaines étapes. La structure des formulaires, elle, reste pilotée par un moteur déterministe, et le producteur garde la maîtrise des étapes qui engagent sa responsabilité.</div>
+</div>
+
+<div class="entry">
+  <div class="hd"><div><span class="role">Renfort d'équipe et audit d'architecture</span></div><div class="date">févr. 2025 → mars 2026</div></div>
+  <div class="org">Éditeur de logiciels de santé publique</div>
+  <div class="desc">Application de santé publique en service depuis neuf ans, déployée dans plusieurs centres de santé. J'ai essentiellement travaillé sur le développement d'un module de recherche de créneaux au sein de la base existante, avec une équipe de cinq développeurs. Audit d'architecture, identification des problèmes et feuille de route de refonte en plusieurs phases. Design et ergonomie du rendu final.</div>
+</div>
+
+<div class="entry">
+  <div class="hd"><div><span class="role">Restructuration d'une application mobile pour l'équipe interne</span></div><div class="date">sept. 2025, 15 jours</div></div>
+  <div class="org">Constructeur de maisons individuelles</div>
+  <div class="desc">Une application native maintenue par deux développeurs devait être confiée au service informatique, une dizaine de développeurs. Ma proposition a été de restructurer les deux applications sur une base de code unique pour le web, iOS et Android. Définition d'un design system de 74 composants, gestion de l'authentification via Azure, multi-thèmes, et accompagnement des équipes pour que les développeurs puissent reprendre la main à la fin de la mission.</div>
+</div>
+
+<div class="entry">
+  <div class="hd"><div><span class="role">Plateforme de gestion pour les organismes agricoles</span></div><div class="date">depuis mars 2026</div></div>
+  <div class="org">Oligae, produit édité par Koality</div>
+  <div class="desc">Gestion des déclarations et des registres réglementaires des organismes de défense et de gestion agricoles. Les formulaires sont générés automatiquement à partir du cahier des charges de chaque appellation. Administration fine pour les organismes de gestion : notifications, alertes, rôles, relances, exports et transferts de données.</div>
+</div>
+
+<div class="entry">
+  <div class="hd"><div><span class="role">Extranet producteurs d'une coopérative</span></div><div class="date">depuis 2016</div></div>
+  <div class="org">BioBreizh, producteurs de légumes biologiques</div>
+  <div class="desc">Application de gestion de la coopérative, destinée aux producteurs. Treize modules de gestion : livraisons, stocks, planification, certificats, aides européennes. Le fichier de planification de la coopérative reste la source de vérité. L'application est couplée à un extranet externe, édité par un tiers. Elle vit depuis une dizaine d'années et a régulièrement évolué.</div>
+</div>
+
+<div class="entry">
+  <div class="hd"><div><span class="role">Parcours géolocalisés à contenu généré par IA</span></div><div class="date">depuis 2018</div></div>
+  <div class="org">JeoFun, produit édité par Koality</div>
+  <div class="desc">Plateforme de balades narratives et de guides touristiques. Moteur de génération narrative avec un modèle de langage, en plusieurs passes. Cartographie avancée, suivi GPS, alerte quand le visiteur quitte le parcours, points d'intérêt mis en avant. Un mode créateur permet de créer et de générer de nouvelles histoires et de nouveaux parcours. Avec JeoFun, Koality a réalisé plusieurs applications spécifiques, des compagnons de visite en intérieur et en extérieur.</div>
+</div>
+
+<div class="entry">
+  <div class="hd"><div><span class="role">Plateforme communautaire, loisirs sportifs</span></div><div class="date">févr. → août 2025</div></div>
+  <div class="org">Client sous réserve de confidentialité</div>
+  <div class="desc">Plateforme à profils multiples : certifications, sites géolocalisés, tarification, événements. Conception du modèle de données et de la taxonomie transverse. Livraison en juillet 2025.</div>
+</div>
+
+<h2>Expérimentations IA</h2>
+<p class="flat"><b>Map Creator.</b> Retrouver des routes, des rivières ou des lieux sur des cartes anciennes, par essais successifs : analyse d'images, données géographiques, IA et interface cartographique.</p>
+<p class="flat"><b>Mémoire et contexte.</b> Une architecture qui transforme échanges, documents et événements en contexte exploitable par différents agents et outils IA.</p>
+
+<h2>Technologies</h2>
+<p class="flat"><b>IA générative</b> : Claude, Mistral, OpenAI, modèles locaux avec Ollama · RAG, embeddings, bases vectorielles · agents, function calling, serveurs MCP · sorties structurées · travail avancé sur le concept de représentation intermédiaire, pour garantir un résultat déterministe à partir des sorties du modèle · évaluation des réponses, arbitrage entre coût, modèle et déterminisme</p>
+<p class="flat"><b>Développement</b> : TypeScript, React, Next.js, React Native, Node.js, Python, PHP · PostgreSQL, MySQL · API REST et OpenAPI · authentification OAuth2 · Docker, GitHub Actions · tests avec Vitest et Playwright</p>
+<p class="flat"><b>Cartographie web</b> : MapLibre, tuiles vectorielles, PostGIS, GeoServer, cadastre IGN</p>
+
+<h2>Parcours</h2>
+
+<div class="entry">
+  <div class="hd"><div><span class="role">Architecte produit &amp; IA, codirigeant</span></div><div class="date">depuis janv. 2012</div></div>
+  <div class="org">Koality, Lesneven, agence de développement sur mesure</div>
+  <ul class="tasks">
+    <li>Pilotage technique et produit de l'agence : cadrage avec les clients, choix d'architecture, maquettage des interfaces, développement et mise en production d'applications web, mobiles et SaaS, pour le secteur public et le privé.</li>
+    <li>Exploitation des serveurs et des applications livrées, puis maintenance et évolutions sur plusieurs années, comme pour BioBreizh depuis 2016.</li>
+    <li>Conception des deux produits édités par l'agence, JeoFun et Oligae.</li>
+    <li>Création de Koality Academy, organisme de formation certifié Qualiopi : conception de 19 programmes de formation IA pour les salariés, les dirigeants de TPE et PME et les agents de collectivités, et animation des sessions.</li>
+    <li>Clients : Brest Métropole, Département du Morbihan, mairies de Plouzané et de Plougastel-Daoulas, IPEV, Syndicat de l'Oignon de Roscoff, BioBreizh.</li>
+  </ul>
+</div>
+
+<div class="entry">
+  <div class="hd"><div><span class="role">Développeur, chef de projet web</span></div><div class="date">mai 2007 → déc. 2011</div></div>
+  <div class="org">Roulez Malin / Evernet, Brest</div>
+  <div class="desc">Plateformes de covoiturage et de gestion de flottes automobiles, sites à forte audience. Recherche et développement sur les données géographiques, PostgreSQL et PostGIS. Références : Les Vieilles Charrues, Brest 2012.</div>
+</div>
+
+<div class="entry">
+  <div class="hd"><div><span class="role">Développeur, designer web</span></div><div class="date">2002 → 2007</div></div>
+  <div class="org">Pointcom Graphic · Yellow Cake · LI-D · Hippocampe · Open Mac</div>
+  <div class="desc">Sites et outils métier sur mesure, conception de deux CMS propriétaires.</div>
+</div>
+
+<h2>Enseignement et communautés</h2>
+<p class="flat">Vacataire depuis 2015 en développement web, architecture logicielle et intelligence artificielle. ISEN Brest, depuis 2017, cycles ingénieurs et formation CODE BZH · UBO Brest, depuis 2016, DEUST T-MIC · IUT de Lannion, depuis 2024, BUT MMI · CESI Brest, 2015 à 2017 · GRETA Brest, 2023 à 2024.</p>
+<p class="flat">Cofondateur de Context Collective, communauté brestoise d'ingénierie de l'IA générative (Context Lab, Context Live). Initiateur des Kafé IA en Finistère, rencontres grand public qui font partie des Cafés IA de France Num. Interventions aux AI Days, au Finist'AI Club et à BrestJS. Projets IA, serveurs MCP et agents publiés en open source.</p>
+
+<h2>Formation</h2>
+<p class="flat">Concepteur, réalisateur de produits multimédia, GRETA Lannion, 2003 à 2004, CQP niveau 5. Webdesigner et PAO, CRECI Metz, 2001.</p>
+
+</body>
+</html>
