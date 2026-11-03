@@ -1,0 +1,573 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+// Page envoyée aux musées, services d'archives, lieux de patrimoine, offices de tourisme
+// et scénographes, depuis les messages LinkedIn de la campagne patrimoine (novembre 2026).
+// Fabien s'y présente en son nom, comme sur /formateur. Les réalisations clientes sont
+// celles de Jeofun, l'activité de Koality pour le tourisme et le patrimoine : la page le dit
+// en bas, donne l'adresse Koality et renvoie vers jeofun.fr.
+// Non indexée et absente du plan du site : Fabien en envoie le lien lui-même.
+// Inventaire des réalisations et de leurs sources :
+// ___FAB/linkedin/prospection/inventaire-realisations-patrimoine.md
+
+const gameUrl = "https://cassini-game.jeofun.fr";
+
+// Ce que Fabien fabrique pour un musée, un lieu ou un territoire.
+const formats = [
+  { icon: "casino", title: "Des jeux sur carte ancienne", text: "Un jeu court, aux règles tenues en une phrase, posé sur la carte ancienne de votre territoire. Il se joue à deux sur une table tactile, sur une borne ou chez soi." },
+  { icon: "auto_stories", title: "Des récits sur carte", text: "Le visiteur lit une histoire et la carte avance avec le texte. Les lieux, les dates et les documents d’archives apparaissent quand le récit en parle." },
+  { icon: "tour", title: "Des applications de visite", text: "Un parcours dans une exposition ou dans une ville, avec un mode famille, un mode défi pour les groupes et un mode pour aller plus loin." },
+  { icon: "map", title: "Des cartes gravées", text: "Une carte de votre territoire dessinée dans le style de Cassini, de l’état-major ou des années 1930, à partir des données d’aujourd’hui. Elle s’imprime en grand format." },
+];
+
+interface Work {
+  // « Pour un client » ou « Projet personnel », avec la date.
+  tag: string;
+  title: string;
+  text: string;
+  link?: { href: string; label: string };
+  // fit « contain » montre l'image entière sur le fond indiqué (maquettes de tablettes ou de bornes).
+  image?: { src: string; alt: string; width: number; height: number; fit?: "cover" | "contain"; bg?: string };
+}
+
+const works: Work[] = [
+  {
+    tag: "Département du Morbihan",
+    title: "Portraits de Châteaux",
+    text: "L’application de l’exposition sur onze châteaux du Morbihan. Elle propose trois modes de visite : une quête en famille, un défi chronométré sur tablettes pour les groupes et les scolaires, et un mode Histoire avec des vidéos et des documents absents des cartels.",
+    link: { href: "https://jeofun.fr/compagnon-de-visite/", label: "Voir le projet" },
+    image: { src: "/images/patrimoine-portraits-chateaux.webp", alt: "L’application Portraits de Châteaux sur trois tablettes de l’exposition", width: 1400, height: 788 },
+  },
+  {
+    tag: "Lesneven et le Musée du Léon · nouvelle version en juillet 2026",
+    title: "Joue avec Léon",
+    text: "Un jeu de piste dans Lesneven, pour les familles et les scolaires. Un guide virtuel fait découvrir la ville et sa devise, étape par étape. La version de 2026 ajoute une carte interactive avec la position du joueur.",
+    link: { href: "https://leon.lesneven.bzh", label: "Ouvrir le jeu" },
+    image: { src: "/images/patrimoine-leon.webp", alt: "Le jeu Joue avec Léon sur trois téléphones : le plan de Lesneven, l’accueil du guide Léon et une question", width: 1366, height: 768 },
+  },
+  {
+    tag: "Archives départementales du Finistère",
+    title: "La Grande Guerre en Finistère",
+    text: "Le quiz d’une exposition itinérante destinée aux collèges et aux lycées. Le quiz existait sur papier. Sa version numérique reprend le contenu de l’exposition, sans nouvelle production de textes.",
+    link: { href: "https://jeofun.fr/du-papier-au-numerique/", label: "Voir le projet" },
+    image: { src: "/images/patrimoine-grande-guerre.webp", alt: "Le quiz La Grande Guerre en Finistère sur une tablette, devant l’écran d’accueil", width: 1400, height: 800 },
+  },
+  {
+    tag: "Récit pour une borne de musée",
+    title: "La bataille de Brest",
+    text: "Le récit de 1944 sur une carte animée, des plages de Normandie jusqu’à Brest, avec des photos d’archives. Il est pensé pour une borne dans un musée et se consulte aussi en ligne.",
+    link: { href: "https://brest44.jeofun.fr", label: "Ouvrir le récit" },
+    image: { src: "/images/patrimoine-bataille-brest.webp", alt: "La bataille de Brest sur une borne tactile : la carte de la Bretagne et le texte du récit avec une photo d’archives", width: 1400, height: 592 },
+  },
+  {
+    tag: "Projet personnel · été 2026",
+    title: "L’encre des vents",
+    text: "Un outil qui grave des cartes dans quatre styles anciens à partir des données de l’IGN et d’OpenStreetMap. Il a servi à des affiches sur les noms de lieux bretons, comme « Les Ker du Nord-Finistère », exposées à Lesneven en août 2026.",
+    link: { href: "https://encre-des-vents.fr", label: "Voir les cartes" },
+    image: { src: "/images/atelier-des-cartes-affiche.webp", alt: "Affiche « Les Ker du Nord-Finistère », gravée dans le style de Cassini", width: 1600, height: 1280, fit: "contain", bg: "#ece9e2" },
+  },
+  {
+    tag: "Projet personnel · septembre 2026",
+    title: "Le château de Carman",
+    text: "Une enquête sur un château disparu de Kernilis. Les textes de Cambry et de Fréminville, le cadastre de 1830 calé sur la carte et le relief LiDAR de l’IGN ont été croisés. Les parcelles nommées « Castel » dans le cadastre de 1831 ont confirmé l’emplacement. Le château a ensuite été restitué en 3D.",
+    image: { src: "/images/patrimoine-carman.webp", alt: "Restitution 3D du château de Carman sur son promontoire, au-dessus du moulin", width: 1600, height: 900 },
+  },
+];
+
+// Les quatre étapes du travail, dessinées comme le réseau de triangles de Cassini.
+// Chaque étape ferme un triangle autour du point central (center).
+const steps = [
+  { n: 1, title: "Vos contenus", text: "Je pars de vos textes d’exposition, de vos documents d’archives, de vos cartes et de vos photos. Un jeu ou un récit peut souvent se construire sans écrire de nouveaux textes." },
+  { n: 2, title: "L’IA au travail", text: "L’IA écrit une grande partie du code. Elle génère aussi des illustrations quand le projet s’y prête, et je le signale toujours. Je fais moi-même le choix du sujet, l’écriture du récit, les règles du jeu et le jugement sur le rendu." },
+  { n: 3, title: "Les sources", text: "Je vérifie chaque fait historique dans les sources, et les sources sont citées dans le projet." },
+  { n: 4, title: "Le premier essai", text: "Je montre une première version jouable très tôt. Vous la testez avec votre équipe ou votre public, et on la corrige selon leurs retours." },
+];
+const center = { x: 318, y: 292 };
+const stations = [
+  { x: 92, y: 404, label: "Vos contenus", anchor: "start", dx: -6, dy: 34 },
+  { x: 214, y: 126, label: "L’IA au travail", anchor: "start", dx: -14, dy: -22 },
+  { x: 498, y: 96, label: "Les sources", anchor: "end", dx: 14, dy: -22 },
+  { x: 528, y: 410, label: "Le premier essai", anchor: "end", dx: 8, dy: 34 },
+];
+// Ordre de tracé : chaque groupe de traits ferme le triangle de l'étape, qui se colore ensuite.
+const edges = [
+  [stations[0], stations[1]], [stations[1], center], [center, stations[0]],
+  [stations[1], stations[2]], [stations[2], center],
+  [stations[2], stations[3]], [stations[3], center],
+  [stations[3], stations[0]],
+];
+const triangles = [
+  { points: [stations[0], stations[1], center], tint: "coral", after: 3 },
+  { points: [stations[1], stations[2], center], tint: "cyan", after: 5 },
+  { points: [stations[2], stations[3], center], tint: "amber", after: 7 },
+  { points: [stations[3], stations[0], center], tint: "coral", after: 8 },
+];
+const pts = (list: { x: number; y: number }[]) => list.map((p) => `${p.x},${p.y}`).join(" ");
+
+const sections = [
+  { id: "cassini", label: "Le jeu Cassini" },
+  { id: "fabrique", label: "Types de projets" },
+  { id: "realisations", label: "Réalisations" },
+  { id: "methode", label: "Ma façon de travailler" },
+  { id: "contact", label: "Contact" },
+];
+
+const contactMail = "fabien@koality.fr";
+const contactHref = `mailto:${contactMail}?subject=` + encodeURIComponent("Un sujet à faire découvrir");
+---
+
+<Layout
+  title="Jeux, récits et cartes pour le patrimoine · Fabien Canu"
+  description="Fabien Canu conçoit des jeux sur carte ancienne, des récits sur carte et des applications de visite pour les musées, les archives, les lieux de patrimoine et les offices de tourisme. Basé dans le Finistère."
+  image="/images/og-patrimoine.jpg"
+  imageAlt="Le jeu Cassini : des triangles tracés entre les clochers sur la carte de la région de Brest"
+  siteName="Fabien Canu"
+  robots="noindex, nofollow"
+>
+<div class="profil">
+
+<nav class="pnav">
+  <div class="pnav-inner">
+    <a href="/" class="pnav-brand">Fabien Canu</a>
+    <div class="pnav-links">
+      <a href="/lab" class="pnav-link">Le lab</a>
+      <a href={contactHref} class="pnav-cta">Écrire</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+  <section class="band hero">
+    <div class="hero-map" aria-hidden="true"></div>
+    <div class="inner">
+      <div class="hero-grid">
+        <div class="hero-main">
+          <h1>Fabien<br />Canu<span class="accent">.</span></h1>
+          <p class="role">Jeux, récits et cartes pour le patrimoine</p>
+          <div class="read">
+            <p class="lead">Je conçois des jeux, des récits sur carte et des applications de visite pour les musées, les services d’archives, les lieux de patrimoine et les offices de tourisme.</p>
+            <p>Je travaille dans le numérique depuis vingt-cinq ans, dans le design, le développement et la maîtrise d’œuvre de projets. Depuis deux ans, j’y ajoute l’IA. Un projet qui demandait des mois et un gros budget se fait aujourd’hui en quelques jours, pour un coût bien plus bas.</p>
+          </div>
+        </div>
+
+        <div class="offer grain-paper">
+          <ul class="terms">
+            <li>Basé dans le Finistère</li>
+            <li>Un jeu, un récit, une borne ou une application de visite</li>
+            <li>À partir de vos fonds, de votre exposition ou de votre lieu</li>
+          </ul>
+          <div class="btns">
+            <a class="btn btn--primary" href={contactHref}>Me donner votre sujet</a>
+            <a class="btn btn--secondary" href={gameUrl} target="_blank" rel="noopener">Jouer à Cassini</a>
+          </div>
+          <p class="next">Dites-moi le sujet, le lieu et le public visé. Je vous réponds avec une première idée de ce qu’on peut en faire.</p>
+        </div>
+      </div>
+
+      <nav class="jump" aria-label="Sur cette page">
+        <p class="jump-label">Sur cette page</p>
+        <ul>
+          {sections.map((section) => (
+            <li><a href={`#${section.id}`}>{section.label}<span aria-hidden="true">↓</span></a></li>
+          ))}
+        </ul>
+      </nav>
+    </div>
+  </section>
+
+  <section id="cassini" class="band band--low">
+    <div class="inner split">
+      <div class="split-text">
+        <div class="kicker"><span class="kicker-dash"></span><span class="kicker-label">Un exemple</span></div>
+        <h2>De l’exposition au jeu, en une semaine</h2>
+        <div class="read">
+          <p class="lead">Les Archives nationales présentent « La carte de France de Cassini » à l’hôtel de Soubise, jusqu’au 1er février 2027. J’en suis sorti avec l’envie d’en faire un jeu.</p>
+          <p>Au XVIIIe siècle, les ingénieurs du roi montaient dans les clochers pour mesurer la France en triangles. Dans le jeu, deux ingénieurs s’affrontent sur une feuille de la carte autour de Brest. Chacun trace une ligne entre deux clochers à son tour, et le joueur qui ferme un triangle le remporte. Des événements tirés de faits réels ponctuent la partie.</p>
+          <p>Le jeu se joue gratuitement, sans compte, à partir de 12 ans. La carte vient de l’IGN et de la BnF. Les illustrations sont générées par IA, et la page des crédits le dit.</p>
+        </div>
+        <div class="btns">
+          <a class="btn btn--primary" href={gameUrl} target="_blank" rel="noopener">Jouer à Cassini</a>
+        </div>
+      </div>
+      <a class="split-visual" href={gameUrl} target="_blank" rel="noopener" aria-label="Jouer à Cassini">
+        <img src="/images/patrimoine-cassini.webp" alt="Le jeu Cassini : la carte de la région de Brest, les clochers reliés par des lignes et les points de chaque triangle" width="1586" height="958" loading="lazy" />
+      </a>
+    </div>
+  </section>
+
+  <section id="fabrique" class="band">
+    <div class="inner">
+      <div class="kicker"><span class="kicker-dash"></span><span class="kicker-label">Pour votre lieu</span></div>
+      <h2>Jeux, récits, visites et cartes</h2>
+      <p class="intro">Chaque projet part de votre sujet : une collection, une exposition, un fonds d’archives, une ville ou un sentier. La carte, ancienne ou actuelle, sert souvent de fil.</p>
+      <ol class="formats">
+        {formats.map((format) => (
+          <li>
+            <span class="material-symbols-outlined format-icon" aria-hidden="true">{format.icon}</span>
+            <h3>{format.title}</h3>
+            <p>{format.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section id="realisations" class="band band--low">
+    <div class="inner">
+      <div class="kicker"><span class="kicker-dash"></span><span class="kicker-label">Références</span></div>
+      <h2>Des réalisations, pour des clients et pour moi</h2>
+      <div class="works">
+        {works.map((work) => (
+          <article class="work grain-paper">
+            {work.image && (
+              <div class:list={["work-visual", work.image.fit === "contain" && "work-visual--contain"]} style={work.image.bg ? `background: ${work.image.bg}` : undefined}>
+                <img src={work.image.src} alt={work.image.alt} width={work.image.width} height={work.image.height} loading="lazy" />
+              </div>
+            )}
+            <p class="work-tag">{work.tag}</p>
+            <h3>{work.title}</h3>
+            <p class="work-text">{work.text}</p>
+            {work.link && <a class="more" href={work.link.href} target="_blank" rel="noopener">{work.link.label} →</a>}
+          </article>
+        ))}
+      </div>
+
+      <div class="more-works grain-paper">
+        <div class="more-works-text">
+          <h3>D’autres réalisations sur jeofun.fr</h3>
+          <p>Jeofun est l’activité de Koality pour le tourisme et le patrimoine. Le site présente les applications de visite, les jeux de piste et les bornes réalisés pour Quimper, Lesneven, Lanildut, Brest Métropole et les départements du Finistère et du Morbihan.</p>
+        </div>
+        <a class="btn btn--primary" href="https://jeofun.fr/" target="_blank" rel="noopener">Voir jeofun.fr</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="methode" class="band">
+    <div class="inner method">
+      <div class="method-text">
+        <div class="kicker"><span class="kicker-dash"></span><span class="kicker-label">Méthode</span></div>
+        <h2>Ma façon de travailler</h2>
+        <ol class="method-steps">
+          {steps.map((step) => (
+            <li>
+              <span class="method-n" aria-hidden="true">{step.n}</span>
+              <div>
+                <h3>{step.title}</h3>
+                <p>{step.text}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+
+      <figure class="method-figure">
+        <svg class="method-net" viewBox="0 0 620 500" role="img" aria-labelledby="method-net-title">
+          <title id="method-net-title">Les quatre étapes du travail, reliées en triangles comme sur la carte de Cassini</title>
+          <defs>
+            <clipPath id="method-clip"><rect x="0" y="0" width="620" height="500" rx="20" /></clipPath>
+          </defs>
+          <g clip-path="url(#method-clip)">
+            <rect x="0" y="0" width="620" height="500" class="net-paper" />
+            <image href="/images/patrimoine-cassini-filigrane.jpg" x="-260" y="-150" width="1100" height="770" preserveAspectRatio="xMidYMid slice" class="net-map" />
+          </g>
+          {triangles.map((tri, i) => (
+            <polygon points={pts(tri.points)} class={`net-tri net-tri--${tri.tint}`} style={`--d: ${tri.after * 0.35 + 0.1}s`} />
+          ))}
+          {edges.map(([a, b], i) => (
+            <line x1={a.x} y1={a.y} x2={b.x} y2={b.y} pathLength="1" class="net-line" style={`--d: ${i * 0.35}s`} />
+          ))}
+          <g class="net-center">
+            <circle cx={center.x} cy={center.y} r="6" />
+          </g>
+          {stations.map((s, i) => (
+            <g class="net-station" style={`--d: ${i * 0.7}s`}>
+              <circle cx={s.x} cy={s.y} r="13" class="net-ring" />
+              <circle cx={s.x} cy={s.y} r="4.5" class="net-dot" />
+              <text x={s.x + s.dx} y={s.y + s.dy} text-anchor={s.anchor} class="net-label"><tspan class="net-label-n">{i + 1}</tspan> {s.label}</text>
+            </g>
+          ))}
+        </svg>
+        <figcaption>Les quatre étapes reliées en triangles, sur la carte de Cassini autour de Brest. Carte : IGN et BnF.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section id="contact" class="band band--dark">
+    <div class="inner contact">
+      <div class="eyebrow eyebrow--dark"><span class="eyebrow-dash"></span><span class="eyebrow-txt">Travailler ensemble</span></div>
+      <h2 class="ask">Vous avez un sujet à faire découvrir&nbsp;?</h2>
+      <div class="read read--dark">
+        <p>Envoyez-moi le sujet, le lieu et le public visé : une exposition à venir, un fonds d’archives, une collection, une ville. Je vous réponds avec une première idée de ce qu’on peut en faire.</p>
+      </div>
+      <div class="btns">
+        <a class="btn btn--light" href={contactHref}>Me donner votre sujet</a>
+      </div>
+      <div class="contact-lines">
+        <a class="mail" href={contactHref}>{contactMail}</a>
+        <a class="tel" href="tel:+33648745829">06 48 74 58 29</a>
+      </div>
+      <p class="contact-foot">
+        <a href="/lab">Mes projets</a>
+        <a href="https://www.linkedin.com/in/fabien-canu/" target="_blank" rel="noopener">LinkedIn</a>
+      </p>
+      <div class="studio">
+        <h3>Jeofun, chez Koality</h3>
+        <p>Mes réalisations pour les musées et les collectivités passent par Jeofun, l’activité de Koality consacrée au tourisme et au patrimoine. Je suis cogérant de Koality.</p>
+        <a class="studio-link" href="https://jeofun.fr/" target="_blank" rel="noopener">jeofun.fr →</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer><div class="inner"><a href="/mentions-legales">Mentions légales</a><a href="/confidentialite">Confidentialité</a></div></footer>
+
+</div>
+  <!-- Suivi Matomo de la page : un événement par action utile à mesurer.
+       Dans Matomo, ils apparaissent dans Comportement > Événements, catégorie « Patrimoine ». -->
+  <script is:inline>
+    (function () {
+      // Matomo remplace window._paq une fois chargé : on le relit à chaque envoi
+      var send = function (name) { (window._paq = window._paq || []).push(["trackEvent", "Patrimoine", name]); };
+
+      // Clics sur les liens : mail, téléphone, jeu Cassini, réalisations, Jeofun
+      document.addEventListener("click", function (event) {
+        var link = event.target.closest && event.target.closest("a[href]");
+        if (!link) return;
+        var href = link.getAttribute("href");
+        if (href.indexOf("mailto:") === 0) send("Clic mail");
+        else if (href.indexOf("tel:") === 0) send("Clic téléphone");
+        else if (href.indexOf("cassini-game.jeofun.fr") !== -1) send("Clic jeu Cassini");
+        else if (href === "https://jeofun.fr/") send("Clic Jeofun");
+        else if (link.closest(".work")) send("Clic réalisation : " + link.closest(".work").querySelector("h3").textContent);
+      });
+
+      // Le schéma de la méthode se dessine quand il arrive à l'écran.
+      // Sans script, ou avec les animations réduites, il s'affiche déjà dessiné.
+      var net = document.querySelector(".method-net");
+      var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (net && !reduce && "IntersectionObserver" in window) {
+        net.classList.add("is-waiting");
+        var netObserver = new IntersectionObserver(function (entries) {
+          if (entries[0].isIntersecting) { net.classList.remove("is-waiting"); netObserver.disconnect(); }
+        }, { threshold: 0.35 });
+        netObserver.observe(net);
+      }
+
+      // Arrivée en bas de page, sur le bloc de contact
+      var contact = document.getElementById("contact");
+      if (contact && "IntersectionObserver" in window) {
+        var observer = new IntersectionObserver(function (entries) {
+          if (entries[0].isIntersecting) { send("Arrivée en bas de page"); observer.disconnect(); }
+        }, { threshold: 0.4 });
+        observer.observe(contact);
+      }
+    })();
+  </script>
+</Layout>
+
+<style>
+  /* Mêmes couleurs, polices et blocs que les pages /profil et /formateur */
+  .profil {
+    --surface: #fbf9f5;
+    --low: #f5f3ef;
+    --white: #ffffff;
+    --ink: #1b1c1a;
+    --ink-2: #4a4845;
+    --mute: #7d7a74;
+    /* Gris des petites étiquettes, assez foncé pour rester lisible sur fond clair */
+    --label: #65625c;
+    --primary: #006386;
+    --coral: #ff7e67;
+    --dark-2: #c9c4bb;
+    --dark-3: #9a968f;
+    --display: "Space Grotesk", "Helvetica Neue", Arial, sans-serif;
+    --body: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  .profil { background: var(--surface); color: var(--ink); font-family: var(--body); font-size: 18px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  img { display: block; max-width: 100%; }
+
+  .band { padding-block: clamp(80px, 11vw, 116px); padding-inline: clamp(24px, 8vw, 130px); }
+  .band--low { background: var(--low); }
+  .band--dark { background: var(--ink); color: var(--surface); }
+  .inner { max-width: 1400px; margin: 0 auto; }
+  .read { max-width: 660px; }
+  .read p + p { margin-top: 18px; }
+  .read p { color: var(--ink-2); }
+
+  h1, h2, h3 { font-family: var(--display); font-weight: 700; letter-spacing: -0.02em; text-wrap: balance; }
+  h1 { font-size: clamp(3.2rem, 9vw, 88px); line-height: 0.9; letter-spacing: -0.04em; }
+  h2 { font-size: clamp(34px, 5vw, 48px); line-height: 1.04; letter-spacing: -0.03em; margin-bottom: 28px; max-width: 900px; }
+  h3 { font-size: clamp(20px, 1.8vw, 24px); line-height: 1.2; }
+
+  /* Premier écran : métier, modalités, suite donnée au contact */
+  .hero { position: relative; overflow: hidden; padding-top: clamp(56px, 7vw, 88px); padding-bottom: clamp(64px, 8vw, 104px); }
+  .hero > .inner { position: relative; z-index: 1; }
+  /* Filigrane : la carte de Cassini autour de Brest, en bleu, fondue vers la gauche */
+  .hero-map { position: absolute; inset: 0 0 0 28%; background: url("/images/patrimoine-cassini-filigrane.jpg") 30% 42% / cover no-repeat; mix-blend-mode: multiply; opacity: 0.2; -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 38%, #000 82%, transparent 100%); mask-image: linear-gradient(to right, transparent 0%, #000 38%, #000 82%, transparent 100%); pointer-events: none; }
+  .hero-grid { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: clamp(36px, 6vw, 96px); align-items: end; }
+  .hero-main { min-width: 0; }
+  .hero .read { margin-top: 22px; }
+  .lead { font-size: clamp(19px, 2.4vw, 23px); line-height: 1.5; color: var(--ink) !important; }
+  .role { margin-top: 22px; font-family: var(--display); font-weight: 600; font-size: clamp(22px, 2.6vw, 30px); line-height: 1.2; letter-spacing: -0.01em; color: var(--primary); }
+  /* Carte du premier écran : fond plus foncé que la page, sans bordure (coins arrondis) */
+  .offer { min-width: 0; overflow: hidden; background: #f4f2ec; border-radius: 18px; padding: clamp(24px, 2.6vw, 34px); }
+  .terms { list-style: none; display: grid; gap: 8px; font-size: 16px; line-height: 1.45; color: var(--ink-2); }
+  .terms li { display: flex; gap: 12px; }
+  .terms li::before { content: ""; flex: none; width: 14px; height: 2px; margin-top: 11px; background: var(--coral); }
+  .next { margin-top: 18px; max-width: 520px; font-size: 15px; line-height: 1.5; color: var(--label); }
+
+  .btns { margin-top: 36px; display: flex; flex-wrap: wrap; gap: 12px; }
+  .btn { font-family: var(--display); font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; padding: 12px 20px; border-radius: 100px; transition: background 0.2s ease; }
+  .btn--primary { background: var(--ink); color: var(--surface); }
+  .btn--primary:hover { background: #35322d; }
+  .btn--secondary { background: #e4e2de; color: var(--ink); }
+  .btn--secondary:hover { background: #dad8d3; }
+  .btn:focus-visible { outline: 2px solid var(--coral); outline-offset: 3px; }
+
+  /* Menu du premier écran : une barre blanche avec un lien par partie de la page */
+  .jump { margin-top: clamp(44px, 6vw, 72px); display: flex; align-items: center; gap: 8px 20px; background: var(--white); border-radius: 14px; padding: 8px 10px 8px 26px; box-shadow: 0 12px 32px rgba(42, 42, 42, 0.06); }
+  .jump-label { flex: none; font-family: var(--display); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--label); }
+  .jump ul { list-style: none; flex: 1; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px; }
+  .jump li { display: flex; }
+  .jump a { display: flex; align-items: center; gap: 7px; padding: 12px 12px; white-space: nowrap; border-radius: 10px; font-family: var(--display); font-weight: 600; font-size: 15px; line-height: 1.2; color: var(--ink); text-decoration: none; transition: background 0.2s ease, color 0.2s ease; }
+  .jump a span { color: var(--coral); font-size: 14px; transition: transform 0.2s ease; }
+  .jump a:hover { background: var(--low); color: var(--primary); }
+  .jump a:hover span { transform: translateY(2px); }
+  .jump a:focus-visible { outline: 2px solid var(--coral); outline-offset: 2px; }
+  :global(html) { scroll-behavior: smooth; }
+  section[id] { scroll-margin-top: 72px; }
+
+  /* Le jeu Cassini : le récit à gauche, la capture du jeu à droite */
+  .split { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(36px, 6vw, 88px); align-items: center; }
+  .split-text { min-width: 0; }
+  .split-visual { display: block; overflow: hidden; border-radius: 14px; box-shadow: 0 26px 54px -32px rgba(27, 28, 26, 0.45); transition: transform 0.25s ease; }
+  .split-visual:hover { transform: translateY(-4px); }
+  .split-visual img { width: 100%; height: auto; }
+  .split-visual:focus-visible { outline: 2px solid var(--coral); outline-offset: 4px; }
+
+  /* Ce que je fabrique : quatre colonnes sans carte */
+  .intro { max-width: 660px; color: var(--ink-2); }
+  .formats { list-style: none; margin-top: 44px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(20px, 2.6vw, 36px); }
+  .formats li { min-width: 0; }
+  .format-icon { display: block; margin-bottom: 14px; font-size: 38px; line-height: 1; color: var(--primary); }
+  .formats h3 { font-size: 20px; line-height: 1.2; }
+  .formats p { margin-top: 10px; font-size: 16px; line-height: 1.55; color: var(--ink-2); }
+
+  /* Réalisations : une carte par projet, fond blanc sur fond clair, sans bordure */
+  .works { margin-top: 44px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 2vw, 24px); align-items: stretch; }
+  .work { display: flex; flex-direction: column; min-width: 0; overflow: hidden; background: var(--white); border-radius: 18px; padding: clamp(22px, 2.4vw, 30px); box-shadow: 0 12px 32px rgba(42, 42, 42, 0.06); }
+  .work-visual { margin: calc(-1 * clamp(22px, 2.4vw, 30px)) calc(-1 * clamp(22px, 2.4vw, 30px)) 22px; aspect-ratio: 16 / 10; overflow: hidden; background: var(--ink); }
+  .work-visual img { width: 100%; height: 100%; object-fit: cover; }
+  .work-visual--contain img { object-fit: contain; }
+  .work-tag { font-family: var(--display); font-weight: 500; font-size: 12px; line-height: 1.5; letter-spacing: 0.12em; text-transform: uppercase; color: #a83a24; margin-bottom: 8px; }
+  .work-text { margin-top: 10px; font-size: 16px; line-height: 1.55; color: var(--ink-2); }
+  .more { display: inline-block; margin-top: auto; padding-top: 16px; font-family: var(--display); font-weight: 600; font-size: 16px; color: var(--primary); text-decoration: none; border-bottom: 2px solid transparent; align-self: flex-start; }
+  .more:hover { border-bottom-color: var(--primary); }
+  .more:focus-visible { outline: 2px solid var(--coral); outline-offset: 3px; }
+
+  /* Méthode : les quatre étapes à gauche, le réseau de triangles à droite */
+  .method { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: clamp(36px, 6vw, 88px); align-items: center; }
+  .method-text { min-width: 0; }
+  .method-steps { list-style: none; margin-top: 8px; display: grid; gap: 22px; }
+  .method-steps li { display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 18px; }
+  .method-n { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: var(--primary); color: var(--white); font-family: var(--display); font-weight: 700; font-size: 16px; }
+  .method-steps h3 { font-size: 20px; padding-top: 7px; }
+  .method-steps p { margin-top: 6px; font-size: 16px; line-height: 1.55; color: var(--ink-2); max-width: 560px; }
+  .method-figure { min-width: 0; }
+  .method-net { display: block; width: 100%; height: auto; overflow: visible; filter: drop-shadow(0 26px 40px rgba(27, 28, 26, 0.12)); }
+  .net-paper { fill: #f4efe4; }
+  .net-map { opacity: 0.32; mix-blend-mode: multiply; }
+  .net-line { fill: none; stroke: var(--ink); stroke-width: 2; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 0; transition: stroke-dashoffset 0.6s ease var(--d); }
+  .net-tri { opacity: 0.32; transition: opacity 0.7s ease var(--d); }
+  .net-tri--coral { fill: var(--coral); }
+  .net-tri--cyan { fill: #00a7cc; }
+  .net-tri--amber { fill: #fbbc00; }
+  .net-center circle { fill: var(--ink); }
+  .net-ring { fill: #f4efe4; stroke: var(--ink); stroke-width: 2; }
+  .net-dot { fill: var(--coral); }
+  .net-label { font-family: var(--display); font-weight: 600; font-size: 19px; fill: var(--ink); paint-order: stroke; stroke: #f4efe4; stroke-width: 6px; stroke-linejoin: round; }
+  .net-label-n { fill: #a83a24; }
+  .net-station { transition: opacity 0.4s ease var(--d), transform 0.4s ease var(--d); transform-box: fill-box; transform-origin: center; }
+  /* État avant le tracé, posé par le script quand le schéma n'est pas encore à l'écran */
+  .method-net.is-waiting .net-line { stroke-dashoffset: 1; }
+  .method-net.is-waiting .net-tri { opacity: 0; }
+  .method-net.is-waiting .net-station { opacity: 0; transform: scale(0.6); }
+  .method-figure figcaption { margin-top: 14px; font-size: 14px; line-height: 1.5; color: var(--label); }
+
+  /* Renvoi vers jeofun.fr sous les réalisations : fond plus foncé, sans bordure (coins arrondis) */
+  .more-works { margin-top: clamp(16px, 2vw, 24px); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px 40px; overflow: hidden; background: #ebe8e0; border-radius: 18px; padding: clamp(24px, 2.6vw, 34px); }
+  .more-works-text { min-width: 0; flex: 1 1 420px; }
+  .more-works p { margin-top: 8px; max-width: 720px; font-size: 17px; line-height: 1.55; color: var(--ink-2); }
+  .more-works .btn { flex: none; }
+
+  /* Contact */
+  .read--dark p { color: var(--dark-2) !important; }
+  .ask { margin: 0 0 28px; font-family: var(--display); font-weight: 600; font-size: clamp(30px, 4.6vw, 40px); line-height: 1.1; letter-spacing: -0.02em; color: var(--surface); max-width: 640px; }
+  .mail { display: inline-block; font-family: var(--display); font-size: 22px; color: var(--surface); text-decoration: none; border-bottom: 2px solid var(--coral); padding-bottom: 4px; transition: color 0.2s ease; }
+  .mail:hover { color: var(--coral); }
+  .tel { font-family: var(--display); font-size: 20px; color: var(--dark-2); text-decoration: none; letter-spacing: 0.02em; }
+  .contact-lines { margin-top: 30px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 14px 32px; }
+  .btn--light { background: var(--surface); color: var(--ink); }
+  .btn--light:hover { background: #e4e2de; }
+  .contact .btns { margin-top: 30px; }
+  .contact-foot { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 4px 22px; font-size: 15px; }
+  .contact-foot a { display: inline-block; padding: 10px 0 4px; color: var(--dark-2); text-decoration: none; border-bottom: 1px solid rgba(201, 196, 187, 0.35); }
+  /* Renvoi vers Jeofun, l'activité de Koality pour le patrimoine */
+  .studio { margin-top: clamp(40px, 5vw, 60px); padding-top: 28px; max-width: 660px; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12); }
+  .studio h3 { font-size: 18px; color: var(--surface); }
+  .studio p { margin-top: 8px; font-size: 16px; line-height: 1.55; color: var(--dark-2); }
+  .studio-link { display: inline-block; margin-top: 6px; padding: 8px 0 4px; font-family: var(--display); font-weight: 600; font-size: 16px; color: var(--surface); text-decoration: none; border-bottom: 2px solid var(--coral); }
+  .studio-link:hover { color: var(--coral); }
+
+  footer { background: var(--ink); color: #7a756c; font-size: 12px; padding-inline: clamp(20px, 8vw, 130px); padding-block: 0 28px; }
+  footer .inner { padding-top: 8px; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08); }
+  footer a { display: inline-block; padding: 10px 0; color: var(--dark-3); text-decoration: none; margin-right: 18px; }
+
+  /* Barre du haut, repères et accents */
+  .pnav { position: sticky; top: 0; z-index: 50; background: rgba(251, 249, 245, 0.82); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(27, 28, 26, 0.07); padding: 0 clamp(24px, 8vw, 130px); }
+  .pnav-inner { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 18px 0; }
+  .pnav-brand { font-family: var(--display); font-weight: 700; font-size: 16px; color: var(--ink); text-decoration: none; }
+  .pnav-links { display: flex; align-items: center; gap: 26px; }
+  .pnav-link { font-family: var(--display); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--label); text-decoration: none; padding: 12px 6px; }
+  .pnav-link:hover { color: var(--ink); }
+  .pnav-cta { font-family: var(--display); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--surface); background: var(--ink); padding: 9px 16px; border-radius: 100px; text-decoration: none; }
+  .pnav-cta:hover { background: #35322d; }
+  .eyebrow { display: flex; align-items: center; gap: 12px; margin-bottom: 34px; }
+  .eyebrow-dash { width: 28px; height: 3px; background: var(--coral); display: inline-block; flex: none; }
+  .eyebrow-txt { font-family: var(--display); font-size: 12px; letter-spacing: 0.24em; text-transform: uppercase; color: #8f918c; }
+  .eyebrow--dark .eyebrow-txt { color: var(--dark-3); }
+  .accent { color: var(--coral); }
+  .kicker { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+  .kicker-dash { width: 24px; height: 2px; background: var(--coral); display: inline-block; }
+  .kicker-label { font-family: var(--display); font-size: 12px; font-weight: 500; line-height: 1.65; letter-spacing: 0.2em; text-transform: uppercase; color: var(--label); margin: 0; max-width: none; }
+
+  @media (max-width: 1000px) {
+    .hero-grid, .split, .method { grid-template-columns: 1fr; }
+    .hero-map { inset: 0; opacity: 0.14; -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 30%, #000 75%, transparent 100%); mask-image: linear-gradient(to bottom, transparent 0%, #000 30%, #000 75%, transparent 100%); }
+    .works { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .formats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .jump { flex-direction: column; align-items: stretch; padding: 18px 10px 10px; }
+    .jump-label { padding-left: 14px; }
+    .jump ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .jump a { justify-content: space-between; }
+  }
+  @media (max-width: 860px) {
+    .band { padding-block: 64px; }
+  }
+  @media (max-width: 640px) {
+    .works { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 520px) {
+    .profil { font-size: 17px; }
+    .btn { flex: 1 1 auto; text-align: center; }
+    .formats { grid-template-columns: 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :global(html) { scroll-behavior: auto; }
+    * { transition: none !important; }
+    .split-visual:hover { transform: none; }
+  }
+</style>

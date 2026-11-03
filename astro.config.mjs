@@ -11,8 +11,9 @@ export default defineConfig({
   // Toutes les pages restent générées à l'avance. Seule /api/newsletter
   // s'exécute à la demande (prerender = false), d'où l'adaptateur Vercel.
   adapter: vercel(),
-  // /profil, /formateur et /formations servent aux candidatures, envoyées en lien direct : hors plan du site.
-  integrations: [sitemap({ filter: (page) => !['/profil', '/formateur', '/formations'].some((path) => page.includes(path)) })],
+  // /profil, /formateur et /formations servent aux candidatures, et /patrimoine à la prospection
+  // patrimoine sur LinkedIn. Fabien les envoie en lien direct : hors plan du site.
+  integrations: [sitemap({ filter: (page) => !['/profil', '/formateur', '/formations', '/patrimoine'].some((path) => page.includes(path)) })],
   vite: {
     plugins: [tailwindcss()],
     // nodemailer reste un module Node, il ne doit pas être empaqueté par Vite.
