@@ -78,14 +78,14 @@ const works: Work[] = [
 // Chaque étape ferme un triangle autour du point central (center).
 const steps = [
   { n: 1, title: "Vos contenus", text: "Je pars de vos textes d’exposition, de vos documents d’archives, de vos cartes et de vos photos. Un jeu ou un récit peut souvent se construire sans écrire de nouveaux textes." },
-  { n: 2, title: "L’IA au travail", text: "L’IA écrit une grande partie du code. Elle génère aussi des illustrations quand le projet s’y prête, et je le signale toujours. Je fais moi-même le choix du sujet, l’écriture du récit, les règles du jeu et le jugement sur le rendu." },
+  { n: 2, title: "La fabrication", text: "Je conçois et je développe chaque projet moi-même. L’IA m’aide à écrire le code et, quand le projet s’y prête, à produire des illustrations, et je le signale toujours. Je choisis le sujet, j’écris le récit, je fixe les règles du jeu et je juge le rendu." },
   { n: 3, title: "Les sources", text: "Je vérifie chaque fait historique dans les sources, et les sources sont citées dans le projet." },
   { n: 4, title: "Le premier essai", text: "Je montre une première version jouable très tôt. Vous la testez avec votre équipe ou votre public, et on la corrige selon leurs retours." },
 ];
 const center = { x: 318, y: 292 };
 const stations = [
   { x: 92, y: 404, label: "Vos contenus", anchor: "start", dx: -6, dy: 34 },
-  { x: 214, y: 126, label: "L’IA au travail", anchor: "start", dx: -14, dy: -22 },
+  { x: 214, y: 126, label: "La fabrication", anchor: "start", dx: -14, dy: -22 },
   { x: 498, y: 96, label: "Les sources", anchor: "end", dx: 14, dy: -22 },
   { x: 528, y: 410, label: "Le premier essai", anchor: "end", dx: 8, dy: 34 },
 ];
@@ -147,7 +147,7 @@ const contactHref = `mailto:${contactMail}?subject=` + encodeURIComponent("Un su
           <p class="role">Jeux, récits et cartes pour le patrimoine</p>
           <div class="read">
             <p class="lead">Je conçois des jeux, des récits sur carte et des applications de visite pour les musées, les services d’archives, les lieux de patrimoine et les offices de tourisme.</p>
-            <p>Je travaille dans le numérique depuis vingt-cinq ans, dans le design, le développement et la maîtrise d’œuvre de projets. Depuis deux ans, j’y ajoute l’IA. Un projet qui demandait des mois et un gros budget se fait aujourd’hui en quelques jours, pour un coût bien plus bas.</p>
+            <p>Je travaille dans le numérique depuis vingt-cinq ans, dans le design, le développement et la maîtrise d’œuvre de projets. L’IA fait partie de mes outils depuis deux ans. Elle rend un projet sur mesure accessible au budget d’un musée de taille modeste, d’un service d’archives ou d’un office de tourisme.</p>
           </div>
         </div>
 
@@ -180,7 +180,7 @@ const contactHref = `mailto:${contactMail}?subject=` + encodeURIComponent("Un su
     <div class="inner split">
       <div class="split-text">
         <div class="kicker"><span class="kicker-dash"></span><span class="kicker-label">Un exemple</span></div>
-        <h2>De l’exposition au jeu, en une semaine</h2>
+        <h2>De l’exposition au jeu</h2>
         <div class="read">
           <p class="lead">Les Archives nationales présentent « La carte de France de Cassini » à l’hôtel de Soubise, jusqu’au 1er février 2027. J’en suis sorti avec l’envie d’en faire un jeu.</p>
           <p>Au XVIIIe siècle, les ingénieurs du roi montaient dans les clochers pour mesurer la France en triangles. Dans le jeu, deux ingénieurs s’affrontent sur une feuille de la carte autour de Brest. Chacun trace une ligne entre deux clochers à son tour, et le joueur qui ferme un triangle le remporte. Des événements tirés de faits réels ponctuent la partie.</p>
@@ -405,8 +405,8 @@ const contactHref = `mailto:${contactMail}?subject=` + encodeURIComponent("Un su
   /* Premier écran : métier, modalités, suite donnée au contact */
   .hero { position: relative; overflow: hidden; padding-top: clamp(56px, 7vw, 88px); padding-bottom: clamp(64px, 8vw, 104px); }
   .hero > .inner { position: relative; z-index: 1; }
-  /* Filigrane : la carte de Cassini autour de Brest, en bleu, fondue vers la gauche */
-  .hero-map { position: absolute; inset: 0 0 0 28%; background: url("/images/patrimoine-cassini-filigrane.jpg") 30% 42% / cover no-repeat; mix-blend-mode: multiply; opacity: 0.2; -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 38%, #000 82%, transparent 100%); mask-image: linear-gradient(to right, transparent 0%, #000 38%, #000 82%, transparent 100%); pointer-events: none; }
+  /* Filigrane : une carte gravée par L'encre des vents (Porsmoguer, Plouarzel), en bleu, fondue vers la gauche */
+  .hero-map { position: absolute; inset: 0 0 0 28%; background: url("/images/patrimoine-carte-filigrane.jpg") 40% 50% / cover no-repeat; mix-blend-mode: multiply; opacity: 0.2; -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 38%, #000 82%, transparent 100%); mask-image: linear-gradient(to right, transparent 0%, #000 38%, #000 82%, transparent 100%); pointer-events: none; }
   .hero-grid { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: clamp(36px, 6vw, 96px); align-items: end; }
   .hero-main { min-width: 0; }
   .hero .read { margin-top: 22px; }
