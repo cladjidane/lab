@@ -30,7 +30,6 @@ const collectionSchema = {
 };
 
 const waveBars = [10, 16, 8, 20, 6, 14, 10, 24, 12, 18, 7, 16];
-const dictWave = [4, 8, 5, 11, 3, 7, 9, 5];
 ---
 
 <Layout title="Le lab IA de Fabien Canu" description="Le lab IA de Fabien Canu. 25 ans de code, l'IA comme levier. Une vingtaine de produits sortis en 18 mois : PAI (mémoire persistante), Jaja (assistant vocal), Uptake, Vokable, Epicycle Draw, et d'autres. Terrain d'essai en continu." schemas={[personSchema, collectionSchema]}>
@@ -192,9 +191,9 @@ const dictWave = [4, 8, 5, 11, 3, 7, 9, 5];
       );
     })()}
 
-    <!-- Karousel (c6-7, r3) -->
+    <!-- Cassini (c6-7, r3) -->
     {(() => {
-      const p = getProject("karousel")!;
+      const p = getProject("cassini")!;
       return (
         <div
           class="bento-tile bg-surface-container-high grain-paper flex items-center px-5 overflow-hidden"
@@ -202,15 +201,18 @@ const dictWave = [4, 8, 5, 11, 3, 7, 9, 5];
           data-slug={p.slug}
         >
           <div>
-            <span class="font-headline text-[9px] uppercase tracking-[0.2em] text-on-surface-variant">LinkedIn</span>
+            <span class="font-headline text-[9px] uppercase tracking-[0.2em] text-on-surface-variant">Jeu · patrimoine</span>
             <h2 class="font-headline text-2xl font-bold text-on-surface mt-0.5">{p.name}</h2>
-            <span class="font-body text-[10px] text-outline mt-0.5 block">LLM + compilateur</span>
+            <span class="font-body text-[10px] text-outline mt-0.5 block">Sur la carte de Cassini</span>
           </div>
-          <div class="ml-auto flex gap-1.5">
-            <span class="w-6 h-10 rounded-sm bg-primary/25"></span>
-            <span class="w-6 h-10 rounded-sm bg-primary/50"></span>
-            <span class="w-6 h-10 rounded-sm bg-primary/75"></span>
-          </div>
+          <svg class="ml-auto shrink-0" width="64" height="48" viewBox="0 0 64 48" aria-hidden="true">
+            <path d="M6 40 L26 8 L44 30 Z" fill="#00d4ff" fill-opacity="0.18" />
+            <path d="M6 40 L26 8 L44 30 L6 40 M26 8 L58 14 L44 30 M44 30 L58 14" fill="none" stroke="#1b1c1a" stroke-opacity="0.55" stroke-width="1" />
+            <circle cx="6" cy="40" r="2.5" fill="#1b1c1a" />
+            <circle cx="26" cy="8" r="2.5" fill="#1b1c1a" />
+            <circle cx="44" cy="30" r="2.5" fill="#1b1c1a" />
+            <circle cx="58" cy="14" r="2.5" fill="#1b1c1a" />
+          </svg>
         </div>
       );
     })()}
@@ -251,29 +253,24 @@ const dictWave = [4, 8, 5, 11, 3, 7, 9, 5];
       );
     })()}
 
-    <!-- Dictaphone (c4-5, r4) -->
+    <!-- Scanner de livres (c4-5, r4) -->
     {(() => {
-      const p = getProject("dictaphone")!;
+      const p = getProject("scanner-de-livres")!;
       return (
         <div
           class="bento-tile bg-white grain-paper flex items-center gap-4 px-6 overflow-hidden"
           style="grid-column: 4 / 6; grid-row: 4;"
           data-slug={p.slug}
         >
-          <div class="flex items-center justify-center w-12 h-12 rounded-full bg-on-surface">
-            <span class="material-symbols-outlined text-white">mic</span>
+          <div class="flex items-center justify-center w-12 h-12 rounded-full bg-on-surface shrink-0">
+            <span class="material-symbols-outlined text-white">menu_book</span>
           </div>
           <div class="flex-1">
-            <h2 class="font-headline text-2xl font-bold text-on-surface leading-tight">{p.name}</h2>
+            <h2 class="font-headline text-xl font-bold text-on-surface leading-tight">{p.name}</h2>
             <div class="flex items-center gap-1.5 mt-0.5">
-              <span class="w-1.5 h-1.5 rounded-full bg-brand-coral"></span>
-              <span class="font-headline text-[10px] text-outline uppercase tracking-wider">Transcription locale</span>
+              <span class="w-1.5 h-1.5 rounded-full bg-brand-amber"></span>
+              <span class="font-headline text-[10px] text-outline uppercase tracking-wider">Du papier au corpus IA</span>
             </div>
-          </div>
-          <div class="flex items-end gap-[2px] h-8">
-            {dictWave.map((h) => (
-              <div class="w-0.5 bg-on-surface rounded-full" style={`height: ${h * 3}px`}></div>
-            ))}
           </div>
         </div>
       );
@@ -297,19 +294,19 @@ const dictWave = [4, 8, 5, 11, 3, 7, 9, 5];
       );
     })()}
 
-    <!-- Vokable (c6 r4) -->
+    <!-- INSPI (c6 r4) -->
     {(() => {
-      const p = getProject("vokable")!;
+      const p = getProject("inspi")!;
       return (
         <div
           class="bento-tile bg-surface-container-low grain-paper flex flex-col justify-between p-4 overflow-hidden"
           style="grid-column: 6; grid-row: 4;"
           data-slug={p.slug}
         >
-          <span class="material-symbols-outlined text-lg text-brand-coral">graphic_eq</span>
+          <span class="material-symbols-outlined text-lg text-brand-cyan">palette</span>
           <div>
-            <h3 class="font-headline text-sm font-bold text-on-surface-variant leading-tight">{p.name}</h3>
-            <span class="font-headline text-[8px] text-outline uppercase tracking-wider">Note vocale → contenu</span>
+            <h3 class="font-headline text-sm font-bold text-on-surface leading-tight">{p.name}</h3>
+            <span class="font-headline text-[8px] text-outline uppercase tracking-wider">Inspiration design</span>
           </div>
         </div>
       );

@@ -114,7 +114,7 @@ export const projects: Project[] = [
     descriptionFr:
       "La plateforme des filières agricoles (AOP, IGP, Label Rouge). Déclarations, parcellaire, commissions : tout le métier d'un syndicat dans un seul outil. Vingt ans de terrain, assemblés en un mois avec l'IA.",
     about:
-      "**Oligae** digitalise le fonctionnement administratif des ODG agricoles (AOP, IGP, Label Rouge) : déclarations producteurs, registres réglementaires, parcellaire cartographique, exports INAO, commissions d'évaluation.\n\n## L'origine\n\nDeux clients historiques de Koality ont fourni la connaissance métier fine et les premières références : le **Syndicat des Oignons de Roscoff** (3 ans de production) et **BioBreizh** (20 ans de production). Vingt ans à observer un métier, ça change un cahier des charges.\n\n## Assemblée en un mois\n\nLa plateforme elle-même a été assemblée en un mois avec assistance IA. Le modèle économique a suivi : la **tarification se fait à la valeur livrée**. Lorsque le temps de construction s'effondre, facturer au jour devient absurde.\n\n## L'architecture\n\n**Hono 4 + React 19 + PostgreSQL + Drizzle**, multi-tenant par base de données et par Host header. Chaque ODG dispose de son propre sous-domaine, de ses propres données, de son propre branding.\n\n## Le levier réglementaire\n\nÀ partir du **1er janvier 2027**, le registre phytosanitaire numérique devient obligatoire en Europe. Fin mars 2026 : 2 clients en production, 11 tenants démo par famille de filières, CRM opéré avec 130 prospects.",
+      "**Oligae** digitalise le fonctionnement administratif des ODG agricoles (AOP, IGP, Label Rouge) : déclarations producteurs, registres réglementaires, parcellaire cartographique, exports INAO, commissions d'évaluation.\n\n## L'origine\n\nDeux clients historiques de Koality ont fourni la connaissance métier fine et les premières références : le **Syndicat des Oignons de Roscoff** (3 ans de production) et **BioBreizh** (20 ans de production). Vingt ans à observer un métier, ça change un cahier des charges.\n\n## Assemblée en un mois\n\nLa plateforme elle-même a été assemblée en un mois avec assistance IA. Le modèle économique a suivi : la **tarification se fait à la valeur livrée**. Lorsque le temps de construction s'effondre, facturer au jour devient absurde.\n\n## L'architecture\n\n**Hono 4 + React 19 + PostgreSQL + Drizzle**, multi-tenant par base de données et par Host header. Chaque ODG dispose de son propre sous-domaine, de ses propres données, de son propre branding.\n\n## Le levier réglementaire\n\nÀ partir du **1er janvier 2027**, le registre phytosanitaire numérique devient obligatoire en Europe. Fin mars 2026 : 11 tenants démo par famille de filières, CRM opéré avec 130 prospects.",
     tags: ["SaaS", "Multi-tenant"],
     techStack: ["Hono 4", "React 19", "PostgreSQL", "Drizzle", "MapLibre GL v5", "Tailwind v4"],
     skills: ["react", "typescript", "postgresql", "maplibre", "saas-b2b", "multi-tenant", "metier", "cartographie"],
@@ -160,6 +160,7 @@ export const projects: Project[] = [
     media: [
       { type: "video", src: "/videos/karousel.mp4", poster: "/images/karousel-poster.webp", caption: "Génération d'un carousel LinkedIn en temps réel" },
     ],
+    hidden: true,
   },
   {
     slug: "dictaphone",
@@ -187,6 +188,7 @@ export const projects: Project[] = [
       { type: "screenshot", src: "/images/dictaphone3.png", caption: "Détail d'une note : audio, transcription brute et version structurée" },
       { type: "screenshot", src: "/images/dictaphone4.png", caption: "Timeline : 28 notes en février, 913 minutes de voix capturées" },
     ],
+    hidden: true,
   },
   {
     slug: "programme-ton-agent",
@@ -241,6 +243,7 @@ export const projects: Project[] = [
     media: [
       { type: "video", src: "/videos/vokable.mp4", poster: "/images/vokable-poster.webp", caption: "Vokable : de la note vocale au contenu publiable" },
     ],
+    hidden: true,
   },
   {
     slug: "epicycle-draw",
@@ -419,5 +422,169 @@ export const projects: Project[] = [
     skills: ["python", "fastapi", "devtool", "infrastructure-ai", "claude", "privacy", "local-first"],
     tagColor: "coral",
     tier: 2,
+  },
+  // ===================== AJOUTS DE NOVEMBRE 2026 =====================
+  {
+    slug: "cassini",
+    name: "Cassini",
+    descriptionFr:
+      "Un jeu sur la vraie carte de Cassini du Finistère. Le joueur et un rival joué par l'ordinateur tracent à tour de rôle des lignes entre les clochers, et le joueur qui ferme un triangle le gagne.",
+    about:
+      "Au XVIIIe siècle, les ingénieurs de Cassini montaient dans les clochers pour mesurer la France en triangles. L'exposition « La carte de France de Cassini », aux Archives nationales jusqu'au 1er février 2027, montre ce travail. **Cassini** en fait un jeu gratuit, sans compte, sur ordinateur et sur téléphone.\n\n## La règle\n\nLe joueur et un rival joué par l'ordinateur relèvent la même feuille de la carte. À tour de rôle, chacun trace une ligne entre deux clochers. Le joueur qui trace le dernier côté d'un triangle le gagne. Six triangles cachent une carte inspirée d'un fait réel, qui donne un avantage ou un contretemps. La partie commence à Brest, puis on choisit ses feuilles suivantes sur la carte du Finistère. Le jeu simplifie le vrai travail des ingénieurs, et la page « Le projet » le dit.\n\n## Mesurer avant de choisir\n\nChaque règle a été essayée sur des parties simulées avant d'être retenue. Le rival a quatre niveaux, et il se trompe dans 40 %, 25 %, 12 % puis 0 % de ses tours. Sur 600 parties simulées entre deux bons joueurs, chacun gagne entre 45 et 55 % des parties. Avant chaque mise en ligne, des contrôles automatiques avec Playwright jouent une partie de référence.\n\n## La carte et les images\n\nLe fond est la carte de Cassini reconstituée en 2025 par les Archives nationales et l'IGN, à partir de la numérisation de la BnF. Les villages et le trait de côte viennent d'OpenStreetMap. Les illustrations et les aquarelles des cartes à jouer sont générées par IA, et la page Crédits le dit. Le jeu a été développé avec Claude, en HTML, CSS et JavaScript sans framework.\n\n## Où en est le jeu\n\nLa première version est en ligne depuis le 27 octobre 2026. Le 5 novembre au matin, le compteur avait enregistré 176 parties commencées et 144 finies, parties d'essai comprises. Le jeu reste une version d'essai : 11 feuilles sur 23 sont jouables depuis le 12 novembre 2026.",
+    tags: ["Jeu", "Patrimoine"],
+    techStack: ["JavaScript", "MapLibre GL", "Driver.js", "esbuild", "Playwright", "PHP", "IGN Géoplateforme"],
+    skills: ["cartographie", "maplibre", "creative", "claude", "edtech"],
+    tagColor: "cyan",
+    tier: 1,
+    tryUrl: "https://cassini-game.jeofun.fr",
+    tryLabel: "Jouer à Cassini",
+    thumbnail: "/images/cassini-carte.webp",
+    media: [
+      { type: "video", src: "/videos/cassini.mp4", poster: "/images/cassini-poster.webp", caption: "La règle expliquée sur la carte autour de Brest, puis une partie face au rival." },
+      { type: "screenshot", src: "/images/cassini-carte.webp", caption: "La carte du Finistère découpée en feuilles, comme la carte de Cassini. Les feuilles dorées sont jouables." },
+      { type: "screenshot", src: "/images/cassini-feuille.webp", caption: "La feuille de Lesneven : les clochers, les lignes possibles et la valeur de chaque triangle." },
+    ],
+  },
+  {
+    slug: "chateau-de-carman",
+    name: "Château de Carman",
+    descriptionFr:
+      "Une enquête sur un château disparu de Kernilis, dans le Finistère. Les textes anciens, le cadastre de 1830 et le relief LiDAR de l'IGN situent le château, et une scène 3D le restitue.",
+    about:
+      "Le château de Carman, à Kernilis, a disparu. Un panneau sur place le situe sur le promontoire au-dessus du moulin, mais sa place exacte restait à trouver. **L'enquête** croise les textes anciens, le cadastre, le relief et les photos aériennes pour répondre à cette question.\n\n## Les sources\n\nL'enquête s'appuie sur Cambry, qui décrit le site en 1794, sur Fréminville en 1835 et 1836, sur une lithographie de 1846, et sur le plan cadastral de Kernilis terminé en septembre 1830. Dans le registre du cadastre, daté du 7 février 1831, deux parcelles s'appellent « Castel », château en breton. Huit dalles du LiDAR HD de l'IGN donnent le relief du sol nu à 50 cm, et un fossé d'environ 3 m de profondeur y apparaît.\n\n## La restitution 3D\n\nUne scène 3D en three.js permet de survoler le site restitué et de s'y promener à pied. Le château est un carré de 30 m de côté, dans la fourchette de 30 à 40 m donnée par Kernévez en 1997. Les 1 835 arbres de la scène sont placés d'après le LiDAR. Les arbres et les bâtiments sont modelés dans Blender.\n\n## Le partage du travail\n\nClaude a téléchargé les données, cherché dans les archives, écrit les scripts et la scène, et tenu le journal de l'enquête. Les décisions sont restées humaines : le plan de 1830 a été calé à la main sur 11 points, avec un écart moyen de 10,7 m, et la direction de l'enquête a été corrigée 13 fois en deux jours, les 26 et 27 septembre 2026.\n\n## Les limites\n\nLa restitution reste une hypothèse. La herse, les toits coniques des tours ou la position de la grosse tour n'ont aucune source propre à Carman. Le projet n'est pas en ligne.",
+    tags: ["Patrimoine", "3D"],
+    techStack: ["Python", "three.js", "Blender", "Leaflet", "LiDAR HD IGN", "BD TOPO"],
+    skills: ["cartographie", "python", "creative", "claude", "image-processing"],
+    tagColor: "amber",
+    tier: 2,
+    thumbnail: "/images/carman-restitution.webp",
+    media: [
+      { type: "video", src: "/videos/carman.mp4", poster: "/images/carman-restitution.webp", caption: "Le panneau sur place, la gravure de 1846, le relief LiDAR, puis la restitution 3D du château." },
+      { type: "screenshot", src: "/images/carman-restitution.webp", caption: "Le château restitué sur son promontoire, au-dessus du moulin. Rendu Blender du 27 septembre 2026." },
+      { type: "screenshot", src: "/images/patrimoine-carman.webp", caption: "La scène 3D, où l'on survole le site et où l'on se promène à pied." },
+      { type: "screenshot", src: "/images/carman-lidar.webp", caption: "Le relief LiDAR du promontoire : en rouge les bosses, en bleu les creux." },
+    ],
+    hidden: true,
+  },
+  {
+    slug: "bataille-de-brest",
+    name: "La bataille de Brest",
+    descriptionFr:
+      "Le récit de 1944 sur une carte animée, des plages de Normandie jusqu'à Brest. La carte avance avec le texte, et les photos d'archives sont posées à leur place.",
+    about:
+      "Un récit d'histoire en ligne se lit d'habitude comme un article, avec une carte figée en illustration. **La bataille de Brest** fait avancer la carte avec le texte. À chaque section, la carte se déplace, et les lignes de progression et les fonds anciens s'allument quand le récit en parle.\n\n## Le récit\n\nDouze chapitres vont de l'opération Cobra et des plages de Normandie jusqu'à la reddition de Brest, le 19 septembre 1944, puis à la ville rasée et à l'après-guerre. Les textes viennent de Wikipédia. Les photos d'archives viennent de l'US Army, dont une partie est conservée aux Archives de Brest, et de Wikimedia Commons.\n\n## Les fonds anciens\n\nLe plan d'état-major américain de 1944 et une vue aérienne de l'IGN de 1946 se superposent au fond de carte. Le récit est pensé pour une borne tactile dans un musée, et il se consulte aussi en ligne.\n\n## Le contexte\n\nLa première version date de 2022, en React, Redux et Mapbox GL JS, avec les textes servis par un WordPress. En août 2026, la carte ne s'affichait plus. Claude a trouvé la cause, une clé Mapbox limitée à l'adresse du site, et le récit est revenu en ligne le 31 août 2026. Il a ensuite été refait dans le moteur de récits de l'Atelier des cartes, et cette nouvelle version n'est pas encore en ligne.",
+    tags: ["Patrimoine", "Cartographie"],
+    techStack: ["React", "Redux", "Mapbox GL JS", "WordPress"],
+    skills: ["cartographie", "react", "content", "creative"],
+    tagColor: "coral",
+    tier: 2,
+    tryUrl: "https://brest44.jeofun.fr",
+    tryLabel: "Voir le récit",
+    thumbnail: "/images/brest-44-plan.webp",
+    media: [
+      { type: "video", src: "/videos/bataille-de-brest.mp4", poster: "/images/brest-44-plan.webp", caption: "Les dix chapitres du récit en ligne, de l'opération Cobra à l'après-guerre." },
+      { type: "screenshot", src: "/images/brest-44-plan.webp", caption: "Le plan américain de 1944, incliné, avec les photos d'archives posées dans les rues de Brest." },
+      { type: "screenshot", src: "/images/brest-44-ouverture.webp", caption: "L'ouverture du récit." },
+      { type: "screenshot", src: "/images/patrimoine-bataille-brest.webp", caption: "Le récit sur une borne tactile." },
+    ],
+    hidden: true,
+  },
+  {
+    slug: "charabia",
+    name: "Le CharabIA",
+    descriptionFr:
+      "Un dictionnaire humoristique du jargon de l'IA. Chaque mot a une définition ironique en une phrase, puis l'explication technique exacte.",
+    about:
+      "Agentique, RAG, fine-tuning : le jargon de l'IA arrive en réunion sans explication. **Le CharabIA** en fait un dictionnaire, dans la tradition du Dictionnaire du Diable d'Ambrose Bierce. Chaque mot a une définition ironique en une phrase, puis un bloc « Le vrai truc » qui donne l'explication technique exacte, sans ironie.\n\n## Le narrateur\n\nLe site est signé Charab, une IA qui traduit aux humains le jargon des autres IA. Les définitions ont été écrites par une IA, et le site le dit en pied de page. Les mots sont rangés par famille : en réunion, ses défauts, sous le capot, ça fait peur, tout neuf.\n\n## Le traducteur\n\nLe traducteur surligne le jargon d'un texte collé, par exemple un post LinkedIn. Il le traduit en français ordinaire et calcule un score de charabia. Tout se passe dans le navigateur, et rien ne part sur un serveur.\n\n## La fabrication\n\nLe site est statique, en Astro, avec 11,3 ko de JavaScript. Le contenu tient dans un seul fichier, contrôlé à chaque construction : le site ne se construit pas si une fiche enfreint une des dix règles d'écriture. Une image de partage est générée pour chaque mot. Le dictionnaire est en ligne depuis fin juillet 2026, avec 58 mots publiés.",
+    tags: ["Vulgarisation", "Contenu"],
+    techStack: ["Astro", "satori", "resvg", "Matomo"],
+    skills: ["content", "creative", "edtech"],
+    tagColor: "coral",
+    tier: 2,
+    tryUrl: "https://charabia.fabiencanu.fr",
+    tryLabel: "Ouvrir le dictionnaire",
+    thumbnail: "/images/charabia-accueil.webp",
+    media: [
+      { type: "screenshot", src: "/images/charabia-accueil.webp", caption: "La liste des mots à gauche, le mot du jour à droite, avec sa définition et « Le vrai truc »." },
+      { type: "screenshot", src: "/images/charabia-traducteur.webp", caption: "L'image de partage du traducteur de charabia." },
+    ],
+    hidden: true,
+  },
+  {
+    slug: "scanner-de-livres",
+    name: "Scanner de livres",
+    descriptionFr:
+      "Des livres anciens sur les mines de Lorraine, sans version numérique, deviennent un texte qu'une IA peut interroger. Un iPhone photographie les pages, Claude lit le texte, et chaque réponse cite le livre et la page.",
+    about:
+      "Une vingtaine de livres sur les mines du bassin houiller de Lorraine n'existent qu'en papier. Beaucoup ont été publiés par les Houillères pour leur communication, parfois sans ISBN, et ils sont rares. **Le scanner de livres** les transforme en texte qu'une IA peut interroger, avec le livre et le numéro de page de chaque passage.\n\n## La prise de vue\n\nL'iPhone est posé sur un pied. L'application prend une photo toute seule toutes les 2 à 30 secondes, pendant qu'on tourne les pages à la main. Claude remplit la fiche du livre à partir d'une photo de la couverture ou de la page de titre.\n\n## La lecture des pages\n\nLes photos passent sur le Mac par iCloud Drive. Une application Mac découpe chaque photo en pages, les redresse et les numérote. Claude lit ensuite chaque page et la découpe en blocs : titre, paragraphe, légende, encadré, note, description d'image. Haiku lit d'abord, puis Sonnet relit les pages illustrées ou incertaines. La lecture coûte de 0,002 à 0,027 dollar par page. La lecture du texte par Apple a été retirée le 14 novembre 2026 : avec ou sans elle, Sonnet trouvait les mêmes mots, et elle coûtait environ 8 % de plus.\n\n## Interroger les livres\n\nLe texte va dans une base SQLite qui combine une recherche par mots et une recherche par le sens. Sur 30 questions tirées des projets, cette recherche trouve une bonne page dans les dix premiers résultats pour 27 questions. La recherche par mots seule n'en trouve qu'une. Un connecteur MCP donne à Claude six outils en lecture seule : lister les livres, chercher, lire la table des matières, une page, un passage ou l'image d'une page.\n\n## Où en est le projet\n\nLe projet a démarré le 13 novembre 2026. Trois livres sont lus, soit 528 pages. Le corpus n'est pas public, parce que les livres sont protégés par le droit d'auteur. Il sert à préparer des jeux et des récits sur l'histoire de la région.",
+    tags: ["Corpus", "Mobile"],
+    techStack: ["Swift", "SwiftUI", "AVFoundation", "Claude API", "Python", "SQLite FTS5", "bge-m3", "FastMCP"],
+    skills: ["ocr", "rag", "semantic-search", "embedding", "mcp", "claude", "mobile", "python"],
+    tagColor: "amber",
+    tier: 1,
+    thumbnail: "/images/scanner-de-livres-prise-de-vue.webp",
+    media: [
+      { type: "screenshot", src: "/images/scanner-de-livres-prise-de-vue.webp", caption: "La prise de vue : l'iPhone au-dessus du livre photographie la page, et on tourne les pages à la main." },
+      { type: "screenshot", src: "/images/scanner-de-livres-thumb.webp", caption: "L'icône de l'application iPhone." },
+    ],
+  },
+  {
+    slug: "inspi",
+    name: "INSPI",
+    descriptionFr:
+      "Une bibliothèque d'inspiration design reliée à Claude. Un clic dans Chrome garde un site qui plaît, avec ses polices et ses couleurs, et Claude ouvre la fiche quand on la cite par son numéro.",
+    about:
+      "Pour montrer à une IA le style visuel voulu, on décrit un site avec des mots, ou on colle une capture dans chaque conversation. **INSPI** range ces références une fois pour toutes, et Claude les lit quand on les cite.\n\n## La capture\n\nSur un site qui plaît, un clic sur l'extension Chrome, ou le raccourci Alt+Maj+I, envoie la capture de l'écran visible, de la page entière ou une vidéo de 10, 20 ou 30 secondes. L'extension relève aussi les polices et les couleurs de la page, et propose des mots clés en anglais à partir d'un mot français. La capture de la page entière recolle jusqu'à 25 écrans.\n\n## La galerie et le connecteur\n\nChaque référence devient une fiche numérotée : X01, X02, X03. Une galerie en ligne range les fiches. Le même serveur Python sert la galerie, l'extension et un connecteur MCP. Dans une conversation, il suffit d'écrire « dans l'esprit d'INSPI X23 » : Claude ouvre la fiche, voit les captures, les polices et les couleurs, et s'en sert pour proposer un design.\n\n## Où en est le projet\n\nINSPI est en ligne depuis le 6 novembre 2026, pour un usage personnel. La galerie est protégée par un mot de passe, parce que les fiches montrent le travail d'autres designers. Aucune IA n'intervient au moment de la capture. La proposition des mots clés par Claude est prévue.",
+    tags: ["Design", "MCP"],
+    techStack: ["JavaScript", "Chrome Manifest V3", "Python", "Starlette", "FastMCP"],
+    skills: ["mcp", "claude", "python", "devtool", "creative"],
+    tagColor: "cyan",
+    tier: 2,
+    thumbnail: "/images/inspi-poster.webp",
+    media: [
+      { type: "video", src: "/videos/inspi.mp4", poster: "/images/inspi-poster.webp", caption: "La page du Lab capturée avec l'extension, puis sa fiche X12 dans la galerie, avec ses couleurs et ses polices, et les autres fiches." },
+    ],
+  },
+  {
+    slug: "faulquemont",
+    name: "Faulquemont",
+    descriptionFr:
+      "La mine de charbon de Faulquemont, en Moselle, vue d'avion de 1930 à aujourd'hui. On compare deux époques avec une barre qu'on fait glisser, et les photos d'archive suivent la partie de la carte qu'on regarde.",
+    about:
+      "La mine de Faulquemont a produit du charbon de 1936 à 1974, et le paysage a changé depuis. Pour le voir, il faut d'habitude ouvrir plusieurs sites de l'IGN, retrouver les bonnes années et comparer les images à l'œil. **Voyage dans le temps**, le site de Faulquemont, réunit ces images au même endroit, pour un public qui n'a pas l'habitude des cartes en ligne, par exemple un ancien mineur.\n\n## Comparer deux époques\n\nOn choisit une année de chaque côté de l'écran, puis on fait glisser la barre du milieu pour passer de l'une à l'autre. Le mode « Une époque à la fois » montre les années une par une. La frise compte vingt époques de photos aériennes, et les cartes de Cassini, de l'état-major et de 1955 sont aussi proposées.\n\n## Les photos d'archive\n\nUne bande « Photos de cet endroit » montre les photos qui couvrent la partie de la carte visible à l'écran. Une photo s'ouvre en grand, avec une carte à côté, tournée dans le sens de la photo. Les plans de l'« Atlas des sites miniers du bassin houiller de Lorraine 1830-2006 » se posent aussi sur la carte, avec le nom des bâtiments : le lavoir, les puits, les vestiaires.\n\n## Caler les vieilles photos\n\nPour onze des vingt époques, l'IGN ne fournit que les photos d'origine prises d'avion. Des scripts Python cherchent les mêmes détails dans la photo ancienne et dans une photo déjà calée, avec SIFT puis les modèles DISK et LightGlue, et reposent l'image sur le relief. Pour 1972, l'écart médian avec la photo actuelle est passé de 18,3 m à 3,5 m. Les photos de 1963 n'ont pas pu être calées : elles ont toutes été prises sous la neige.\n\n## Le contexte\n\nLe projet a commencé le 14 novembre 2026, et le site est en ligne depuis le 15 novembre. Il a été construit par un agent Claude qui travaillait seul, à partir d'une consigne écrite. Le site lui-même n'utilise aucun modèle de langage. Les Archives de la Moselle ont confirmé le 20 novembre que l'atlas peut être diffusé.",
+    tags: ["Patrimoine", "Cartographie"],
+    techStack: ["JavaScript", "Leaflet", "MapLibre GL", "OpenSeadragon", "Python", "OpenCV", "LightGlue", "IGN Géoplateforme"],
+    skills: ["cartographie", "maplibre", "python", "computer-vision", "image-processing", "claude"],
+    tagColor: "amber",
+    tier: 1,
+    tryUrl: "https://faulquemont.jeofun.fr",
+    tryLabel: "Voir le site",
+    thumbnail: "/images/faulquemont-thumb.webp",
+    media: [
+      { type: "video", src: "/videos/faulquemont.mp4", poster: "/images/faulquemont-poster.webp", caption: "Le carreau de Faulquemont de 1948 à aujourd'hui." },
+      { type: "screenshot", src: "/images/faulquemont-comparer.webp", caption: "La barre du milieu sépare les photos de 1965-1980 et celles d'aujourd'hui." },
+      { type: "screenshot", src: "/images/faulquemont-plan.webp", caption: "Le plan du carreau tiré de l'atlas, posé sur la photo de 1955, avec le nom des bâtiments." },
+      { type: "screenshot", src: "/images/faulquemont-photo.webp", caption: "Une photo de l'atlas ouverte en grand : le carreau vu d'avion, en couleurs." },
+    ],
+    hidden: true,
+  },
+  {
+    slug: "atlas-mines",
+    name: "Atlas des mines",
+    descriptionFr:
+      "Les plans imprimés d'un atlas des mines de Lorraine, posés au bon endroit sur les cartes d'aujourd'hui. Un script retrouve seul le quadrillage de chaque plan, et le calage tombe à quelques dizaines de centimètres.",
+    about:
+      "L'« Atlas des sites miniers du bassin houiller de Lorraine 1830-2006 », publié par Charbonnages de France en 2006, montre les carreaux des mines sur des plans imprimés. Sur papier, on ne voit pas l'état actuel de ces terrains. **La carte de l'atlas** pose ces plans scannés sur des fonds actuels et anciens, au bon endroit.\n\n## Retrouver le quadrillage\n\nChaque plan porte un quadrillage en coordonnées Lambert, une ligne tous les 100 m, souvent penché sur la page. Un script Python retrouve ce quadrillage avec OpenCV : il détecte les lignes droites, puis garde celles qui forment un réseau régulier, même penché à 45°. Les coordonnées écrites dans la marge se lisent à la main, et deux lignes par direction suffisent. Un second script retire les marges et les photos collées sur le plan, convertit les coordonnées et découpe le plan en tuiles.\n\n## La précision\n\nCinq plans sont calés, à Forbach, Faulquemont et Folschviller. L'écart moyen du calage va de 0,07 m pour le carreau de Faulquemont à 0,39 m pour le site de Folschviller.\n\n## La carte\n\nUne page Leaflet affiche les fonds de l'IGN, du BRGM et d'OpenStreetMap. Un panneau permet de choisir les fonds, de comparer deux époques avec une barre et de régler le relief LiDAR sous le plan. L'adresse de la page garde la vue choisie. Cette carte, construite le 14 novembre 2026, est le point de départ du site Voyage dans le temps de Faulquemont, qui reprend les plans du carreau. La carte de l'atlas n'est pas en ligne.",
+    tags: ["Patrimoine", "Cartographie"],
+    techStack: ["Python", "OpenCV", "pyproj", "Leaflet", "IGN", "BRGM"],
+    skills: ["cartographie", "python", "image-processing", "computer-vision"],
+    tagColor: "amber",
+    tier: 2,
+    thumbnail: "/images/atlas-mines-quadrillage.webp",
+    media: [
+      { type: "screenshot", src: "/images/atlas-mines-quadrillage.webp", caption: "Page 166 de l'atlas : le quadrillage retrouvé par le script, en rouge et en bleu." },
+      { type: "screenshot", src: "/images/faulquemont-plan.webp", caption: "Le plan du carreau calé sur la photo de 1955, repris dans le site de Faulquemont." },
+    ],
+    hidden: true,
   },
 ];
